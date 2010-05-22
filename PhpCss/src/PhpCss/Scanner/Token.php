@@ -4,7 +4,7 @@
 *
 * @version $Id: Token.php 429 2010-03-29 08:05:32Z subjective $
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright (c) 2009 Bastian Feder, Thomas Weinert
+* @copyright Copyright (c) 2010 Bastian Feder, Thomas Weinert
 *
 * @package PhpCss
 * @subpackage Scanner
@@ -28,8 +28,8 @@ class PhpCssScannerToken {
   const PSEUDO_CLASS = 4;
 
   // attribute selectors - [...]
-  const ATTRIBUTES_SELECTOR_START = 20;
-  const ATTRIBUTES_SELECTOR_END = 21;
+  const ATTRIBUTE_SELECTOR_START = 20;
+  const ATTRIBUTE_SELECTOR_END = 21;
   const ATTRIBUTE_NAME = 22;
 
   // pseudo class parameters - (...)
@@ -48,7 +48,7 @@ class PhpCssScannerToken {
   const DOUBLEQUOTE_STRING_END = 103;
   // string general
   const STRING_CHARACTERS = 110;
-  const STRING_ESCAPED_CHAR = 112;
+  const STRING_ESCAPED_CHARACTER = 111;
 
   private $_names = array(
     self::WHITESPACE => 'WHITESPACE',
@@ -56,8 +56,8 @@ class PhpCssScannerToken {
     self::CLASS_SELECTOR => 'SIMPLESELECTOR_CLASS',
     self::ID_SELECTOR => 'SIMPE_SELECTOR_ID',
     self::PSEUDO_CLASS => 'PSEUDOCLASS',
-    self::ATTRIBUTES_SELECTOR_START => 'SIMPLESELECTOR_ATTRIBUTE_START',
-    self::ATTRIBUTES_SELECTOR_END => 'SIMPLESELECTOR_ATTRIBUTE_END',
+    self::ATTRIBUTE_SELECTOR_START => 'SIMPLESELECTOR_ATTRIBUTE_START',
+    self::ATTRIBUTE_SELECTOR_END => 'SIMPLESELECTOR_ATTRIBUTE_END',
     self::ATTRIBUTE_NAME => 'SIMPLESELECTOR_ATTRIBUTE_NAME',
     self::PARAMETERS_START => 'PSEUDOCLASS_PARAMETERS_START',
     self::PARAMETERS_END => 'PSEUDOCLASS_PARAMETERS_END',
@@ -68,7 +68,7 @@ class PhpCssScannerToken {
     self::DOUBLEQUOTE_STRING_START => 'STRING_DOUBLE_QUOTE_START',
     self::DOUBLEQUOTE_STRING_END => 'STRING_DOUBLE_QUOTE_END',
     self::STRING_CHARACTERS => 'STRING_CHARACTERS',
-    self::STRING_ESCAPED_CHAR => 'STRIG_ESCAPED_CHARACTER'
+    self::STRING_ESCAPED_CHARACTER => 'STRING_ESCAPED_CHARACTER'
   );
 
   /**
