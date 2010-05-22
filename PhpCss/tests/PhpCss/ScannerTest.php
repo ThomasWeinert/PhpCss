@@ -15,6 +15,7 @@
 */
 require_once('PHPUnit/Framework.php');
 require_once(dirname(__FILE__).'/../../src/PhpCss/Scanner.php');
+require_once(dirname(__FILE__).'/../../src/PhpCss/Scanner/Status/Selector.php');
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
@@ -135,6 +136,76 @@ class PhpCssScannerTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(
       array($tokenOne, $tokenTwo),
       $tokens
+    );
+  }
+
+
+  /**
+  * This is more an integration test, but it fits in here....
+  * @covers stdClass
+  * @dataProvider selectorsDataProvider
+  */
+  public function testScannerWithSelectors($string, $expected) {
+    $scanner = new PhpCssScanner(new PhpCssScannerStatusSelector());
+    $tokens = array();
+    $scanner->scan($tokens, $string);
+    $this->assertTokenListEqualsStringList(
+      $expected,
+      $tokens
+    );
+  }
+
+  /*****************************
+  * Data provider
+  *****************************/
+
+  public static function selectorsDataProvider() {
+    return array(
+      array(
+        "test",
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'test'"
+        )
+      ),
+      array(
+        "test'string'",
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'test'",
+          "TOKEN::STRING_SINGLE_QUOTE_START @4 '\''",
+          "TOKEN::STRING_CHARACTERS @5 'string'",
+          "TOKEN::STRING_SINGLE_QUOTE_END @11 '\''"
+        )
+      ),
+      array(
+        'div#id.class1.class2:has(span.title)',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'div'",
+          "TOKEN::SIMPE_SELECTOR_ID @3 '#id'",
+          "TOKEN::SIMPLESELECTOR_CLASS @6 '.class1'",
+          "TOKEN::SIMPLESELECTOR_CLASS @13 '.class2'",
+          "TOKEN::PSEUDOCLASS @20 ':has'",
+          "TOKEN::PSEUDOCLASS_PARAMETERS_START @24 '('",
+          "TOKEN::SIMPLESELECTOR_TYPE @25 'span'",
+          "TOKEN::SIMPLESELECTOR_CLASS @29 '.title'",
+          "TOKEN::PSEUDOCLASS_PARAMETERS_END @35 ')'"
+        )
+      )
+    );
+  }
+
+
+  /*****************************
+  * Individual assertions
+  *****************************/
+
+  public function assertTokenListEqualsStringList($expected, $tokens) {
+    $string = array();
+    foreach ($tokens as $token) {
+      $strings[] = (string)$token;
+    }
+    $this->assertEquals(
+      $expected,
+      $strings
     );
   }
 
