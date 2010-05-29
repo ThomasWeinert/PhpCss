@@ -1,6 +1,6 @@
 <?php
 
-class PhpCssSelectorSimpleType extends PhpCssSelectorSimple {
+class PhpCssAstSelectorSimpleType extends PhpCssAstSelectorSimple {
 
   public $namespacePrefix = '*';
   public $elementName = '';

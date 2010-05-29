@@ -1,6 +1,6 @@
 <?php
 
-class PhpCssSelectorSimpleAttribute extends PhpCssSelectorSimple {
+class PhpCssAstSelectorSimpleAttribute extends PhpCssAstSelectorSimple {
 
   const MATCH_EXISTS = 0;
   const MATCH_PREFIX = 1;

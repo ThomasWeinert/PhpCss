@@ -1,6 +1,6 @@
 <?php
 
-class PhpCssSelectorSequence extends PhpCssSelector {
+class PhpCssAstSelectorSequence extends PhpCssAstSelector {
 
   public $simples;
   public $combinatedSequence;
