@@ -18,6 +18,9 @@
 */
 class PhpCssScannerToken {
 
+  // special any token (a joker)
+  const ANY = 255;
+  
   //whitespace
   const WHITESPACE = 0;
 
