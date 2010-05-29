@@ -39,7 +39,7 @@ class PhpCssScannerStatusStringDouble extends PhpCssScannerStatus {
         );
       } else {
         $tokenString = $this->matchPattern(
-          $buffer, $offset, '([^\\\\"]+)'
+          $buffer, $offset, '([^\\\\"]+)S'
         );
         if (!empty($tokenString)) {
           return new PhpCssScannerToken(
