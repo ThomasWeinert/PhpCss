@@ -14,6 +14,7 @@
 * Load necessary files
 */
 require_once('PHPUnit/Framework.php');
+require_once(dirname(__FILE__).'/ParserTest.php');
 require_once(dirname(__FILE__).'/ScannerTest.php');
 require_once(dirname(__FILE__).'/Scanner/AllTests.php');
 
@@ -29,6 +30,7 @@ class PhpCss_AllTests {
 
   public static function suite() {
     $suite = new PHPUnit_Framework_TestSuite('PhpCss');
+    $suite->addTestSuite('PhpCssParserTest');
     $suite->addTestSuite('PhpCssScannerTest');
     $suite->addTestSuite('PhpCssScanner_AllTests');
     return $suite;
