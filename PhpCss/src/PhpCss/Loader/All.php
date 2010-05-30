@@ -23,7 +23,7 @@ return array(
   'PhpCssAstSelectorVisitor' => $path.'/Ast/Selector/Visitor.php',
   'PhpCssException' => $path.'/Exception.php',
   'PhpCssExceptionParser' => $path.'/Exception/Parser.php',
-  'PhpCssExceptionTokenMisMatch' => $path.'/Exception/TokenMisMatch.php',
+  'PhpCssExceptionTokenMismatch' => $path.'/Exception/TokenMismatch.php',
   'PhpCssExceptionUnexpectedEndOfFile' => $path.'/Exception/UnexpectedEndOfFile.php',
   'PhpCssParser' => $path.'/Parser.php',
   'PhpCssScanner' => $path.'/Scanner.php',
