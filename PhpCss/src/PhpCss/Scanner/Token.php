@@ -53,7 +53,7 @@ class PhpCssScannerToken {
   const STRING_CHARACTERS = 110;
   const STRING_ESCAPED_CHARACTER = 111;
 
-  private $_names = array(
+  private static $_names = array(
     self::WHITESPACE => 'WHITESPACE',
     self::TYPE_SELECTOR => 'SIMPLESELECTOR_TYPE',
     self::CLASS_SELECTOR => 'SIMPLESELECTOR_CLASS',
@@ -145,8 +145,18 @@ class PhpCssScannerToken {
   * @return string
   */
   public function __toString() {
-    return 'TOKEN::'.$this->_names[$this->type].
+    return 'TOKEN::'.self::typeToString($this->type).
       ' @'.$this->position.' '.$this->quoteContent($this->content);
+  }
+  
+  /**
+  * Return string representation of token type
+  * 
+  * @param integer $type
+  * @return string
+  */
+  public static function typeToString($type) {
+    return self::$_names[$type];
   }
 
   /**

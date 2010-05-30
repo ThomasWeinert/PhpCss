@@ -22,6 +22,7 @@ return array(
   'PhpCssAstSelectorSimpleUniversal' => $path.'/Ast/Selector/Simple/Universal.php',
   'PhpCssAstSelectorVisitor' => $path.'/Ast/Selector/Visitor.php',
   'PhpCssException' => $path.'/Exception.php',
+  'PhpCssExceptionParser' => $path.'/Exception/Parser.php',
   'PhpCssExceptionTokenMisMatch' => $path.'/Exception/TokenMisMatch.php',
   'PhpCssExceptionUnexpectedEndOfFile' => $path.'/Exception/UnexpectedEndOfFile.php',
   'PhpCssParser' => $path.'/Parser.php',

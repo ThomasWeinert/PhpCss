@@ -8,7 +8,7 @@
 * @copyright Copyright 2010 PhpCss Team
 *
 * @package PhpCss
-* @subpackage Ast
+* @subpackage Parser
 */
 
 /**
@@ -16,7 +16,7 @@
 * subparsers. 
 * 
 * @package PhpCss
-* @subpackage Ast
+* @subpackage Parser
 */
 abstract class PhpCssParser {
 
@@ -83,7 +83,7 @@ abstract class PhpCssParser {
 
     foreach($expectedTokens as $token) {
       if ($this->matchToken(0, $token)) {
-        return array_shift($this->tokens);
+        return array_shift($this->_tokens);
       }
     }
 
@@ -125,13 +125,13 @@ abstract class PhpCssParser {
 
     // If the the requested characters is not available on the tokenstream
     // and this state is allowed return a special ANY token
-    if ($allowEndOfTokens === TRUE && (!isset($this->tokens[$position]))) {
+    if ($allowEndOfTokens === TRUE && (!isset($this->_tokens[$position]))) {
       return new PhpCssScannerToken(PhpCssScannerToken::ANY, '', 0);
     }
 
     foreach($expectedTokens as $token) {
       if ($this->matchToken($position, $token)) {
-        return $this->tokens[$position];
+        return $this->_tokens[$position];
       }
     }
 
@@ -157,7 +157,7 @@ abstract class PhpCssParser {
    * @return PhpCssAst
    */
   protected function delegate(PhpCssParser $subparserClass) {
-    $subparser = new $subparserClass($this->tokens);
+    $subparser = new $subparserClass($this->_tokens);
     return $subparser->parse();
   }
 
@@ -172,7 +172,7 @@ abstract class PhpCssParser {
   * @return bool
   */
   protected function matchToken($position, $type) {
-    if (!isset($this->tokens[$position])) {
+    if (!isset($this->_tokens[$position])) {
       return false;
     }
 
@@ -181,7 +181,7 @@ abstract class PhpCssParser {
       return true;
     }
 
-    return ($this->tokens[$position]->type === $type);
+    return ($this->_tokens[$position]->type === $type);
   }
 
   /**
@@ -191,11 +191,11 @@ abstract class PhpCssParser {
   */
   protected function handleMismatch($expectedTokens, $position = 0) {
     // If the tokenstream ended unexpectedly throw an appropriate exception
-    if (!isset($this->tokens[$position])) {
+    if (!isset($this->_tokens[$position])) {
       throw new PhpCssExceptionUnexpectedEndOfFile($expectedTokens);
     }
 
     // We found a token but none of the expected ones.
-    throw new PhpCssExceptionTokenMismatch($this->tokens[$position], $expectedTokens);
+    throw new PhpCssExceptionTokenMismatch($this->_tokens[$position], $expectedTokens);
   }
 }
