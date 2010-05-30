@@ -20,7 +20,7 @@ class PhpCssScannerToken {
 
   // special any token (a joker)
   const ANY = 255;
-  
+
   //whitespace
   const WHITESPACE = 0;
 
@@ -54,6 +54,7 @@ class PhpCssScannerToken {
   const STRING_ESCAPED_CHARACTER = 111;
 
   private static $_names = array(
+    self::ANY => 'ANY',
     self::WHITESPACE => 'WHITESPACE',
     self::TYPE_SELECTOR => 'SIMPLESELECTOR_TYPE',
     self::CLASS_SELECTOR => 'SIMPLESELECTOR_CLASS',
@@ -148,10 +149,10 @@ class PhpCssScannerToken {
     return 'TOKEN::'.self::typeToString($this->type).
       ' @'.$this->position.' '.$this->quoteContent($this->content);
   }
-  
+
   /**
   * Return string representation of token type
-  * 
+  *
   * @param integer $type
   * @return string
   */
