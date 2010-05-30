@@ -11,13 +11,9 @@
 */
 
 /**
-* load necessary files
+* Load necessary files
 */
-require_once('PHPUnit/Framework.php');
-require_once(dirname(__FILE__).'/../../../../../src/PhpCss/Scanner/Status.php');
-require_once(dirname(__FILE__).'/../../../../../src/PhpCss/Scanner/Token.php');
-require_once(dirname(__FILE__).'/../../../../../src/PhpCss/Scanner/Status/String/Double.php');
-
+require_once(dirname(__FILE__).'/../../../TestCase.php');
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
@@ -26,7 +22,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 * @package PhpCss
 * @subpackage Tests
 */
-class PhpCssScannerStatusStringDoubleTest extends PHPUnit_Framework_TestCase {
+class PhpCssScannerStatusStringDoubleTest extends PhpCssTestCase {
 
   /**
   * @covers PhpCssScannerStatusStringDouble::getToken

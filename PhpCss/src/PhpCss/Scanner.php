@@ -11,15 +11,6 @@
 */
 
 /**
-* Include abstract status class
-*/
-require_once(dirname(__FILE__).'/Scanner/Status.php');
-/**
-* Include token class
-*/
-require_once(dirname(__FILE__).'/Scanner/Token.php');
-
-/**
 * The PhpCssScanner scans a string for tokens.
 *
 * The actual result depends on the status, the status

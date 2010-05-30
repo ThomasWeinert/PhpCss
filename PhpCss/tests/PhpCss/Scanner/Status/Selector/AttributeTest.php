@@ -11,15 +11,9 @@
 */
 
 /**
-* load necessary files
+* Load necessary files
 */
-require_once('PHPUnit/Framework.php');
-require_once(dirname(__FILE__).'/../../../../../src/PhpCss/Scanner/Status.php');
-require_once(dirname(__FILE__).'/../../../../../src/PhpCss/Scanner/Token.php');
-require_once(dirname(__FILE__).'/../../../../../src/PhpCss/Scanner/Status/Selector/Attribute.php');
-require_once(dirname(__FILE__).'/../../../../../src/PhpCss/Scanner/Status/String/Single.php');
-require_once(dirname(__FILE__).'/../../../../../src/PhpCss/Scanner/Status/String/Double.php');
-
+require_once(dirname(__FILE__).'/../../../TestCase.php');
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
@@ -28,7 +22,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 * @package PhpCss
 * @subpackage Tests
 */
-class PhpCssScannerStatusSelectorAttributeTest extends PHPUnit_Framework_TestCase {
+class PhpCssScannerStatusSelectorAttributeTest extends PhpCssTestCase {
 
   /**
   * @covers PhpCssScannerStatusSelectorAttribute::getToken

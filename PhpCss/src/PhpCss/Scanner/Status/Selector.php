@@ -11,13 +11,6 @@
 */
 
 /**
-* Substatus classes
-*/
-require_once(dirname(__FILE__).'/Selector/Attribute.php');
-require_once(dirname(__FILE__).'/String/Double.php');
-require_once(dirname(__FILE__).'/String/Single.php');
-
-/**
 * PhpCss Scanner Status Selector recognizes token of a css selector sequence.
 *
 * @package PhpCss

@@ -11,11 +11,10 @@
 */
 
 /**
-* load necessary files
+* Load necessary files
 */
-require_once('PHPUnit/Framework.php');
+require_once(dirname(__FILE__).'/../TestCase.php');
 require_once(dirname(__FILE__).'/../../../src/PhpCss/Scanner/Status.php');
-
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
@@ -24,7 +23,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 * @package PhpCss
 * @subpackage Tests
 */
-class PHPCssScannerStatusTest extends PHPUnit_Framework_TestCase {
+class PHPCssScannerStatusTest extends PhpCssTestCase {
 
   /**
   * @covers PHPCssScannerStatus::matchPattern

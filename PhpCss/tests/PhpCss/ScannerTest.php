@@ -13,10 +13,7 @@
 /**
 * Load necessary files
 */
-require_once('PHPUnit/Framework.php');
-require_once(dirname(__FILE__).'/../../src/PhpCss/Scanner.php');
-require_once(dirname(__FILE__).'/../../src/PhpCss/Scanner/Status/Selector.php');
-
+require_once(dirname(__FILE__).'/TestCase.php');
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
@@ -25,7 +22,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 * @package PhpCss
 * @subpackage Tests
 */
-class PhpCssScannerTest extends PHPUnit_Framework_TestCase {
+class PhpCssScannerTest extends PhpCssTestCase {
 
   /**
   * @covers PhpCssScanner::__construct
