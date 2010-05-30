@@ -1,6 +1,6 @@
 <?php
 /**
-* Abstract class implementing functionallity to ease parsing in extending 
+* Abstract class implementing functionallity to ease parsing in extending
 * subparsers.
 *
 * @version $Id$
@@ -12,23 +12,23 @@
 */
 
 /**
-* Abstract class implementing functionallity to ease parsing in extending 
-* subparsers. 
-* 
+* Abstract class implementing functionallity to ease parsing in extending
+* subparsers.
+*
 * @package PhpCss
 * @subpackage Parser
 */
 abstract class PhpCssParser {
 
   /**
-  * List of tokens from scanner 
-  * 
+  * List of tokens from scanner
+  *
   * @var array(PhpCssScannerToken)
   */
   protected $_tokens = array();
 
   /**
-  * Construct a parser object taking the token list to operate on as 
+  * Construct a parser object taking the token list to operate on as
   * argument
   */
   public function __construct(array &$tokens) {
@@ -36,43 +36,43 @@ abstract class PhpCssParser {
   }
 
   /**
-  * Execute the parsing process on the provided tokenstream 
-  * 
-  * This method is supposed to handle all the steps needed to parse the 
-  * current subsegment of the tokenstream. It is supposed to return a valid 
+  * Execute the parsing process on the provided tokenstream
+  *
+  * This method is supposed to handle all the steps needed to parse the
+  * current subsegment of the tokenstream. It is supposed to return a valid
   * PhpCssAst.
   *
-  * If the parsing process can't be completed because of invalid input a 
+  * If the parsing process can't be completed because of invalid input a
   * PhpCssParserException needs to be thrown.
   *
-  * The methods protected methods read and lookahead should be used to 
-  * operate on the tokenstream. They will throw PhpCssParserExceptions 
+  * The methods protected methods read and lookahead should be used to
+  * operate on the tokenstream. They will throw PhpCssParserExceptions
   * automatically in case they do not succeed.
   *
   * @return PhpCssAst
   */
   abstract public function parse();
-    
+
   /**
-  * Try to read any of the $expectedTokens from the token list and return 
+  * Try to read any of the $expectedTokens from the token list and return
   * the matching one.
   *
-  * This method tries to match the current token list against all of the 
-  * provided tokens. If a match is found it is removed from the token list 
-  * and returned. 
+  * This method tries to match the current token list against all of the
+  * provided tokens. If a match is found it is removed from the token list
+  * and returned.
   *
-  * If no match can be found a PhpCssParserException will thrown indicating what 
-  * has been expected and what was found. 
+  * If no match can be found a PhpCssParserException will thrown indicating what
+  * has been expected and what was found.
   *
-  * The $expectedTokens parameter may be an array of tokens or a scalar 
-  * value, which is handled the same way an array with only one entry would 
+  * The $expectedTokens parameter may be an array of tokens or a scalar
+  * value, which is handled the same way an array with only one entry would
   * be.
   *
-  * The special Token PhpCssScannerToken::ANY may be used to indicate 
-  * everything is valid and may be matched. However if it is used no other 
+  * The special Token PhpCssScannerToken::ANY may be used to indicate
+  * everything is valid and may be matched. However if it is used no other
   * token may be specified, which does not make any sense, anyway.
-  * 
-  * @param array|scalar $expectedTokens 
+  *
+  * @param array|scalar $expectedTokens
   * @return PhpCssScannerToken
   */
   protected function read($expectedTokens) {
@@ -92,29 +92,29 @@ abstract class PhpCssParser {
   }
 
   /**
-  * Try to match any of the $expectedTokens against the given tokenstream 
+  * Try to match any of the $expectedTokens against the given tokenstream
   * position and return the matching one.
   *
-  * This method tries to match the current tokenstream at the provided 
-  * lookahead posistion against all of the provided tokens. If a match is 
+  * This method tries to match the current tokenstream at the provided
+  * lookahead posistion against all of the provided tokens. If a match is
   * found it simply returned. The tokenstream remains unchanged.
   *
-  * If no match can be found a PhpCssParserException will thrown indicating what 
-  * has been expected and what was found. 
+  * If no match can be found a PhpCssParserException will thrown indicating what
+  * has been expected and what was found.
   *
-  * The $expectedTokens parameter may be an array of tokens or a scalar 
-  * value, which is handled the same way an array with only one entry would 
+  * The $expectedTokens parameter may be an array of tokens or a scalar
+  * value, which is handled the same way an array with only one entry would
   * be.
   *
-  * The special Token PhpCssScannerToken::ANY may be used to indicate 
-  * everything is valid and may be matched. However if it is used no other 
+  * The special Token PhpCssScannerToken::ANY may be used to indicate
+  * everything is valid and may be matched. However if it is used no other
   * token may be specified, which does not make any sense, anyway.
   *
-  * The position parameter may be provided to enforce a match on an 
-  * arbitrary tokenstream position. Therefore unlimited lookahead is 
+  * The position parameter may be provided to enforce a match on an
+  * arbitrary tokenstream position. Therefore unlimited lookahead is
   * provided.
-  * 
-  * @param array|scalar $expectedTokens 
+  *
+  * @param array|scalar $expectedTokens
   * @return PhpCssScannerToken|NULL
   */
   protected function lookahead($expectedTokens, $position = 0, $allowEndOfTokens = FALSE) {
