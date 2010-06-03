@@ -153,10 +153,10 @@ abstract class PhpCssParser {
    * of providing the current tokenstream as well as instantiating the
    * subparser.
    *
-   * @param PhpCssParser $subparserclass
+   * @param string $subparserclass
    * @return PhpCssAst
    */
-  protected function delegate(PhpCssParser $subparserClass) {
+  protected function delegate($subparserClass) {
     $subparser = new $subparserClass($this->_tokens);
     return $subparser->parse();
   }

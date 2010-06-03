@@ -15,6 +15,7 @@
 */
 require_once(dirname(__FILE__).'/TestCase.php');
 require_once(dirname(__FILE__).'/Parser/Mock.php');
+require_once(dirname(__FILE__).'/Parser/Mock/Delegate.php');
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
@@ -188,6 +189,17 @@ class PhpCssParserTest extends PhpCssTestCase {
     $this->assertEquals(
       new PhpCssScannerToken(PhpCssScannerToken::ANY, '', 0),
       $parser->lookahead(PhpCssScannerToken::TYPE_SELECTOR, 1, TRUE)
+    );
+  }
+
+  /**
+  * @covers PhpCssParser::delegate
+  */
+  public function testDelegate() {
+    $parser = $this->getParserFixture();
+    $this->assertEquals(
+      'Delegated!',
+      $parser->delegate('PhpCssParserMockDelegate')
     );
   }
 
