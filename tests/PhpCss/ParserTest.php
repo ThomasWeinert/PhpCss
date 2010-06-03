@@ -26,6 +26,17 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 class PhpCssParserTest extends PhpCssTestCase {
 
   /**
+  * @covers PhpCssParser::__construct
+  */
+  public function testConstructor() {
+    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0));
+    $parser = $this->getParserFixture($tokens);
+    $this->assertAttributeSame(
+      $tokens, '_tokens', $parser
+    );
+  }
+
+  /**
   * @covers PhpCssParser::read
   * @dataProvider provideDirectMatchingTokens
   */
