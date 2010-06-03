@@ -142,6 +142,27 @@ class PhpCssParserTest extends PhpCssTestCase {
     $this->assertFalse($parser->endOfTokens());
   }
 
+  /**
+  * @covers PhpCssParser::endOfTokens
+  */
+  public function testEndOfTokensWithPositionExpectingTrue() {
+    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0));
+    $parser = $this->getParserFixture($tokens);
+    $this->assertTrue($parser->endOfTokens(2));
+  }
+
+  /**
+  * @covers PhpCssParser::endOfTokens
+  */
+  public function testEndOfTokensWithPositionExpectingFalse() {
+    $tokens = array(
+      new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+      new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+    );
+    $parser = $this->getParserFixture($tokens);
+    $this->assertFalse($parser->endOfTokens(1));
+  }
+
   /*****************************
   * Fixtures
   *****************************/
