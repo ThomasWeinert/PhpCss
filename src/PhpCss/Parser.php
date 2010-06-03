@@ -88,7 +88,7 @@ abstract class PhpCssParser {
     }
 
     // None of the given tokens matched
-    $this->handleMismatch($expectedTokens);
+    return $this->handleMismatch($expectedTokens);
   }
 
   /**
@@ -136,7 +136,7 @@ abstract class PhpCssParser {
     }
 
     // None of the given tokens matched
-    $this->handleMismatch($expectedTokens, $position);
+    return $this->handleMismatch($expectedTokens, $position);
   }
 
   protected function endOfTokens($position = 0) {
