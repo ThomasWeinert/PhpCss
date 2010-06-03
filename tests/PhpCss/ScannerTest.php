@@ -14,6 +14,7 @@
 * Load necessary files
 */
 require_once(dirname(__FILE__).'/TestCase.php');
+require_once(dirname(__FILE__).'/../../src/PhpCss/Scanner.php');
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
