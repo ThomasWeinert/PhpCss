@@ -38,6 +38,7 @@ class PhpCssParserTest extends PhpCssTestCase {
 
   /**
   * @covers PhpCssParser::read
+  * @covers PhpCssParser::matchToken
   * @dataProvider provideDirectMatchingTokens
   */
   public function testReadMatch($expectedResult, $tokens, $allowedTokens) {
@@ -55,6 +56,8 @@ class PhpCssParserTest extends PhpCssTestCase {
 
   /**
   * @covers PhpCssParser::read
+  * @covers PhpCssParser::matchToken
+  * @covers PhpCssParser::handleMismatch
   * @dataProvider provideDirectMismatchingTokens
   */
   public function testReadMismatch($tokens, $allowedTokens) {
