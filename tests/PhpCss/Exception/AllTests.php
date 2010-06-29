@@ -15,6 +15,7 @@
 */
 require_once('PHPUnit/Framework.php');
 require_once(dirname(__FILE__).'/TokenMismatchTest.php');
+require_once(dirname(__FILE__).'/UnexpectedEndOfFileTest.php');
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
@@ -29,6 +30,7 @@ class PhpCssException_AllTests {
   public static function suite() {
     $suite = new PHPUnit_Framework_TestSuite('PhpCss Exceptions');
     $suite->addTestSuite('PhpCssExceptionTokenMismatchTest');
+    $suite->addTestSuite('PhpCssExceptionUnexpectedEndOfFileTest');
     return $suite;
   }
 }
