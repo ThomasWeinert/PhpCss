@@ -24,6 +24,9 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 */
 class PhpCssExceptionUnexpectedEndOfFileTest extends PhpCssTestCase {
 
+  /**
+  * @covers PhpCssExceptionUnexpectedEndOfFile::__construct
+  */
   public function testConstructor() {
     $e = new PhpCssExceptionUnexpectedEndOfFile(
       array(PhpCssScannerToken::STRING_CHARACTERS)

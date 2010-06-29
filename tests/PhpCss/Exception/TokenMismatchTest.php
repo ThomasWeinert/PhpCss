@@ -24,6 +24,9 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 */
 class PhpCssExceptionTokenMismatchTest extends PhpCssTestCase {
 
+  /**
+  * @covers PhpCssExceptionTokenMismatch::__construct
+  */
   public function testConstructor() {
     $expectedToken = new PhpCssScannerToken(
       PhpCssScannerToken::TYPE_SELECTOR, 'sample', 42
