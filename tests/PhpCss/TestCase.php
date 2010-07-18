@@ -11,5 +11,8 @@ spl_autoload_register('PhpCssLoader::autoload');
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 abstract class PhpCssTestCase extends PHPUnit_Framework_TestCase {
-  
+
+  public static function includePhpCssFile($file) {
+    include_once(dirname(__FILE__).'/../../src/PhpCss'.$file);
+  }
 }
