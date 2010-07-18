@@ -1,5 +1,5 @@
 <?php
 
-class PhpCssException extends Exception {
+abstract class PhpCssException extends Exception {
   
 }
