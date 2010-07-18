@@ -101,7 +101,6 @@ class PhpCssScannerTokenTest extends PhpCssTestCase {
   /**
   * @covers PhpCssScannerToken::__toString
   * @covers PhpCssScannerToken::quoteContent
-  * @covers PhpCssScannerToken::quoteContent
   */
   public function testToString() {
     $token = new PhpCssScannerToken(PhpCssScannerToken::STRING_CHARACTERS, 'hello', 42);
