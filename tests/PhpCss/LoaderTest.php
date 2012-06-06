@@ -12,7 +12,7 @@
 /**
 * Load necessary files
 */
-require_once('PHPUnit/Framework.php');
+require_once('PHPUnit/Autoload.php');
 require_once(dirname(dirname(dirname(__FILE__))).'/src/PhpCss/Loader.php');
 
 /**
