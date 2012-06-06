@@ -15,7 +15,6 @@
 */
 require_once(dirname(__FILE__).'/TestCase.php');
 require_once(dirname(__FILE__).'/../../src/PhpCss/Scanner.php');
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
 * Test class for PhpCssScanner.
