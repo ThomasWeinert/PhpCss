@@ -15,6 +15,11 @@
 *
 * @package PhpCss
 * @subpackage Scanner
+*
+* @property-read integer $type
+* @property-read string $content
+* @property-read integer $length
+* @property-read integer $position
 */
 class PhpCssScannerToken {
 
