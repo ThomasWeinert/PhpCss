@@ -12,6 +12,7 @@
 
 /**
 * Abstract superclass of all elements in the abstract syntax tree.
+*
 * @package PhpCss
 * @subpackage Ast
 */
@@ -22,6 +23,8 @@ abstract class PhpCssAst {
   *
   * @param PhpCssAstVisitor $visitor
   */
-  //abstract public function visit(PhpCssAstVisitor $visitor);
+  public function accept(PhpCssAstVisitor $visitor) {
+    $visitor->visit($this);
+  }
 
 }

@@ -21,7 +21,7 @@ return array(
   'PhpCssAstSelectorSimplePseudoNegation' => $path.'/Ast/Selector/Simple/Pseudo/Negation.php',
   'PhpCssAstSelectorSimpleType' => $path.'/Ast/Selector/Simple/Type.php',
   'PhpCssAstSelectorSimpleUniversal' => $path.'/Ast/Selector/Simple/Universal.php',
-  'PhpCssAstSelectorVisitor' => $path.'/Ast/Selector/Visitor.php',
+  'PhpCssAstVisitor' => $path.'/Ast/Visitor.php',
   'PhpCssException' => $path.'/Exception.php',
   'PhpCssExceptionParser' => $path.'/Exception/Parser.php',
   'PhpCssExceptionTokenMismatch' => $path.'/Exception/TokenMismatch.php',
