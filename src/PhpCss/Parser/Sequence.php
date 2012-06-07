@@ -47,11 +47,11 @@ class PhpCssParserSequence extends PhpCssParser {
   }
 
   private function createSelectorSimpleId(PhpCssScannerToken $token) {
-
+    return new PhpCssAstSelectorSimpleId(substr($token->content, 1));
   }
 
   private function createSelectorSimpleClass(PhpCssScannerToken $token) {
-
+    return new PhpCssAstSelectorSimpleClass(substr($token->content, 1));
   }
 }
 
