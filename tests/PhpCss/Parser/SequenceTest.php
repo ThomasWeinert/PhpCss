@@ -23,7 +23,7 @@ require_once(dirname(dirname(__FILE__)).'/TestCase.php');
 class PhpCssParserSequenceTest extends PhpCssTestCase {
 
   /**
-  * @covers PhpCssParserSequence::parse
+  * @covers PhpCssParserSequence
   * @dataProvider provideParseData
   */
   public function testParse($expected, $tokens) {
@@ -31,6 +31,16 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
     $this->assertEquals(
       $expected, $parser->parse()
     );
+  }
+
+  /**
+  * @covers PhpCssParserSequence
+  * @dataProvider provideInvalidParseData
+  */
+  public function testParseExpectingException($tokens) {
+    $parser = new PhpCssParserSequence($tokens);
+    $this->setExpectedException('PhpCssExceptionTokenMismatch');
+    $parser->parse();
   }
 
   public static function provideParseData() {
@@ -100,6 +110,38 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
             PhpCssScannerToken::CLASS_SELECTOR,
             '.classname',
             7
+          )
+        )
+      )
+    );
+  }
+  public static function provideInvalidParseData() {
+    return array(
+      'two elements' => array(
+        array(
+          new PhpCssScannerToken(
+            PhpCssScannerToken::TYPE_SELECTOR,
+            'element',
+            0
+          ),
+          new PhpCssScannerToken(
+            PhpCssScannerToken::TYPE_SELECTOR,
+            'element',
+            7
+          )
+        )
+      ),
+      'element after class' => array(
+        array(
+          new PhpCssScannerToken(
+            PhpCssScannerToken::CLASS_SELECTOR,
+            '.classname',
+            0
+          ),
+          new PhpCssScannerToken(
+            PhpCssScannerToken::TYPE_SELECTOR,
+            'element',
+            10
           )
         )
       )
