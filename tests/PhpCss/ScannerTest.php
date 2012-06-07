@@ -186,7 +186,23 @@ class PhpCssScannerTest extends PhpCssTestCase {
           "TOKEN::SIMPLESELECTOR_CLASS @29 '.title'",
           "TOKEN::PSEUDOCLASS_PARAMETERS_END @35 ')'"
         )
-      )
+      ),
+      array(
+        "div > span",
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'div'",
+          "TOKEN::SELECTOR_COMBINATOR @3 ' > '",
+          "TOKEN::SIMPLESELECTOR_TYPE @6 'span'"
+        )
+      ),
+      array(
+        "div span",
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'div'",
+          "TOKEN::WHITESPACE @3 ' '",
+          "TOKEN::SIMPLESELECTOR_TYPE @4 'span'"
+        )
+      ),
     );
   }
 
