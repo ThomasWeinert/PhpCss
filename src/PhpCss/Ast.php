@@ -16,12 +16,12 @@
 * @subpackage Ast
 */
 abstract class PhpCssAst {
-  
+
   /**
   * The visitors are used to extract information from an ast.
-  * 
+  *
   * @param PhpCssAstVisitor $visitor
   */
-  abstract public function visit(PhpCssAstVisitor $visitor);
-  
+  //abstract public function visit(PhpCssAstVisitor $visitor);
+
 }
