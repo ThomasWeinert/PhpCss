@@ -42,6 +42,8 @@ class PhpCssParserSequence extends PhpCssParser {
         $sequence->simples[] = $selector;
       }
       switch ($token->type) {
+      case PhpCssScannerToken::SEPARATOR :
+        return $sequence;
       case PhpCssScannerToken::PSEUDO_CLASS :
         throw new LogicException('Implementation incomplete');
         break;
@@ -64,7 +66,8 @@ class PhpCssParserSequence extends PhpCssParser {
 			    PhpCssScannerToken::CLASS_SELECTOR,
 			    PhpCssScannerToken::PSEUDO_CLASS,
 			    PhpCssScannerToken::ATTRIBUTE_SELECTOR_START,
-			    PhpCssScannerToken::COMBINATOR
+			    PhpCssScannerToken::COMBINATOR,
+		      PhpCssScannerToken::SEPARATOR
 	      )
       );
     }
