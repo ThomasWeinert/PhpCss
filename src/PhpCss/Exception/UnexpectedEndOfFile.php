@@ -2,9 +2,8 @@
 /**
 * Exception thrown if an unexpected end of file is detected. 
 * 
-* @version $Id$
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010 PhpCss Team
+* * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+* @copyright Copyright 2010-2012 PhpCss Team
 *
 * @package PhpCss
 * @subpackage Exceptions

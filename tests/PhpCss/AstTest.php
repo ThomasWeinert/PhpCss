@@ -2,8 +2,7 @@
 /**
 * Collection of tests for the abstract ast superclass
 *
-* @version $Id$
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
+* * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 * @copyright Copyright (c) 2010 Bastian Feder, Thomas Weinert
 *
 * @package PhpCss
