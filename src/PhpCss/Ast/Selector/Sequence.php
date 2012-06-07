@@ -3,11 +3,11 @@
 class PhpCssAstSelectorSequence extends PhpCssAstSelector {
 
   public $simples = array();
-  public $combination = NULL;
+  public $combinator = NULL;
 
-  public function __construct(array $simples = array(), PhpCssAstSelectorCombination $combination = NULL) {
+  public function __construct(array $simples = array(), PhpCssAstSelectorCombinator $combinator = NULL) {
     $this->simples = $simples;
-    $this->combination = $combination;
+    $this->combinator = $combinator;
   }
 
   /**
