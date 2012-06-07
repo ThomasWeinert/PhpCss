@@ -45,7 +45,10 @@ class PhpCssIntegrationTest extends PhpCssTestCase {
       array('element', 'element'),
       array('ns|*', 'ns|*'),
       array('.class', '.class'),
-      array('element, .class', 'element, .class')
+      array('element, .class', 'element, .class'),
+      array('.classOne.classTwo', '.classOne.classTwo'),
+      array('#id.classOne.classTwo', '#id.classOne.classTwo'),
+      array('tag#id.classOne.classTwo', 'tag#id.classOne.classTwo')
     );
   }
 }
