@@ -16,7 +16,6 @@
 require_once(dirname(__FILE__).'/TestCase.php');
 require_once(dirname(__FILE__).'/Parser/Mock.php');
 require_once(dirname(__FILE__).'/Parser/Mock/Delegate.php');
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
 * Test class for PhpCssParser.

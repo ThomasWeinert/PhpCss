@@ -17,7 +17,6 @@ require_once('PHPUnit/Framework.php');
 require_once(dirname(__FILE__).'/DoubleTest.php');
 require_once(dirname(__FILE__).'/SingleTest.php');
 
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
 * PhpCss Scanner Status String Test Suite

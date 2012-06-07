@@ -12,10 +12,8 @@
 /**
 * Load necessary files
 */
-require_once('PHPUnit/Framework.php');
+require_once('PHPUnit/Autoload.php');
 require_once(dirname(dirname(dirname(__FILE__))).'/src/PhpCss/Loader.php');
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
-PHPUnit_Util_Filter::addDirectoryToFilter(dirname(__FILE__).'/TestData');
 
 /**
 * Test class for PhpCss Auto Loader.

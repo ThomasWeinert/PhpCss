@@ -3,7 +3,6 @@
 * Proxy class, allowing testing of the abstract PhpCssParser class
 */
 
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
 * Proxy class, allowing testing of the abstract PhpCssParser class

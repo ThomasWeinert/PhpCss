@@ -14,7 +14,6 @@
 * Load necessary files
 */
 require_once(dirname(__FILE__).'/../../../TestCase.php');
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
 * Collection of test for the PhpCssScannerStatusStringDouble class
