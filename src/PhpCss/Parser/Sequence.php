@@ -51,6 +51,7 @@ class PhpCssParserSequence extends PhpCssParser {
         throw new LogicException('Implementation incomplete');
         break;
       case PhpCssScannerToken::COMBINATOR :
+      case PhpCssScannerToken::WHITESPACE :
         $sequence->combinator = $this->createCombinator(
           $token, $this->delegate(get_class($this))
         );
@@ -67,6 +68,7 @@ class PhpCssParserSequence extends PhpCssParser {
 			    PhpCssScannerToken::PSEUDO_CLASS,
 			    PhpCssScannerToken::ATTRIBUTE_SELECTOR_START,
 			    PhpCssScannerToken::COMBINATOR,
+			    PhpCssScannerToken::WHITESPACE,
 		      PhpCssScannerToken::SEPARATOR
 	      )
       );

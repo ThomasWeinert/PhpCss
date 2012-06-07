@@ -141,7 +141,38 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
             PhpCssScannerToken::TYPE_SELECTOR,
             'child',
             8
+          )
+        )
+      ),
+      'element child' => array(
+        new PhpCssAstSelectorSequence(
+          array(
+            new PhpCssAstSelectorSimpleType('element')
           ),
+          new PhpCssAstSelectorCombinatorDescendant(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleType('child')
+              )
+            )
+          )
+        ),
+        array(
+          new PhpCssScannerToken(
+            PhpCssScannerToken::TYPE_SELECTOR,
+            'element',
+            0
+          ),
+          new PhpCssScannerToken(
+            PhpCssScannerToken::WHITESPACE,
+            ' ',
+            7
+          ),
+          new PhpCssScannerToken(
+            PhpCssScannerToken::TYPE_SELECTOR,
+            'child',
+            8
+          )
         )
       )
     );

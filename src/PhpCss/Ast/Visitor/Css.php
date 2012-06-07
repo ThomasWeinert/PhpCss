@@ -18,6 +18,7 @@
 class PhpCssAstVisitorCss implements PhpCssAstVisitor {
 
   private $_buffer = '';
+  private $_inSelectorSequence = FALSE;
 
   /**
   * Clear the visitor object to visit another sequence list
@@ -116,9 +117,10 @@ class PhpCssAstVisitorCss implements PhpCssAstVisitor {
   * @return boolean
   */
   public function visitEnterSelectorSequence(PhpCssAstSelectorSequence $sequence) {
-    if (!empty($this->_buffer)) {
+    if ($this->_inSelectorSequence) {
       $this->_buffer .= ', ';
     }
+    $this->_inSelectorSequence = TRUE;
     return TRUE;
   }
 
@@ -148,7 +150,6 @@ class PhpCssAstVisitorCss implements PhpCssAstVisitor {
     return TRUE;
   }
 
-
   /**
   * Output the class selector to the buffer
   *
@@ -157,6 +158,22 @@ class PhpCssAstVisitorCss implements PhpCssAstVisitor {
   */
   public function visitSelectorSimpleClass(PhpCssAstSelectorSimpleClass $class) {
     $this->_buffer .= '.'.$class->className;
+    return TRUE;
+  }
+
+  public function visitEnterSelectorCombinatorDescendant(
+    PhpCssAstSelectorCombinatorDescendant $combinator
+  ) {
+    $this->_buffer .= ' ';
+    $this->_inSelectorSequence = FALSE;
+    return TRUE;
+  }
+
+  public function visitEnterSelectorCombinatorChild(
+    PhpCssAstSelectorCombinatorChild $combinator
+  ) {
+    $this->_buffer .= ' > ';
+    $this->_inSelectorSequence = FALSE;
     return TRUE;
   }
 }

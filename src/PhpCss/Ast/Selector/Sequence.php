@@ -20,8 +20,8 @@ class PhpCssAstSelectorSequence extends PhpCssAstSelector {
       foreach ($this->simples as $simple) {
         $simple->accept($visitor);
       }
-      if (isset($this->combination)) {
-        $this->combination->accept($visitor);
+      if (isset($this->combinator)) {
+        $this->combinator->accept($visitor);
       }
       return $visitor->visitLeave($this);
     }

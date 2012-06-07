@@ -37,7 +37,7 @@ class PhpCssAstVisitorCssTest extends PhpCssTestCase {
   public static function provideExamples() {
     return array(
       array(
-        '*|element, #id, .class',
+        'element, #id, .class',
         new PhpCssAstSelectorSequenceList(
           array(
             new PhpCssAstSelectorSequence(
@@ -48,6 +48,23 @@ class PhpCssAstVisitorCssTest extends PhpCssTestCase {
             ),
             new PhpCssAstSelectorSequence(
               array(new PhpCssAstSelectorSimpleClass('class'))
+            )
+          )
+        )
+      ),
+      array(
+        'element > child',
+        new PhpCssAstSelectorSequenceList(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleType('element'),
+                new PhpCssAstSelectorCombinatorChild(
+                  new PhpCssAstSelectorSequence(
+                    array(new PhpCssAstSelectorSimpleType('child'))
+                  )
+                )
+              )
             )
           )
         )
