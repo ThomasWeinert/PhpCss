@@ -23,4 +23,18 @@ interface PhpCssAstVisitor {
   * @param PHPCssAst $ast
   */
   function visit(PHPCssAst $ast);
+
+  /**
+  * Visit an ast object
+  *
+  * @param PHPCssAst $ast
+  */
+  function visitEnter(PHPCssAst $ast);
+
+  /**
+  * Visit an ast object
+  *
+  * @param PHPCssAst $ast
+  */
+  function visitLeave(PHPCssAst $ast);
 }
