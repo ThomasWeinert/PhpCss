@@ -15,8 +15,8 @@ class PhpCssParserDefault extends PhpCssParser {
     $list = $this->createSequenceList();
     while (!$this->endOfTokens()) {
       $currentToken = $this->lookahead($this->_expectedTokens);
-      if ($currentToken->type == phpCSsScannerToken::WHITESPACE) {
-        $this->read(phpCSsScannerToken::WHITESPACE);
+      if ($currentToken->type == phpCssScannerToken::WHITESPACE) {
+        $this->read(phpCssScannerToken::WHITESPACE);
         continue;
       }
       $list[] = $this->delegate('PhpCssParserSequence');
