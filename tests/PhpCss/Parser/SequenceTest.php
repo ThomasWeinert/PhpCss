@@ -54,7 +54,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
         array(
           new PhpCssScannerToken(
             PhpCssScannerToken::TYPE_SELECTOR,
-            'prefix:element',
+            'prefix|element',
             0
           )
         )

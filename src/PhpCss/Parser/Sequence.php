@@ -37,8 +37,8 @@ class PhpCssParserSequence extends PhpCssParser {
 
 
   private function createSelectorSimpleType(PhpCssScannerToken $token) {
-    if (FALSE !== strpos($token->content, ':')) {
-      list($prefix, $name) = explode(':', $token->content);
+    if (FALSE !== strpos($token->content, '|')) {
+      list($prefix, $name) = explode('|', $token->content);
     } else {
       $prefix = '*';
       $name = $token->content;
