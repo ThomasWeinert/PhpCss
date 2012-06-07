@@ -1,5 +1,5 @@
 <?php
 
-abstract class PhpCssAstSelectorSimple extends PhpCssSelector {
+abstract class PhpCssAstSelectorSimple extends PhpCssAstSelector {
 
 }
