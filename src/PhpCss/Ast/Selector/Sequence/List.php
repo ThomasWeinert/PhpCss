@@ -116,4 +116,19 @@ class PhpCssAstSelectorSequenceList
   public function getIterator() {
     return new ArrayIterator($this->_sequences);
   }
+
+  /**
+  * Accept visitors, because this element has children, enter and leave are called.
+  *
+  * @param PhpCssAstVisitor $visitor
+  */
+  public function accept(PhpCssAstVisitor $visitor) {
+    if ($visitor->visitEnter($this)) {
+      foreach ($this as $sequence) {
+        $sequence->accept($visitor);
+      }
+      return $visitor->visitLeave($this);
+    }
+    return NULL;
+  }
 }
