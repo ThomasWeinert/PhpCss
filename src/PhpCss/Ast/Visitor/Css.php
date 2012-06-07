@@ -129,7 +129,7 @@ class PhpCssAstVisitorCss implements PhpCssAstVisitor {
   * @return boolean
   */
   public function visitSelectorSimpleType(PhpCssAstSelectorSimpleType $type) {
-    if (!empty($type->namespacePrefix)) {
+    if (!empty($type->namespacePrefix) && $type->namespacePrefix != '*') {
       $this->_buffer .= $type->namespacePrefix.'|'.$type->elementName;
     } else {
       $this->_buffer .= $type->elementName;
