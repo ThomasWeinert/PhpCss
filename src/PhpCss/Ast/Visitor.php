@@ -1,6 +1,6 @@
 <?php
 /**
-* Initerface declaration for php css ast vistors
+* Interface declaration for php css ast vistors
 *
 * * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 * @copyright Copyright 2010-2012 PhpCss Team
@@ -10,12 +10,17 @@
 */
 
 /**
-* Initerface declaration for php css ast vistors
+* Interface declaration for php css ast vistors
 *
 * @package PhpCss
 * @subpackage Ast
 */
 interface PhpCssAstVisitor {
 
+  /**
+  * Visit an ast object
+  *
+  * @param PHPCssAst $ast
+  */
   function visit(PHPCssAst $ast);
 }
