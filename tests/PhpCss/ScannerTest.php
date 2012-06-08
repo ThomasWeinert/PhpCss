@@ -270,28 +270,124 @@ class PhpCssScannerTest extends PhpCssTestCase {
       //array('E:nth-last-child(42)', array()),
       //array('E:nth-of-type(42)', array()),
       //array('E:nth-last-of-type(42)', array()),
-      //array('E:first-child', array()),
-      //array('E:last-child', array()),
-      //array('E:first-of-type', array()),
-      //array('E:last-of-type', array()),
-      //array('E:only-child', array()),
-      //array('E:only-of-type', array()),
-      //array('E:emtpy', array()),
+      array(
+        'E:first-child',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':first-child'"
+        )
+      ),
+      array(
+        'E:last-child',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':last-child'"
+        )
+      ),
+      array(
+        'E:first-of-type',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':first-of-type'"
+        )
+      ),
+      array(
+        'E:last-of-type',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':last-of-type'"
+        )
+      ),
+      array(
+        'E:only-child',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':only-child'"
+        )
+      ),
+      array(
+        'E:only-of-type',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':only-of-type'"
+        )
+      ),
+      array(
+        'E:empty',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':empty'"
+        )
+      ),
       // CSS 3 specification - link pseudo classes
-      //array('E:link', array()),
-      //array('E:visited', array()),
+      array(
+        'E:link',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':link'"
+        )
+      ),
+      array(
+        'E:visited',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':visited'"
+        )
+      ),
       // CSS 3 specification - user action pseudo classes
-      //array('E:active', array()),
-      //array('E:hover', array()),
-      //array('E:focus', array()),
+      array(
+        'E:active',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':active'"
+        )
+      ),
+      array(
+        'E:hover',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':hover'"
+        )
+      ),
+      array(
+        'E:focus',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':focus'"
+        )
+      ),
       // CSS 3 specification - target pseudo class
-      //array('E:target', array()),
+      array(
+        'E:target',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':target'"
+        )
+      ),
       // CSS 3 specification - language pseudo class
       //array('E:lang(fr)', array()),
       // CSS 3 specification - ui element states pseudo classes
-      //array('E:enabled', array()),
-      //array('E:disabled', array()),
-      //array('E:checked', array()),
+      array(
+        'E:enabled',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':enabled'"
+        )
+      ),
+      array(
+        'E:disabled',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':disabled'"
+        )
+      ),
+      array(
+        'E:checked',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':checked'"
+        )
+      ),
       // CSS 3 specification - pseudo elements
       //array('E::first-line', array()),
       //array('E::first-letter', array()),
