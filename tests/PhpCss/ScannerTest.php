@@ -2,9 +2,8 @@
 /**
 * Collection of tests for the Scanner class
 *
-* @version $Id: ScannerTest.php 430 2010-03-29 15:53:43Z subjective $
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright (c) 2010 Bastian Feder, Thomas Weinert
+* @copyright Copyright 2010-2012 PhpCss Team
 *
 * @package PhpCss
 * @subpackage Tests
@@ -158,6 +157,199 @@ class PhpCssScannerTest extends PhpCssTestCase {
 
   public static function selectorsDataProvider() {
     return array(
+      // CSS 3 specification
+      array(
+        '*',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 '*'"
+        )
+      ),
+      array(
+        'E',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'"
+        )
+      ),
+      // CSS 3 specification - attributes
+      array(
+        'E[foo]',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
+          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_END @5 ']'"
+        )
+      ),
+      array(
+        'E[foo="bar"]',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
+          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '='",
+          "TOKEN::STRING_DOUBLE_QUOTE_START @6 '\"'",
+          "TOKEN::STRING_CHARACTERS @7 'bar'",
+          "TOKEN::STRING_DOUBLE_QUOTE_END @10 '\"'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_END @11 ']'"
+        )
+      ),
+      array(
+        'E[foo~="bar"]',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
+          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '~='",
+          "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
+          "TOKEN::STRING_CHARACTERS @8 'bar'",
+          "TOKEN::STRING_DOUBLE_QUOTE_END @11 '\"'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_END @12 ']'"
+        )
+      ),
+      array(
+        'E[foo^="bar"]',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
+          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '^='",
+          "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
+          "TOKEN::STRING_CHARACTERS @8 'bar'",
+          "TOKEN::STRING_DOUBLE_QUOTE_END @11 '\"'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_END @12 ']'"
+        )
+      ),
+      array(
+        'E[foo$="bar"]',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
+          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '$='",
+          "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
+          "TOKEN::STRING_CHARACTERS @8 'bar'",
+          "TOKEN::STRING_DOUBLE_QUOTE_END @11 '\"'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_END @12 ']'"
+        )
+      ),
+      array(
+        'E[foo*="bar"]',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
+          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '*='",
+          "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
+          "TOKEN::STRING_CHARACTERS @8 'bar'",
+          "TOKEN::STRING_DOUBLE_QUOTE_END @11 '\"'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_END @12 ']'"
+        )
+      ),
+      array(
+        'E[foo|="bar"]',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
+          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '|='",
+          "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
+          "TOKEN::STRING_CHARACTERS @8 'bar'",
+          "TOKEN::STRING_DOUBLE_QUOTE_END @11 '\"'",
+          "TOKEN::SIMPLESELECTOR_ATTRIBUTE_END @12 ']'"
+        )
+      ),
+      // CSS 3 specification - structural pseudo classes
+      array(
+        'E:root',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':root'"
+        )
+      ),
+      //array('E:nth-child(42)', array()),
+      //array('E:nth-last-child(42)', array()),
+      //array('E:nth-of-type(42)', array()),
+      //array('E:nth-last-of-type(42)', array()),
+      //array('E:first-child', array()),
+      //array('E:last-child', array()),
+      //array('E:first-of-type', array()),
+      //array('E:last-of-type', array()),
+      //array('E:only-child', array()),
+      //array('E:only-of-type', array()),
+      //array('E:emtpy', array()),
+      // CSS 3 specification - link pseudo classes
+      //array('E:link', array()),
+      //array('E:visited', array()),
+      // CSS 3 specification - user action pseudo classes
+      //array('E:active', array()),
+      //array('E:hover', array()),
+      //array('E:focus', array()),
+      // CSS 3 specification - target pseudo class
+      //array('E:target', array()),
+      // CSS 3 specification - language pseudo class
+      //array('E:lang(fr)', array()),
+      // CSS 3 specification - ui element states pseudo classes
+      //array('E:enabled', array()),
+      //array('E:disabled', array()),
+      //array('E:checked', array()),
+      // CSS 3 specification - pseudo elements
+      //array('E::first-line', array()),
+      //array('E::first-letter', array()),
+      //array('E::before', array()),
+      //array('E::after', array()),
+      // CSS 3 specification - class selector
+      array(
+        'E.warning',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SIMPLESELECTOR_CLASS @1 '.warning'"
+        )
+      ),
+      // CSS 3 specification - id selector
+      array(
+        'E#myid',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SIMPE_SELECTOR_ID @1 '#myid'"
+        )
+      ),
+      // CSS 3 specification - negation pseudo class
+      //array('E:not(s)', array()),
+      // CSS 3 specification - combinators
+      array(
+        'E F',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::WHITESPACE @1 ' '",
+          "TOKEN::SIMPLESELECTOR_TYPE @2 'F'"
+        )
+      ),
+      array(
+        'E > F',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SELECTOR_COMBINATOR @1 ' > '",
+          "TOKEN::SIMPLESELECTOR_TYPE @4 'F'"
+        )
+      ),
+      array(
+        'E + F',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SELECTOR_COMBINATOR @1 ' + '",
+          "TOKEN::SIMPLESELECTOR_TYPE @4 'F'"
+        )
+      ),
+      array(
+        'E ~ F',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::SELECTOR_COMBINATOR @1 ' ~ '",
+          "TOKEN::SIMPLESELECTOR_TYPE @4 'F'"
+        )
+      ),
+
+      // individual
       array(
         "test",
         array(
