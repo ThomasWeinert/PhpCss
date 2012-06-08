@@ -26,22 +26,23 @@ class PhpCssScannerToken {
   const ANY = 255;
 
   //whitespace
-  const WHITESPACE = 0;
+  const WHITESPACE = 1;
+  const NUMBER = 2;
 
   //simple selectors
-  const TYPE_SELECTOR = 1;
-  const CLASS_SELECTOR = 2;
-  const ID_SELECTOR = 3;
-  const PSEUDO_CLASS = 4;
+  const TYPE_SELECTOR = 10;
+  const CLASS_SELECTOR = 11;
+  const ID_SELECTOR = 12;
+  const PSEUDO_CLASS = 13;
 
   // attribute selectors - [...]
   const ATTRIBUTE_SELECTOR_START = 20;
   const ATTRIBUTE_SELECTOR_END = 21;
-  const ATTRIBUTE_OPERATOR = 23;
+  const ATTRIBUTE_OPERATOR = 22;
 
-  // pseudo class parameters - (...)
-  const PARAMETERS_START = 31;
-  const PARAMETERS_END = 32;
+  // parentheses - (...)
+  const PARENTHESES_START = 31;
+  const PARENTHESES_END = 32;
 
   //selector separator
   const COMBINATOR = 41;
@@ -60,6 +61,7 @@ class PhpCssScannerToken {
   private static $_names = array(
     self::ANY => 'ANY',
     self::WHITESPACE => 'WHITESPACE',
+    self::NUMBER => 'NUMBER',
     self::TYPE_SELECTOR => 'SIMPLESELECTOR_TYPE',
     self::CLASS_SELECTOR => 'SIMPLESELECTOR_CLASS',
     self::ID_SELECTOR => 'SIMPE_SELECTOR_ID',
@@ -67,8 +69,8 @@ class PhpCssScannerToken {
     self::ATTRIBUTE_SELECTOR_START => 'SIMPLESELECTOR_ATTRIBUTE_START',
     self::ATTRIBUTE_SELECTOR_END => 'SIMPLESELECTOR_ATTRIBUTE_END',
     self::ATTRIBUTE_OPERATOR => 'SIMPLESELECTOR_ATTRIBUTE_OPERATOR',
-    self::PARAMETERS_START => 'PSEUDOCLASS_PARAMETERS_START',
-    self::PARAMETERS_END => 'PSEUDOCLASS_PARAMETERS_END',
+    self::PARENTHESES_START => 'PARENTHESES_START',
+    self::PARENTHESES_END => 'PARENTHESES_END',
     self::COMBINATOR => 'SELECTOR_COMBINATOR',
     self::SEPARATOR => 'SELECTOR_SEPARATOR',
     self::SINGLEQUOTE_STRING_START => 'STRING_SINGLE_QUOTE_START',

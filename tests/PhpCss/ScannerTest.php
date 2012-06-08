@@ -266,10 +266,46 @@ class PhpCssScannerTest extends PhpCssTestCase {
           "TOKEN::PSEUDOCLASS @1 ':root'"
         )
       ),
-      //array('E:nth-child(42)', array()),
-      //array('E:nth-last-child(42)', array()),
-      //array('E:nth-of-type(42)', array()),
-      //array('E:nth-last-of-type(42)', array()),
+      array(
+        'E:nth-child(42)',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':nth-child'",
+          "TOKEN::PARENTHESES_START @11 '('",
+          "TOKEN::NUMBER @12 '42'",
+          "TOKEN::PARENTHESES_END @14 ')'",
+        )
+      ),
+      array(
+        'E:nth-last-child(42)',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':nth-last-child'",
+          "TOKEN::PARENTHESES_START @16 '('",
+          "TOKEN::NUMBER @17 '42'",
+          "TOKEN::PARENTHESES_END @19 ')'",
+        )
+      ),
+      array(
+        'E:nth-of-type(42)',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':nth-of-type'",
+          "TOKEN::PARENTHESES_START @13 '('",
+          "TOKEN::NUMBER @14 '42'",
+          "TOKEN::PARENTHESES_END @16 ')'",
+        )
+      ),
+      array(
+        'E:nth-last-of-type(42)',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':nth-last-of-type'",
+          "TOKEN::PARENTHESES_START @18 '('",
+          "TOKEN::NUMBER @19 '42'",
+          "TOKEN::PARENTHESES_END @21 ')'",
+        )
+      ),
       array(
         'E:first-child',
         array(
@@ -365,7 +401,16 @@ class PhpCssScannerTest extends PhpCssTestCase {
         )
       ),
       // CSS 3 specification - language pseudo class
-      //array('E:lang(fr)', array()),
+      array(
+        'E:lang(fr)',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':lang'",
+          "TOKEN::PARENTHESES_START @6 '('",
+          "TOKEN::SIMPLESELECTOR_TYPE @7 'fr'",
+          "TOKEN::PARENTHESES_END @9 ')'",
+        )
+      ),
       // CSS 3 specification - ui element states pseudo classes
       array(
         'E:enabled',
@@ -410,7 +455,16 @@ class PhpCssScannerTest extends PhpCssTestCase {
         )
       ),
       // CSS 3 specification - negation pseudo class
-      //array('E:not(s)', array()),
+      array(
+        'E:not(s)',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOCLASS @1 ':not'",
+          "TOKEN::PARENTHESES_START @5 '('",
+          "TOKEN::SIMPLESELECTOR_TYPE @6 's'",
+          "TOKEN::PARENTHESES_END @7 ')'",
+        )
+      ),
       // CSS 3 specification - combinators
       array(
         'E F',
@@ -462,17 +516,16 @@ class PhpCssScannerTest extends PhpCssTestCase {
         )
       ),
       array(
-        'div#id.class1.class2:has(span.title)',
+        'div#id.class1.class2:not(.title)',
         array(
           "TOKEN::SIMPLESELECTOR_TYPE @0 'div'",
           "TOKEN::SIMPE_SELECTOR_ID @3 '#id'",
           "TOKEN::SIMPLESELECTOR_CLASS @6 '.class1'",
           "TOKEN::SIMPLESELECTOR_CLASS @13 '.class2'",
-          "TOKEN::PSEUDOCLASS @20 ':has'",
-          "TOKEN::PSEUDOCLASS_PARAMETERS_START @24 '('",
-          "TOKEN::SIMPLESELECTOR_TYPE @25 'span'",
-          "TOKEN::SIMPLESELECTOR_CLASS @29 '.title'",
-          "TOKEN::PSEUDOCLASS_PARAMETERS_END @35 ')'"
+          "TOKEN::PSEUDOCLASS @20 ':not'",
+          "TOKEN::PARENTHESES_START @24 '('",
+          "TOKEN::SIMPLESELECTOR_CLASS @25 '.title'",
+          "TOKEN::PARENTHESES_END @31 ')'"
         )
       ),
       array(

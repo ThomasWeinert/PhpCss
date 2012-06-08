@@ -25,8 +25,8 @@ class PhpCssScannerStatusSelector extends PhpCssScannerStatus {
   protected $_tokenChars = array(
     PhpCssScannerToken::SEPARATOR => ',',
     PhpCssScannerToken::ATTRIBUTE_SELECTOR_START => '[',
-    PhpCssScannerToken::PARAMETERS_START => '(',
-    PhpCssScannerToken::PARAMETERS_END => ')',
+    PhpCssScannerToken::PARENTHESES_START => '(',
+    PhpCssScannerToken::PARENTHESES_END => ')',
     PhpCssScannerToken::SINGLEQUOTE_STRING_START => "'",
     PhpCssScannerToken::DOUBLEQUOTE_STRING_START => '"'
   );
@@ -38,6 +38,7 @@ class PhpCssScannerStatusSelector extends PhpCssScannerStatus {
   protected $_tokenPatterns = array(
     PhpCssScannerToken::COMBINATOR => '(\s*[>+~]\s*)S',
     PhpCssScannerToken::WHITESPACE => '([\r\n\t ]+)S',
+    PhpCssScannerToken::NUMBER => '([\d]+)S',
     PhpCssScannerToken::TYPE_SELECTOR => '([^\r\n\t .,#:()[\\]\\\'"]+)S',
     PhpCssScannerToken::CLASS_SELECTOR => '(\.[^\r\n\t .,#:()[\\]\\\'"]+)S',
     PhpCssScannerToken::ID_SELECTOR => '(#[^\r\n\t .,#:()[\\]\\\'"]+)S',
