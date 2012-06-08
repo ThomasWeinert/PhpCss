@@ -104,7 +104,7 @@ class PhpCssParserSequence extends PhpCssParser {
     case '+' :
       return new PhpCssAstSelectorCombinatorNext($sequence);
     case '~' :
-      return new PhpCssAstSelectorCombinatorFollowing($sequence);
+      return new PhpCssAstSelectorCombinatorFollower($sequence);
     default :
       return new PhpCssAstSelectorCombinatorDescendant($sequence);
     }

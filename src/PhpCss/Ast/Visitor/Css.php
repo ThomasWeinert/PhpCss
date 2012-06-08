@@ -176,4 +176,20 @@ class PhpCssAstVisitorCss implements PhpCssAstVisitor {
     $this->_inSelectorSequence = FALSE;
     return TRUE;
   }
+
+  public function visitEnterSelectorCombinatorFollower(
+    PhpCssAstSelectorCombinatorFollower $combinator
+  ) {
+    $this->_buffer .= ' ~ ';
+    $this->_inSelectorSequence = FALSE;
+    return TRUE;
+  }
+
+  public function visitEnterSelectorCombinatorNext(
+    PhpCssAstSelectorCombinatorNext $combinator
+  ) {
+    $this->_buffer .= ' + ';
+    $this->_inSelectorSequence = FALSE;
+    return TRUE;
+  }
 }
