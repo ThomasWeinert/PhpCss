@@ -1,13 +1,15 @@
 <?php
 /**
 * Proxy class, allowing testing of the abstract PhpCssParser class
+*
+* @license http://www.opensource.org/licenses/mit-license.php The MIT License
+* @copyright Copyright 2010-2012 PhpCss Team
 */
 
 
 /**
 * Proxy class, allowing testing of the abstract PhpCssParser class
 */
-
 class PhpCssParserMock extends PhpCssParser {
 
   public $_tokens;

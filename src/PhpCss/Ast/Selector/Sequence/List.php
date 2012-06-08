@@ -2,9 +2,8 @@
 /**
 * List of Css Selector Sequences.
 *
-* @version $Id$
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010 PhpCss Team
+* @copyright Copyright 2010-2012 PhpCss Team
 *
 * @package PhpCss
 * @subpackage Ast

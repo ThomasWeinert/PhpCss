@@ -1,7 +1,28 @@
 <?php
+/**
+* Default parsing status, expecting a group of selector sequences
+*
+* @license http://www.opensource.org/licenses/mit-license.php The MIT License
+* @copyright Copyright 2010-2012 PhpCss Team
+*
+* @package PhpCss
+* @subpackage Parser
+*/
 
+/**
+* Default parsing status, expecting a group of selector sequences
+*
+* @package PhpCss
+* @subpackage Parser
+*/
 class PhpCssParserDefault extends PhpCssParser {
 
+	/**
+	* Tokens that start a sequence, if anything except whitespaces
+	* is found it delegates to the sequence parser
+	*
+	* @var array
+	*/
   private $_expectedTokens = array(
     PhpCssScannerToken::WHITESPACE,
     PhpCssScannerToken::TYPE_SELECTOR,
@@ -11,8 +32,15 @@ class PhpCssParserDefault extends PhpCssParser {
     PhpCssScannerToken::ATTRIBUTE_SELECTOR_START
   );
 
+  /**
+  * Start parsing looking for anything valid except whitespaces, add
+  * returned sequences to the list
+  *
+  * @see PhpCssParser::parse()
+  * @return PhpCssAstSelectorSequenceList
+  */
   public function parse() {
-    $list = $this->createSequenceList();
+    $list = new PhpCssAstSelectorSequenceList();
     while (!$this->endOfTokens()) {
       $currentToken = $this->lookahead($this->_expectedTokens);
       if ($currentToken->type == phpCssScannerToken::WHITESPACE) {
@@ -22,9 +50,5 @@ class PhpCssParserDefault extends PhpCssParser {
       $list[] = $this->delegate('PhpCssParserSequence');
     }
     return $list;
-  }
-
-  private function createSequenceList() {
-    return new PhpCssAstSelectorSequenceList();
   }
 }

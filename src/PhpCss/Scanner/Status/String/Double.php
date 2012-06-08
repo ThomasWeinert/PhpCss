@@ -2,9 +2,8 @@
 /**
 * PhpCssScannerStatusStringDouble checks for tokens in a double quoted string.
 *
-* @version $Id: Single.php 429 2010-03-29 08:05:32Z subjective $
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright (c) 2010 Bastian Feder, Thomas Weinert
+* @copyright Copyright 2010-2012 PhpCss Team
 *
 * @package PhpCss
 * @subpackage Scanner

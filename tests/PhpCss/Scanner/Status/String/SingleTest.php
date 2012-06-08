@@ -2,9 +2,8 @@
 /**
 * Collection of test for the PhpCssScannerStatusStringSingle class
 *
-* @version $Id: SingleTest.php 430 2010-03-29 15:53:43Z subjective $
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright (c) 2010 Bastian Feder, Thomas Weinert
+* @copyright Copyright 2010-2012 PhpCss Team
 *
 * @package PhpCss
 * @subpackage Tests
