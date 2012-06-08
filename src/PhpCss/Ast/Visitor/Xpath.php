@@ -15,7 +15,7 @@
 * @package PhpCss
 * @subpackage Ast
 */
-class PhpCssAstVisitorXpath implements PhpCssAstVisitor {
+class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
 
   private $_buffer = '';
 
@@ -31,62 +31,6 @@ class PhpCssAstVisitorXpath implements PhpCssAstVisitor {
   */
   public function __toString() {
     return $this->_buffer;
-  }
-
-  /**
-  * Map the class name of the PhpCssAst instance to a method name, validate if it exists and return
-  * it as callback.
-  *
-  * @param PhpCssAst $object
-  * @param string $prefix
-  * @return callback|NULL
-  */
-  private function getMethodByClass(PhpCssAst $object, $prefix = 'visit') {
-    $method = $prefix.substr(get_class($object), 9);
-    if (method_exists($this, $method)) {
-      return array($this, $method);
-    } else {
-      return NULL;
-    }
-  }
-
-  /**
-  * Entering an element in the ast, called before visting children
-  *
-  * @param PhpCssAst $ast
-  * @return boolean
-  */
-  public function visitEnter(PhpCssAst $ast) {
-    if ($method = $this->getMethodByClass($ast, 'visitEnter')) {
-      return call_user_func($method, $ast);
-    }
-    return TRUE;
-  }
-
-  /**
-  * Visting the $ast element
-  *
-  * @param PhpCssAst $ast
-  * @return boolean
-  */
-  public function visit(PhpCssAst $ast) {
-    if ($method = $this->getMethodByClass($ast)) {
-      return call_user_func($method, $ast);
-    }
-    return TRUE;
-  }
-
-  /**
-  * Entering an element in the ast, called after visting children
-  *
-  * @param PhpCssAst $ast
-  * @return boolean
-  */
-  public function visitLeave(PhpCssAst $ast) {
-    if ($method = $this->getMethodByClass($ast, 'visitLeave')) {
-      return call_user_func($method, $ast);
-    }
-    return TRUE;
   }
 
   /**

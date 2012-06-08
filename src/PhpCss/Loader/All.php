@@ -23,6 +23,7 @@ return array(
   'PhpCssAstSelectorSimpleUniversal' => $path.'/Ast/Selector/Simple/Universal.php',
   'PhpCssAstVisitor' => $path.'/Ast/Visitor.php',
   'PhpCssAstVisitorCss' => $path.'/Ast/Visitor/Css.php',
+  'PhpCssAstVisitorOverload' => $path.'/Ast/Visitor/Overload.php',
   'PhpCssAstVisitorXpath' => $path.'/Ast/Visitor/Xpath.php',
   'PhpCssException' => $path.'/Exception.php',
   'PhpCssExceptionParser' => $path.'/Exception/Parser.php',
