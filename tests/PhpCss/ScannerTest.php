@@ -434,10 +434,34 @@ class PhpCssScannerTest extends PhpCssTestCase {
         )
       ),
       // CSS 3 specification - pseudo elements
-      //array('E::first-line', array()),
-      //array('E::first-letter', array()),
-      //array('E::before', array()),
-      //array('E::after', array()),
+      array(
+        'E::first-line',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOELEMENT @1 '::first-line'",
+        )
+      ),
+      array(
+        'E::first-letter',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOELEMENT @1 '::first-letter'",
+        )
+      ),
+      array(
+        'E::before',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOELEMENT @1 '::before'",
+        )
+      ),
+      array(
+        'E::after',
+        array(
+          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::PSEUDOELEMENT @1 '::after'",
+        )
+      ),
       // CSS 3 specification - class selector
       array(
         'E.warning',

@@ -42,7 +42,8 @@ class PhpCssScannerStatusSelector extends PhpCssScannerStatus {
     PhpCssScannerToken::TYPE_SELECTOR => '([^\r\n\t .,#:()[\\]\\\'"]+)S',
     PhpCssScannerToken::CLASS_SELECTOR => '(\.[^\r\n\t .,#:()[\\]\\\'"]+)S',
     PhpCssScannerToken::ID_SELECTOR => '(#[^\r\n\t .,#:()[\\]\\\'"]+)S',
-    PhpCssScannerToken::PSEUDO_CLASS => '(:[^\r\n\t .,#:()[\\]\\\'"]+)S'
+    PhpCssScannerToken::PSEUDO_CLASS => '(:[^\r\n\t .,#:()[\\]\\\'"]+)S',
+    PhpCssScannerToken::PSEUDO_ELEMENT => '(::[^\r\n\t .,#:()[\\]\\\'"]+)S'
   );
 
   /**
