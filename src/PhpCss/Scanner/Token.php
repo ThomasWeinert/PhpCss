@@ -2,9 +2,8 @@
 /**
 * PhpCssScannerToken represents a token from a scan.
 *
-* @version $Id: Token.php 429 2010-03-29 08:05:32Z subjective $
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright (c) 2010 Bastian Feder, Thomas Weinert
+* @copyright Copyright 2010-2012 PhpCss Team
 *
 * @package PhpCss
 * @subpackage Scanner
@@ -38,7 +37,7 @@ class PhpCssScannerToken {
   // attribute selectors - [...]
   const ATTRIBUTE_SELECTOR_START = 20;
   const ATTRIBUTE_SELECTOR_END = 21;
-  const ATTRIBUTE_NAME = 22;
+  const ATTRIBUTE_OPERATOR = 23;
 
   // pseudo class parameters - (...)
   const PARAMETERS_START = 31;
@@ -67,7 +66,7 @@ class PhpCssScannerToken {
     self::PSEUDO_CLASS => 'PSEUDOCLASS',
     self::ATTRIBUTE_SELECTOR_START => 'SIMPLESELECTOR_ATTRIBUTE_START',
     self::ATTRIBUTE_SELECTOR_END => 'SIMPLESELECTOR_ATTRIBUTE_END',
-    self::ATTRIBUTE_NAME => 'SIMPLESELECTOR_ATTRIBUTE_NAME',
+    self::ATTRIBUTE_OPERATOR => 'SIMPLESELECTOR_ATTRIBUTE_OPERATOR',
     self::PARAMETERS_START => 'PSEUDOCLASS_PARAMETERS_START',
     self::PARAMETERS_END => 'PSEUDOCLASS_PARAMETERS_END',
     self::COMBINATOR => 'SELECTOR_COMBINATOR',

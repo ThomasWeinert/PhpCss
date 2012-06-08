@@ -2,9 +2,8 @@
 /**
 * PhpCssScannerStatusSelectorAttribute checks for tokens of a attribute selector.
 *
-* @version $Id: Attributes.php 429 2010-03-29 08:05:32Z subjective $
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright (c) 2009 Bastian Feder, Thomas Weinert
+* @copyright Copyright 2010-2012 PhpCss Team
 *
 * @package PhpCss
 * @subpackage Scanner
@@ -23,7 +22,9 @@ class PhpCssScannerStatusSelectorAttribute extends PhpCssScannerStatus {
   * @var array
   */
   protected $_tokenChars = array(
-    PhpCssScannerToken::ATTRIBUTE_SELECTOR_END => ']'
+    PhpCssScannerToken::ATTRIBUTE_SELECTOR_END => ']',
+    PhpCssScannerToken::SINGLEQUOTE_STRING_START => "'",
+    PhpCssScannerToken::DOUBLEQUOTE_STRING_START => '"'
   );
 
   /**
@@ -32,7 +33,8 @@ class PhpCssScannerStatusSelectorAttribute extends PhpCssScannerStatus {
   */
   protected $_tokenPatterns = array(
     PhpCssScannerToken::WHITESPACE => '([\r\n\t ]+)S',
-    PhpCssScannerToken::ATTRIBUTE_NAME => '([a-z]+)S'
+    PhpCssScannerToken::ATTRIBUTE_OPERATOR => '([~^$*|=]?=)S',
+    PhpCssScannerToken::STRING_CHARACTERS => '([^~^$*|=\'\]"]+)S'
   );
 
   /**
