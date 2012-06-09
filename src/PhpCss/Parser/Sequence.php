@@ -48,7 +48,7 @@ class PhpCssParserSequence extends PhpCssParser {
         throw new LogicException('Implementation incomplete');
         break;
       case PhpCssScannerToken::ATTRIBUTE_SELECTOR_START :
-        throw new LogicException('Implementation incomplete');
+        $sequence->simples[] = $this->delegate('PhpCssParserAttribute');
         break;
       case PhpCssScannerToken::COMBINATOR :
       case PhpCssScannerToken::WHITESPACE :

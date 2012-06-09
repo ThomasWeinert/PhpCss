@@ -224,6 +224,11 @@ class PhpCssParserTest extends PhpCssTestCase {
         array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)), // token list
         array(PhpCssScannerToken::IDENTIFIER), // allowed token types
       ),
+      'one token, one token type as string' => array(
+        PhpCssScannerToken::IDENTIFIER, // expected token type
+        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)), // token list
+        PhpCssScannerToken::IDENTIFIER, // allowed token types
+      ),
       'one token, two token types' =>  array(
         PhpCssScannerToken::IDENTIFIER,
         array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)),

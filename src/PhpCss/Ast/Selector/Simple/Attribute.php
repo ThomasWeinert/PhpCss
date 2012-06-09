@@ -13,4 +13,10 @@ class PhpCssAstSelectorSimpleAttribute extends PhpCssAstSelectorSimple {
   public $name = '';
   public $match = self::MATCH_EXISTS;
   public $literal;
+
+  public function __construct($name = '', $match = self::MATCH_EXISTS, $literal = '') {
+    $this->name = $name;
+    $this->match = $match;
+    $this->literal = $literal;
+  }
 }

@@ -151,4 +151,33 @@ class PhpCssAstVisitorCss extends PhpCssAstVisitorOverload {
     $this->_inSelectorSequence = FALSE;
     return TRUE;
   }
+
+  public function visitSelectorSimpleAttribute(
+    PhpCssAstSelectorSimpleAttribute $attribute
+  ) {
+    $this->_buffer .= '[';
+    $this->_buffer .= $attribute->name;
+    switch ($attribute->match) {
+    case PhpCssAstSelectorSimpleAttribute::MATCH_EXISTS :
+      $this->_buffer .= ']';
+      break;
+    default :
+      $operatorStrings = array(
+        PhpCssAstSelectorSimpleAttribute::MATCH_PREFIX => '^=',
+        PhpCssAstSelectorSimpleAttribute::MATCH_SUFFIX => '$=',
+        PhpCssAstSelectorSimpleAttribute::MATCH_SUBSTRING => '*=',
+        PhpCssAstSelectorSimpleAttribute::MATCH_EQUALS => '=',
+        PhpCssAstSelectorSimpleAttribute::MATCH_INCLUDES => '~=',
+        PhpCssAstSelectorSimpleAttribute::MATCH_DASHMATCH => '|='
+      );
+      $this->_buffer .= $operatorStrings[$attribute->match];
+      $this->_buffer .= $this->quoteString($attribute->literal);
+      $this->_buffer .= ']';
+    }
+    return TRUE;
+  }
+
+  private function quoteString($string) {
+    return '"'.str_replace(array('\\', '"'), array('\\\\', '\\"'), $string).'"';
+  }
 }
