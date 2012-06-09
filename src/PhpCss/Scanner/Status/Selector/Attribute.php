@@ -32,7 +32,7 @@ class PhpCssScannerStatusSelectorAttribute extends PhpCssScannerStatus {
   * @var array
   */
   protected $_tokenPatterns = array(
-    PhpCssScannerToken::ATTRIBUTE_OPERATOR => '([~^$*|]?=)S',
+    PhpCssScannerToken::ATTRIBUTE_OPERATOR => PhpCssScannerPatterns::ATTRIBUTE_OPERATOR,
     PhpCssScannerToken::WHITESPACE => PhpCssScannerPatterns::WHITESPACE,
     PhpCssScannerToken::NUMBER => PhpCssScannerPatterns::NUMBER,
     PhpCssScannerToken::IDENTIFIER => PhpCssScannerPatterns::IDENTIFIER
