@@ -49,7 +49,7 @@ class PhpCssParserDefaultTest extends PhpCssTestCase {
         ),
         array(
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'element',
             0
           )
@@ -75,7 +75,7 @@ class PhpCssParserDefaultTest extends PhpCssTestCase {
             3
           ),
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'element',
             5
           )

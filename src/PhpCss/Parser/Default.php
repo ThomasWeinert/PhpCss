@@ -25,7 +25,7 @@ class PhpCssParserDefault extends PhpCssParser {
   */
   private $_expectedTokens = array(
     PhpCssScannerToken::WHITESPACE,
-    PhpCssScannerToken::TYPE_SELECTOR,
+    PhpCssScannerToken::IDENTIFIER,
     PhpCssScannerToken::ID_SELECTOR,
     PhpCssScannerToken::CLASS_SELECTOR,
     PhpCssScannerToken::PSEUDO_CLASS,

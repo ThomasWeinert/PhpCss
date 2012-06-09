@@ -28,9 +28,9 @@ class PhpCssScannerToken {
   //whitespace
   const WHITESPACE = 1;
   const NUMBER = 2;
+  const IDENTIFIER = 3;
 
   //simple selectors
-  const TYPE_SELECTOR = 10;
   const CLASS_SELECTOR = 11;
   const ID_SELECTOR = 12;
   const PSEUDO_CLASS = 13;
@@ -63,7 +63,7 @@ class PhpCssScannerToken {
     self::ANY => 'ANY',
     self::WHITESPACE => 'WHITESPACE',
     self::NUMBER => 'NUMBER',
-    self::TYPE_SELECTOR => 'SIMPLESELECTOR_TYPE',
+    self::IDENTIFIER => 'IDENTIFIER',
     self::CLASS_SELECTOR => 'SIMPLESELECTOR_CLASS',
     self::ID_SELECTOR => 'SIMPE_SELECTOR_ID',
     self::PSEUDO_CLASS => 'PSEUDOCLASS',

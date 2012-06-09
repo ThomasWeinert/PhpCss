@@ -30,7 +30,7 @@ class PhpCssParserSequence extends PhpCssParser {
     $sequence = new PhpCssAstSelectorSequence();
     $token = $this->read(
       array(
-        PhpCssScannerToken::TYPE_SELECTOR,
+        PhpCssScannerToken::IDENTIFIER,
         PhpCssScannerToken::ID_SELECTOR,
         PhpCssScannerToken::CLASS_SELECTOR,
         PhpCssScannerToken::PSEUDO_CLASS,
@@ -78,7 +78,7 @@ class PhpCssParserSequence extends PhpCssParser {
 
   private function createSelector(PhpCssScannerToken $token) {
     switch ($token->type) {
-    case PhpCssScannerToken::TYPE_SELECTOR :
+    case PhpCssScannerToken::IDENTIFIER :
       if (FALSE !== strpos($token->content, '|')) {
         list($prefix, $name) = explode('|', $token->content);
       } else {

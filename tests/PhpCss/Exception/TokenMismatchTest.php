@@ -30,7 +30,7 @@ class PhpCssExceptionTokenMismatchTest extends PhpCssTestCase {
   */
   public function testConstructor() {
     $expectedToken = new PhpCssScannerToken(
-      PhpCssScannerToken::TYPE_SELECTOR, 'sample', 42
+      PhpCssScannerToken::IDENTIFIER, 'sample', 42
     );
     $e = new PhpCssExceptionTokenMismatch(
       $expectedToken, array(PhpCssScannerToken::STRING_CHARACTERS)
@@ -42,7 +42,7 @@ class PhpCssExceptionTokenMismatchTest extends PhpCssTestCase {
       array(PhpCssScannerToken::STRING_CHARACTERS), 'expectedTokens', $e
     );
     $this->assertEquals(
-      'Parse error: Found TOKEN::SIMPLESELECTOR_TYPE @42 \'sample\' while one of STRING_CHARACTERS was expected.',
+      'Parse error: Found TOKEN::IDENTIFIER @42 \'sample\' while one of STRING_CHARACTERS was expected.',
       $e->getMessage()
     );
   }

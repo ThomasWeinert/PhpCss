@@ -28,7 +28,7 @@ class PhpCssParserTest extends PhpCssTestCase {
   * @covers PhpCssParser::__construct
   */
   public function testConstructor() {
-    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0));
+    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0));
     $parser = $this->getParserFixture($tokens);
     $this->assertAttributeSame(
       $tokens, '_tokens', $parser
@@ -139,7 +139,7 @@ class PhpCssParserTest extends PhpCssTestCase {
   * @covers PhpCssParser::endOfTokens
   */
   public function testEndOfTokensExpectingFalse() {
-    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0));
+    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0));
     $parser = $this->getParserFixture($tokens);
     $this->assertFalse($parser->endOfTokens());
   }
@@ -148,7 +148,7 @@ class PhpCssParserTest extends PhpCssTestCase {
   * @covers PhpCssParser::endOfTokens
   */
   public function testEndOfTokensWithPositionExpectingTrue() {
-    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0));
+    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0));
     $parser = $this->getParserFixture($tokens);
     $this->assertTrue($parser->endOfTokens(2));
   }
@@ -158,7 +158,7 @@ class PhpCssParserTest extends PhpCssTestCase {
   */
   public function testEndOfTokensWithPositionExpectingFalse() {
     $tokens = array(
-      new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
       new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
     );
     $parser = $this->getParserFixture($tokens);
@@ -172,7 +172,7 @@ class PhpCssParserTest extends PhpCssTestCase {
     $parser = $this->getParserFixture(array());
     $this->assertEquals(
       new PhpCssScannerToken(PhpCssScannerToken::ANY, '', 0),
-      $parser->lookahead(PhpCssScannerToken::TYPE_SELECTOR, 0, TRUE)
+      $parser->lookahead(PhpCssScannerToken::IDENTIFIER, 0, TRUE)
     );
   }
 
@@ -181,12 +181,12 @@ class PhpCssParserTest extends PhpCssTestCase {
   */
   public function testLookAheadWithPositionAllowingEndOfTokens() {
     $tokens = array(
-      new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0)
+      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)
     );
     $parser = $this->getParserFixture($tokens);
     $this->assertEquals(
       new PhpCssScannerToken(PhpCssScannerToken::ANY, '', 0),
-      $parser->lookahead(PhpCssScannerToken::TYPE_SELECTOR, 1, TRUE)
+      $parser->lookahead(PhpCssScannerToken::IDENTIFIER, 1, TRUE)
     );
   }
 
@@ -220,43 +220,43 @@ class PhpCssParserTest extends PhpCssTestCase {
   public static function provideDirectMatchingTokens() {
     return array(
       'one token, one token type' => array(
-        PhpCssScannerToken::TYPE_SELECTOR, // expected token type
-        array(new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0)), // token list
-        array(PhpCssScannerToken::TYPE_SELECTOR), // allowed token types
+        PhpCssScannerToken::IDENTIFIER, // expected token type
+        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)), // token list
+        array(PhpCssScannerToken::IDENTIFIER), // allowed token types
       ),
       'one token, two token types' =>  array(
-        PhpCssScannerToken::TYPE_SELECTOR,
-        array(new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0)),
-        array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::TYPE_SELECTOR),
+        PhpCssScannerToken::IDENTIFIER,
+        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)),
+        array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::IDENTIFIER),
       ),
       'two tokens, one token type' => array(
-        PhpCssScannerToken::TYPE_SELECTOR,
+        PhpCssScannerToken::IDENTIFIER,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
-        array(PhpCssScannerToken::TYPE_SELECTOR),
+        array(PhpCssScannerToken::IDENTIFIER),
       ),
       'two tokens, two token types' => array(
-        PhpCssScannerToken::TYPE_SELECTOR,
+        PhpCssScannerToken::IDENTIFIER,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
-        array(PhpCssScannerToken::TYPE_SELECTOR, PhpCssScannerToken::CLASS_SELECTOR),
+        array(PhpCssScannerToken::IDENTIFIER, PhpCssScannerToken::CLASS_SELECTOR),
       ),
       'two tokens, any token type' => array(
-        PhpCssScannerToken::TYPE_SELECTOR,
+        PhpCssScannerToken::IDENTIFIER,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
         array(PhpCssScannerToken::ANY),
       ),
       'two tokens, any token type as skalar' => array(
-        PhpCssScannerToken::TYPE_SELECTOR,
+        PhpCssScannerToken::IDENTIFIER,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
         PhpCssScannerToken::ANY,
@@ -267,30 +267,30 @@ class PhpCssParserTest extends PhpCssTestCase {
   public static function provideDirectMismatchingTokens() {
     return array(
       'one token, one token type' => array(
-        array(new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0)), // token list
+        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)), // token list
         array(PhpCssScannerToken::CLASS_SELECTOR), // allowed token types
       ),
       'one token, two token types' => array(
-        array(new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0)),
+        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)),
         array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::ID_SELECTOR),
       ),
       'two tokens, one token type' => array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
         array(PhpCssScannerToken::CLASS_SELECTOR),
       ),
       'two tokens, two token types' => array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
         array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::ID_SELECTOR),
       ),
       'empty tokens, one token type' => array(
         array(),
-        array(PhpCssScannerToken::TYPE_SELECTOR),
+        array(PhpCssScannerToken::IDENTIFIER),
       ),
       'empty tokens, special any token type' => array(
         array(),
@@ -304,7 +304,7 @@ class PhpCssParserTest extends PhpCssTestCase {
       array(
         PhpCssScannerToken::CLASS_SELECTOR,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
         array(PhpCssScannerToken::CLASS_SELECTOR)
@@ -312,15 +312,15 @@ class PhpCssParserTest extends PhpCssTestCase {
       array(
         PhpCssScannerToken::CLASS_SELECTOR,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
-        array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::TYPE_SELECTOR)
+        array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::IDENTIFIER)
       ),
       array(
         PhpCssScannerToken::CLASS_SELECTOR,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
         array(PhpCssScannerToken::ANY)
@@ -328,7 +328,7 @@ class PhpCssParserTest extends PhpCssTestCase {
       array(
         PhpCssScannerToken::CLASS_SELECTOR,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
         ),
         PhpCssScannerToken::ANY
@@ -340,29 +340,29 @@ class PhpCssParserTest extends PhpCssTestCase {
     return array(
       array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
         ),
-        array(PhpCssScannerToken::TYPE_SELECTOR)
+        array(PhpCssScannerToken::IDENTIFIER)
       ),
       array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
         ),
-        array(PhpCssScannerToken::TYPE_SELECTOR, PhpCssScannerToken::CLASS_SELECTOR)
+        array(PhpCssScannerToken::IDENTIFIER, PhpCssScannerToken::CLASS_SELECTOR)
       ),
       array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, 'foo', 0),
         ),
-        array(PhpCssScannerToken::TYPE_SELECTOR)
+        array(PhpCssScannerToken::IDENTIFIER)
       ),
       array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, 'foo', 0),
+          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
           new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, 'foo', 0),
         ),
-        array(PhpCssScannerToken::TYPE_SELECTOR, PhpCssScannerToken::ID_SELECTOR)
+        array(PhpCssScannerToken::IDENTIFIER, PhpCssScannerToken::ID_SELECTOR)
       )
     );
   }

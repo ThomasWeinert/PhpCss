@@ -51,7 +51,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
         ),
         array(
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'ns|*',
             0
           )
@@ -63,7 +63,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
         ),
         array(
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'element',
             0
           )
@@ -75,7 +75,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
         ),
         array(
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'prefix|element',
             0
           )
@@ -114,7 +114,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
         ),
         array(
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'element',
             0
           ),
@@ -140,7 +140,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
         ),
         array(
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'element',
             0
           ),
@@ -150,7 +150,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
             7
           ),
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'child',
             8
           )
@@ -171,7 +171,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
         ),
         array(
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'element',
             0
           ),
@@ -181,7 +181,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
             7
           ),
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'child',
             8
           )
@@ -194,12 +194,12 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
       'two elements' => array(
         array(
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'element',
             0
           ),
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'element',
             7
           )
@@ -213,7 +213,7 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
             0
           ),
           new PhpCssScannerToken(
-            PhpCssScannerToken::TYPE_SELECTOR,
+            PhpCssScannerToken::IDENTIFIER,
             'element',
             10
           )

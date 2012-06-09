@@ -76,10 +76,10 @@ class PhpCssScannerStatusSelectorAttributeTest extends PhpCssTestCase {
           PhpCssScannerToken::ATTRIBUTE_SELECTOR_END, "]", 0
         )
       ),
-      'string' => array(
-        "class",
+      'attribute-name' => array(
+        "attribute-name",
         new PhpCssScannerToken(
-          PhpCssScannerToken::STRING_CHARACTERS, "class", 0
+          PhpCssScannerToken::IDENTIFIER, "attribute-name", 0
         )
       ),
       'attribute operator' => array(

@@ -47,5 +47,6 @@ return array(
   'PhpCssScannerStatusSelectorAttribute' => $path.'/Scanner/Status/Selector/Attribute.php',
   'PhpCssScannerStatusStringDouble' => $path.'/Scanner/Status/String/Double.php',
   'PhpCssScannerStatusStringSingle' => $path.'/Scanner/Status/String/Single.php',
+  'PhpCssScannerPatterns' => $path.'/Scanner/Patterns.php',
   'PhpCssScannerToken' => $path.'/Scanner/Token.php',
 );

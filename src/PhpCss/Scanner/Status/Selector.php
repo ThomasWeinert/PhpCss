@@ -36,13 +36,13 @@ class PhpCssScannerStatusSelector extends PhpCssScannerStatus {
   */
   protected $_tokenPatterns = array(
     PhpCssScannerToken::COMBINATOR => '(\s*[>+~]\s*)S',
-    PhpCssScannerToken::WHITESPACE => '([\r\n\t ]+)S',
-    PhpCssScannerToken::NUMBER => '([\d]+)S',
-    PhpCssScannerToken::TYPE_SELECTOR => '([^\r\n\t .,#:()[\\]\\\'"]+)S',
     PhpCssScannerToken::CLASS_SELECTOR => '(\.[^\r\n\t .,#:()[\\]\\\'"]+)S',
     PhpCssScannerToken::ID_SELECTOR => '(#[^\r\n\t .,#:()[\\]\\\'"]+)S',
     PhpCssScannerToken::PSEUDO_CLASS => '(:[^\r\n\t .,#:()[\\]\\\'"]+)S',
-    PhpCssScannerToken::PSEUDO_ELEMENT => '(::[^\r\n\t .,#:()[\\]\\\'"]+)S'
+    PhpCssScannerToken::PSEUDO_ELEMENT => '(::[^\r\n\t .,#:()[\\]\\\'"]+)S',
+    PhpCssScannerToken::WHITESPACE => PhpCssScannerPatterns::WHITESPACE,
+    PhpCssScannerToken::NUMBER => PhpCssScannerPatterns::NUMBER,
+    PhpCssScannerToken::IDENTIFIER => PhpCssScannerPatterns::IDENTIFIER
   );
 
   /**

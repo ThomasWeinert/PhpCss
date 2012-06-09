@@ -161,31 +161,31 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         '*',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 '*'"
+          "TOKEN::IDENTIFIER @0 '*'"
         )
       ),
       array(
         'E',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'"
+          "TOKEN::IDENTIFIER @0 'E'"
         )
       ),
       // CSS 3 specification - attributes
       array(
         'E[foo]',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
-          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::IDENTIFIER @2 'foo'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_END @5 ']'"
         )
       ),
       array(
         'E[foo="bar"]',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
-          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::IDENTIFIER @2 'foo'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '='",
           "TOKEN::STRING_DOUBLE_QUOTE_START @6 '\"'",
           "TOKEN::STRING_CHARACTERS @7 'bar'",
@@ -196,9 +196,9 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E[foo~="bar"]',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
-          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::IDENTIFIER @2 'foo'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '~='",
           "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
           "TOKEN::STRING_CHARACTERS @8 'bar'",
@@ -209,9 +209,9 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E[foo^="bar"]',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
-          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::IDENTIFIER @2 'foo'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '^='",
           "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
           "TOKEN::STRING_CHARACTERS @8 'bar'",
@@ -222,9 +222,9 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E[foo$="bar"]',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
-          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::IDENTIFIER @2 'foo'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '$='",
           "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
           "TOKEN::STRING_CHARACTERS @8 'bar'",
@@ -235,9 +235,9 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E[foo*="bar"]',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
-          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::IDENTIFIER @2 'foo'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '*='",
           "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
           "TOKEN::STRING_CHARACTERS @8 'bar'",
@@ -248,9 +248,9 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E[foo|="bar"]',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_START @1 '['",
-          "TOKEN::STRING_CHARACTERS @2 'foo'",
+          "TOKEN::IDENTIFIER @2 'foo'",
           "TOKEN::SIMPLESELECTOR_ATTRIBUTE_OPERATOR @5 '|='",
           "TOKEN::STRING_DOUBLE_QUOTE_START @7 '\"'",
           "TOKEN::STRING_CHARACTERS @8 'bar'",
@@ -262,14 +262,14 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:root',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':root'"
         )
       ),
       array(
         'E:nth-child(42)',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':nth-child'",
           "TOKEN::PARENTHESES_START @11 '('",
           "TOKEN::NUMBER @12 '42'",
@@ -279,7 +279,7 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:nth-last-child(42)',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':nth-last-child'",
           "TOKEN::PARENTHESES_START @16 '('",
           "TOKEN::NUMBER @17 '42'",
@@ -289,7 +289,7 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:nth-of-type(42)',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':nth-of-type'",
           "TOKEN::PARENTHESES_START @13 '('",
           "TOKEN::NUMBER @14 '42'",
@@ -299,7 +299,7 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:nth-last-of-type(42)',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':nth-last-of-type'",
           "TOKEN::PARENTHESES_START @18 '('",
           "TOKEN::NUMBER @19 '42'",
@@ -309,49 +309,49 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:first-child',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':first-child'"
         )
       ),
       array(
         'E:last-child',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':last-child'"
         )
       ),
       array(
         'E:first-of-type',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':first-of-type'"
         )
       ),
       array(
         'E:last-of-type',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':last-of-type'"
         )
       ),
       array(
         'E:only-child',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':only-child'"
         )
       ),
       array(
         'E:only-of-type',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':only-of-type'"
         )
       ),
       array(
         'E:empty',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':empty'"
         )
       ),
@@ -359,14 +359,14 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:link',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':link'"
         )
       ),
       array(
         'E:visited',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':visited'"
         )
       ),
@@ -374,21 +374,21 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:active',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':active'"
         )
       ),
       array(
         'E:hover',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':hover'"
         )
       ),
       array(
         'E:focus',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':focus'"
         )
       ),
@@ -396,7 +396,7 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:target',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':target'"
         )
       ),
@@ -404,10 +404,10 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:lang(fr)',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':lang'",
           "TOKEN::PARENTHESES_START @6 '('",
-          "TOKEN::SIMPLESELECTOR_TYPE @7 'fr'",
+          "TOKEN::IDENTIFIER @7 'fr'",
           "TOKEN::PARENTHESES_END @9 ')'",
         )
       ),
@@ -415,21 +415,21 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:enabled',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':enabled'"
         )
       ),
       array(
         'E:disabled',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':disabled'"
         )
       ),
       array(
         'E:checked',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':checked'"
         )
       ),
@@ -437,28 +437,28 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E::first-line',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOELEMENT @1 '::first-line'",
         )
       ),
       array(
         'E::first-letter',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOELEMENT @1 '::first-letter'",
         )
       ),
       array(
         'E::before',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOELEMENT @1 '::before'",
         )
       ),
       array(
         'E::after',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOELEMENT @1 '::after'",
         )
       ),
@@ -466,7 +466,7 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E.warning',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SIMPLESELECTOR_CLASS @1 '.warning'"
         )
       ),
@@ -474,7 +474,7 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E#myid',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SIMPE_SELECTOR_ID @1 '#myid'"
         )
       ),
@@ -482,10 +482,10 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E:not(s)',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::PSEUDOCLASS @1 ':not'",
           "TOKEN::PARENTHESES_START @5 '('",
-          "TOKEN::SIMPLESELECTOR_TYPE @6 's'",
+          "TOKEN::IDENTIFIER @6 's'",
           "TOKEN::PARENTHESES_END @7 ')'",
         )
       ),
@@ -493,33 +493,33 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'E F',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::WHITESPACE @1 ' '",
-          "TOKEN::SIMPLESELECTOR_TYPE @2 'F'"
+          "TOKEN::IDENTIFIER @2 'F'"
         )
       ),
       array(
         'E > F',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SELECTOR_COMBINATOR @1 ' > '",
-          "TOKEN::SIMPLESELECTOR_TYPE @4 'F'"
+          "TOKEN::IDENTIFIER @4 'F'"
         )
       ),
       array(
         'E + F',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SELECTOR_COMBINATOR @1 ' + '",
-          "TOKEN::SIMPLESELECTOR_TYPE @4 'F'"
+          "TOKEN::IDENTIFIER @4 'F'"
         )
       ),
       array(
         'E ~ F',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'E'",
+          "TOKEN::IDENTIFIER @0 'E'",
           "TOKEN::SELECTOR_COMBINATOR @1 ' ~ '",
-          "TOKEN::SIMPLESELECTOR_TYPE @4 'F'"
+          "TOKEN::IDENTIFIER @4 'F'"
         )
       ),
 
@@ -527,13 +527,13 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         "test",
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'test'"
+          "TOKEN::IDENTIFIER @0 'test'"
         )
       ),
       array(
         "test'string'",
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'test'",
+          "TOKEN::IDENTIFIER @0 'test'",
           "TOKEN::STRING_SINGLE_QUOTE_START @4 '\''",
           "TOKEN::STRING_CHARACTERS @5 'string'",
           "TOKEN::STRING_SINGLE_QUOTE_END @11 '\''"
@@ -542,7 +542,7 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         'div#id.class1.class2:not(.title)',
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'div'",
+          "TOKEN::IDENTIFIER @0 'div'",
           "TOKEN::SIMPE_SELECTOR_ID @3 '#id'",
           "TOKEN::SIMPLESELECTOR_CLASS @6 '.class1'",
           "TOKEN::SIMPLESELECTOR_CLASS @13 '.class2'",
@@ -555,17 +555,17 @@ class PhpCssScannerTest extends PhpCssTestCase {
       array(
         "div > span",
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'div'",
+          "TOKEN::IDENTIFIER @0 'div'",
           "TOKEN::SELECTOR_COMBINATOR @3 ' > '",
-          "TOKEN::SIMPLESELECTOR_TYPE @6 'span'"
+          "TOKEN::IDENTIFIER @6 'span'"
         )
       ),
       array(
         "div span",
         array(
-          "TOKEN::SIMPLESELECTOR_TYPE @0 'div'",
+          "TOKEN::IDENTIFIER @0 'div'",
           "TOKEN::WHITESPACE @3 ' '",
-          "TOKEN::SIMPLESELECTOR_TYPE @4 'span'"
+          "TOKEN::IDENTIFIER @4 'span'"
         )
       ),
     );

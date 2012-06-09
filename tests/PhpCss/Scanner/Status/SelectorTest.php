@@ -72,7 +72,7 @@ class PhpCssScannerStatusSelectorTest extends PhpCssTestCase {
       ),
       'type selector' => array(
         'tag',
-        new PhpCssScannerToken(PhpCssScannerToken::TYPE_SELECTOR, "tag", 0)
+        new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, "tag", 0)
       ),
       'id selector' => array(
         '#id',
