@@ -69,6 +69,21 @@ class PhpCssAstVisitorCss extends PhpCssAstVisitorOverload {
   }
 
   /**
+  * Output the universal selector to the buffer
+  *
+  * @param PhpCssAstSelectorSimpleUniversal $type
+  * @return boolean
+  */
+  public function visitSelectorSimpleUniversal(PhpCssAstSelectorSimpleUniversal $universal) {
+    if (!empty($universal->namespacePrefix) && $universal->namespacePrefix != '*') {
+      $this->_buffer .= $universal->namespacePrefix.'|*';
+    } else {
+      $this->_buffer .= '*';
+    }
+    return TRUE;
+  }
+
+  /**
   * Output the type selector to the buffer
   *
   * @param PhpCssAstSelectorSimpleType $type

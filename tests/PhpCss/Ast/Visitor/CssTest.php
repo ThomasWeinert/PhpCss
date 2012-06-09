@@ -37,6 +37,16 @@ class PhpCssAstVisitorCssTest extends PhpCssTestCase {
   public static function provideExamples() {
     return array(
       array(
+        'ns|*',
+        new PhpCssAstSelectorSequenceList(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(new PhpCssAstSelectorSimpleUniversal('ns'))
+            )
+          )
+        )
+      ),
+      array(
         'element, #id, .class',
         new PhpCssAstSelectorSequenceList(
           array(

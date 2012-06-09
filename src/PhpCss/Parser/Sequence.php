@@ -85,7 +85,11 @@ class PhpCssParserSequence extends PhpCssParser {
 	      $prefix = '*';
 	      $name = $token->content;
 	    }
-	    return new PhpCssAstSelectorSimpleType($name, $prefix);
+	    if ($name == '*') {
+	      return new PhpCssAstSelectorSimpleUniversal($prefix);
+	    } else {
+	      return new PhpCssAstSelectorSimpleType($name, $prefix);
+	    }
     case PhpCssScannerToken::ID_SELECTOR :
       return new PhpCssAstSelectorSimpleId(substr($token->content, 1));
     case PhpCssScannerToken::CLASS_SELECTOR :

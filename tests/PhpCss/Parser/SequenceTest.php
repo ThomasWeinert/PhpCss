@@ -45,6 +45,18 @@ class PhpCssParserSequenceTest extends PhpCssTestCase {
 
   public static function provideParseData() {
     return array(
+      'universal with namespace' => array(
+        new PhpCssAstSelectorSequence(
+          array(new PhpCssAstSelectorSimpleUniversal('ns'))
+        ),
+        array(
+          new PhpCssScannerToken(
+            PhpCssScannerToken::TYPE_SELECTOR,
+            'ns|*',
+            0
+          )
+        )
+      ),
       'element' => array(
         new PhpCssAstSelectorSequence(
           array(new PhpCssAstSelectorSimpleType('element'))
