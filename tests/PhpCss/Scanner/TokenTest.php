@@ -22,10 +22,10 @@ require_once(dirname(__FILE__).'/../TestCase.php');
 */
 class PhpCssScannerTokenTest extends PhpCssTestCase {
 
-	/**
+  /**
   * @covers PhpCssScannerToken::__construct
   * @covers PhpCssScannerToken::__get
-	*/
+  */
   public function testAttributeTypeRead() {
     $token = new PhpCssScannerToken(PhpCssScannerToken::STRING_CHARACTERS, 'hello', 42);
     $this->assertEquals(

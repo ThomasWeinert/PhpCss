@@ -30,11 +30,11 @@ class PhpCssParserSequence extends PhpCssParser {
     $sequence = new PhpCssAstSelectorSequence();
     $token = $this->read(
       array(
-		    PhpCssScannerToken::TYPE_SELECTOR,
-		    PhpCssScannerToken::ID_SELECTOR,
-		    PhpCssScannerToken::CLASS_SELECTOR,
-			  PhpCssScannerToken::PSEUDO_CLASS,
-			  PhpCssScannerToken::ATTRIBUTE_SELECTOR_START
+        PhpCssScannerToken::TYPE_SELECTOR,
+        PhpCssScannerToken::ID_SELECTOR,
+        PhpCssScannerToken::CLASS_SELECTOR,
+        PhpCssScannerToken::PSEUDO_CLASS,
+        PhpCssScannerToken::ATTRIBUTE_SELECTOR_START
       )
     );
     while (isset($token)) {
@@ -57,20 +57,20 @@ class PhpCssParserSequence extends PhpCssParser {
         );
         return $sequence;
       }
-    	if ($this->endOfTokens()) {
-    		$token = NULL;
-    		continue;
-    	}
-	    $token = $this->read(
-	      array(
-			    PhpCssScannerToken::ID_SELECTOR,
-			    PhpCssScannerToken::CLASS_SELECTOR,
-			    PhpCssScannerToken::PSEUDO_CLASS,
-			    PhpCssScannerToken::ATTRIBUTE_SELECTOR_START,
-			    PhpCssScannerToken::COMBINATOR,
-			    PhpCssScannerToken::WHITESPACE,
-		      PhpCssScannerToken::SEPARATOR
-	      )
+      if ($this->endOfTokens()) {
+        $token = NULL;
+        continue;
+      }
+      $token = $this->read(
+        array(
+          PhpCssScannerToken::ID_SELECTOR,
+          PhpCssScannerToken::CLASS_SELECTOR,
+          PhpCssScannerToken::PSEUDO_CLASS,
+          PhpCssScannerToken::ATTRIBUTE_SELECTOR_START,
+          PhpCssScannerToken::COMBINATOR,
+          PhpCssScannerToken::WHITESPACE,
+          PhpCssScannerToken::SEPARATOR
+        )
       );
     }
     return $sequence;
@@ -79,17 +79,17 @@ class PhpCssParserSequence extends PhpCssParser {
   private function createSelector(PhpCssScannerToken $token) {
     switch ($token->type) {
     case PhpCssScannerToken::TYPE_SELECTOR :
-	    if (FALSE !== strpos($token->content, '|')) {
-	      list($prefix, $name) = explode('|', $token->content);
-	    } else {
-	      $prefix = '*';
-	      $name = $token->content;
-	    }
-	    if ($name == '*') {
-	      return new PhpCssAstSelectorSimpleUniversal($prefix);
-	    } else {
-	      return new PhpCssAstSelectorSimpleType($name, $prefix);
-	    }
+      if (FALSE !== strpos($token->content, '|')) {
+        list($prefix, $name) = explode('|', $token->content);
+      } else {
+        $prefix = '*';
+        $name = $token->content;
+      }
+      if ($name == '*') {
+        return new PhpCssAstSelectorSimpleUniversal($prefix);
+      } else {
+        return new PhpCssAstSelectorSimpleType($name, $prefix);
+      }
     case PhpCssScannerToken::ID_SELECTOR :
       return new PhpCssAstSelectorSimpleId(substr($token->content, 1));
     case PhpCssScannerToken::CLASS_SELECTOR :

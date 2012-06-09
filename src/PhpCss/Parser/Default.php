@@ -17,12 +17,12 @@
 */
 class PhpCssParserDefault extends PhpCssParser {
 
-	/**
-	* Tokens that start a sequence, if anything except whitespaces
-	* is found it delegates to the sequence parser
-	*
-	* @var array
-	*/
+  /**
+  * Tokens that start a sequence, if anything except whitespaces
+  * is found it delegates to the sequence parser
+  *
+  * @var array
+  */
   private $_expectedTokens = array(
     PhpCssScannerToken::WHITESPACE,
     PhpCssScannerToken::TYPE_SELECTOR,
