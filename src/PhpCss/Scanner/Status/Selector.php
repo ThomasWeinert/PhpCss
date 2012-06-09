@@ -39,6 +39,7 @@ class PhpCssScannerStatusSelector extends PhpCssScannerStatus {
     PhpCssScannerToken::CLASS_SELECTOR => PhpCssScannerPatterns::CLASS_SELECTOR,
     PhpCssScannerToken::ID_SELECTOR => PhpCssScannerPatterns::ID_SELECTOR,
     PhpCssScannerToken::PSEUDO_CLASS => PhpCssScannerPatterns::PSEUDO_CLASS,
+    PhpCssScannerToken::PSEUDO_CLASS_POSITION => PhpCssScannerPatterns::PSEUDO_CLASS_POSITION,
     PhpCssScannerToken::PSEUDO_ELEMENT => PhpCssScannerPatterns::PSEUDO_ELEMENT,
     PhpCssScannerToken::WHITESPACE => PhpCssScannerPatterns::WHITESPACE,
     PhpCssScannerToken::NUMBER => PhpCssScannerPatterns::NUMBER,

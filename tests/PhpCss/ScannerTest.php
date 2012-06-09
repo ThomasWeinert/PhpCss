@@ -522,6 +522,67 @@ class PhpCssScannerTest extends PhpCssTestCase {
           "TOKEN::IDENTIFIER @4 'F'"
         )
       ),
+      // CSS 3 specification - nth parameters
+      array(
+        "tr:nth-child(2n+1)",
+        array(
+          "TOKEN::IDENTIFIER @0 'tr'",
+          "TOKEN::PSEUDOCLASS @2 ':nth-child'",
+          "TOKEN::PARENTHESES_START @12 '('",
+          "TOKEN::PSEUDOCLASS_POSITION @13 '2n+1'",
+          "TOKEN::PARENTHESES_END @17 ')'"
+        )
+      ),
+      array(
+        "tr:nth-child(odd)",
+        array(
+          "TOKEN::IDENTIFIER @0 'tr'",
+          "TOKEN::PSEUDOCLASS @2 ':nth-child'",
+          "TOKEN::PARENTHESES_START @12 '('",
+          "TOKEN::IDENTIFIER @13 'odd'",
+          "TOKEN::PARENTHESES_END @16 ')'"
+        )
+      ),
+      array(
+        "tr:nth-child(2n+0)",
+        array(
+          "TOKEN::IDENTIFIER @0 'tr'",
+          "TOKEN::PSEUDOCLASS @2 ':nth-child'",
+          "TOKEN::PARENTHESES_START @12 '('",
+          "TOKEN::PSEUDOCLASS_POSITION @13 '2n+0'",
+          "TOKEN::PARENTHESES_END @17 ')'"
+        )
+      ),
+      array(
+        "tr:nth-child(even)",
+        array(
+          "TOKEN::IDENTIFIER @0 'tr'",
+          "TOKEN::PSEUDOCLASS @2 ':nth-child'",
+          "TOKEN::PARENTHESES_START @12 '('",
+          "TOKEN::IDENTIFIER @13 'even'",
+          "TOKEN::PARENTHESES_END @17 ')'"
+        )
+      ),
+      array(
+        "tr:nth-child(10n-1)",
+        array(
+          "TOKEN::IDENTIFIER @0 'tr'",
+          "TOKEN::PSEUDOCLASS @2 ':nth-child'",
+          "TOKEN::PARENTHESES_START @12 '('",
+          "TOKEN::PSEUDOCLASS_POSITION @13 '10n-1'",
+          "TOKEN::PARENTHESES_END @18 ')'"
+        )
+      ),
+      array(
+        "tr:nth-child(10n+9)",
+        array(
+          "TOKEN::IDENTIFIER @0 'tr'",
+          "TOKEN::PSEUDOCLASS @2 ':nth-child'",
+          "TOKEN::PARENTHESES_START @12 '('",
+          "TOKEN::PSEUDOCLASS_POSITION @13 '10n+9'",
+          "TOKEN::PARENTHESES_END @18 ')'"
+        )
+      ),
 
       // individual
       array(
