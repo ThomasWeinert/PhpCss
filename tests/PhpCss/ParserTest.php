@@ -191,6 +191,50 @@ class PhpCssParserTest extends PhpCssTestCase {
   }
 
   /**
+  * @covers PhpCssParser::ignore
+  */
+  public function testIgnoreExpectingTrue() {
+    $tokens = array(
+      new PhpCssScannerToken(PhpCssScannerToken::WHITESPACE, ' ', 0),
+      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 1)
+    );
+    $parser = $this->getParserFixture($tokens);
+    $this->assertTrue(
+      $parser->ignore(PhpCssScannerToken::WHITESPACE)
+    );
+  }
+
+  /**
+  * @covers PhpCssParser::ignore
+  */
+  public function testIgnoreMultipleTokensExpectingTrue() {
+    $tokens = array(
+      new PhpCssScannerToken(PhpCssScannerToken::WHITESPACE, ' ', 0),
+      new PhpCssScannerToken(PhpCssScannerToken::WHITESPACE, ' ', 1),
+      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 2)
+    );
+    $parser = $this->getParserFixture($tokens);
+    $this->assertTrue(
+      $parser->ignore(
+        PhpCssScannerToken::WHITESPACE
+      )
+    );
+  }
+
+  /**
+  * @covers PhpCssParser::ignore
+  */
+  public function testIgnoreExpectingFalse() {
+    $tokens = array(
+      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)
+    );
+    $parser = $this->getParserFixture($tokens);
+    $this->assertFalse(
+      $parser->ignore(PhpCssScannerToken::WHITESPACE)
+    );
+  }
+
+  /**
   * @covers PhpCssParser::delegate
   */
   public function testDelegate() {

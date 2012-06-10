@@ -46,6 +46,15 @@ class PhpCssParserMock extends PhpCssParser {
   }
 
   /**
+  * This function can be made public for testing because it is supposed to
+  * be used by every subparser and we just expose it to be able to call it
+  * during test without different mocks.
+  */
+  public function ignore($expectedTokens) {
+    return parent::ignore($expectedTokens);
+  }
+
+  /**
    * This function can be made public for testing because it is supposed to
    * be used by every subparser and we just expose it to be able to call it
    * during test without different mocks.

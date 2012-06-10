@@ -138,10 +138,63 @@ abstract class PhpCssParser {
     return $this->handleMismatch($expectedTokens, $position);
   }
 
+  /**
+  * Validate if the of the tokenstream is reached. The position parameter
+  * may be provided to look forward.
+  *
+  * @param array|scalar $expectedTokens
+  * @return PhpCssScannerToken|NULL
+  */
   protected function endOfTokens($position = 0) {
     return (count($this->_tokens) <= $position);
   }
 
+  /**
+  * Try to read any of the $expectedTokens from the token list reove them from
+  * the token stream.
+  *
+  * This method tries to match the current token list against all of the
+  * provided tokens. Matching tokens are removed from the lsit until a non
+  * matching token is found or the token list ends.
+  *
+  * The $expectedTokens parameter may be an array of tokens or a scalar
+  * value, which is handled the same way an array with only one entry would
+  * be.
+  *
+  * The special Token PhpCssScannerToken::ANY is not valid here.
+  *
+  * The method return TRUE if tokens were removed, otherwise FALSE.
+  *
+  * @param array|scalar $expectedTokens
+  * @param boolean
+  */
+  protected function ignore($expectedTokens) {
+    // Allow scalar token values for better readability
+    if (!is_array($expectedTokens)) {
+      return $this->ignore(array($expectedTokens));
+    }
+
+    // increase position until the end of the tokenstream is reached or
+    // a non matching token is found
+    $position = 0;
+    while (count($this->_tokens) > $position) {
+      foreach($expectedTokens as $token) {
+        if ($this->matchToken($position, $token)) {
+          ++$position;
+          continue;
+        }
+      }
+      break;
+    }
+
+    // remove the tokens from the stream
+    if ($position > 0) {
+      array_splice($this->_tokens, 0, $position);
+      return TRUE;
+    } else {
+      return FALSE;
+    }
+  }
 
   /**
    * Delegate the parsing process to a subparser
