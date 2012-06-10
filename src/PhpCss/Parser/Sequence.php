@@ -34,6 +34,7 @@ class PhpCssParserSequence extends PhpCssParser {
         PhpCssScannerToken::ID_SELECTOR,
         PhpCssScannerToken::CLASS_SELECTOR,
         PhpCssScannerToken::PSEUDO_CLASS,
+        PhpCssScannerToken::PSEUDO_ELEMENT,
         PhpCssScannerToken::ATTRIBUTE_SELECTOR_START
       )
     );
@@ -45,7 +46,10 @@ class PhpCssParserSequence extends PhpCssParser {
       case PhpCssScannerToken::SEPARATOR :
         return $sequence;
       case PhpCssScannerToken::PSEUDO_CLASS :
-        throw new LogicException('Implementation incomplete');
+        $sequence->simples[] = $this->createPseudoClass($token);
+        break;
+      case PhpCssScannerToken::PSEUDO_ELEMENT :
+        $sequence->simples[] = $this->createPseudoElement($token);
         break;
       case PhpCssScannerToken::ATTRIBUTE_SELECTOR_START :
         $sequence->simples[] = $this->delegate('PhpCssParserAttribute');
@@ -66,6 +70,7 @@ class PhpCssParserSequence extends PhpCssParser {
           PhpCssScannerToken::ID_SELECTOR,
           PhpCssScannerToken::CLASS_SELECTOR,
           PhpCssScannerToken::PSEUDO_CLASS,
+          PhpCssScannerToken::PSEUDO_ELEMENT,
           PhpCssScannerToken::ATTRIBUTE_SELECTOR_START,
           PhpCssScannerToken::COMBINATOR,
           PhpCssScannerToken::WHITESPACE,
@@ -112,6 +117,43 @@ class PhpCssParserSequence extends PhpCssParser {
     default :
       return new PhpCssAstSelectorCombinatorDescendant($sequence);
     }
+  }
+
+  private function createPseudoClass($token) {
+    $name = substr($token->content, 1);
+    switch ($name) {
+    case 'root' :
+    case 'first-child' :
+    case 'last-child' :
+    case 'first-of-type' :
+    case 'last-of-type' :
+    case 'only-child' :
+    case 'only-of-type' :
+    case 'empty' :
+    case 'link' :
+    case 'visited' :
+    case 'active' :
+    case 'hover' :
+    case 'focus' :
+    case 'target' :
+    case 'enabled' :
+    case 'disabled' :
+    case 'checked' :
+      return new PhpCssAstSelectorSimplePseudoClass($name);
+    }
+    throw new PhpCssExceptionUnknownPseudoClass($token);
+  }
+
+  private function createPseudoElement($token) {
+    $name = substr($token->content, 2);
+    switch ($name) {
+    case 'first-line' :
+    case 'first-letter' :
+    case 'after' :
+    case 'before' :
+      return new PhpCssAstSelectorSimplePseudoElement($name);
+    }
+    throw new PhpCssExceptionUnknownPseudoElement($token);
   }
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-class PhpCssAstSelectorSimplePseudoClass extends PhpCssAstSelectorSimplePseudo {
+class PhpCssAstSelectorSimplePseudoElement extends PhpCssAstSelectorSimplePseudo {
 
   public $name = '';
 

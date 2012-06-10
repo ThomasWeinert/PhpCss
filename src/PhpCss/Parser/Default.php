@@ -29,6 +29,7 @@ class PhpCssParserDefault extends PhpCssParser {
     PhpCssScannerToken::ID_SELECTOR,
     PhpCssScannerToken::CLASS_SELECTOR,
     PhpCssScannerToken::PSEUDO_CLASS,
+    PhpCssScannerToken::PSEUDO_ELEMENT,
     PhpCssScannerToken::ATTRIBUTE_SELECTOR_START
   );
 

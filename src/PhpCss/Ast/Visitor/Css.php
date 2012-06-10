@@ -177,6 +177,18 @@ class PhpCssAstVisitorCss extends PhpCssAstVisitorOverload {
     return TRUE;
   }
 
+  public function visitSelectorSimplePseudoClass(
+    PhpCssAstSelectorSimplePseudoClass $class
+  ) {
+    $this->_buffer .= ':'.$class->name;
+  }
+
+  public function visitSelectorSimplePseudoElement(
+    PhpCssAstSelectorSimplePseudoElement $element
+  ) {
+    $this->_buffer .= '::'.$element->name;
+  }
+
   private function quoteString($string) {
     return '"'.str_replace(array('\\', '"'), array('\\\\', '\\"'), $string).'"';
   }
