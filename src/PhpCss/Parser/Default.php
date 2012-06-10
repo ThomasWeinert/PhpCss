@@ -24,7 +24,7 @@ class PhpCssParserDefault extends PhpCssParser {
   * @var array
   */
   private $_expectedTokens = array(
-    PhpCssScannerToken::WHITESPACE,
+    phpCssScannerToken::WHITESPACE,
     PhpCssScannerToken::IDENTIFIER,
     PhpCssScannerToken::ID_SELECTOR,
     PhpCssScannerToken::CLASS_SELECTOR,
@@ -41,6 +41,7 @@ class PhpCssParserDefault extends PhpCssParser {
   */
   public function parse() {
     $list = new PhpCssAstSelectorSequenceList();
+    $this->ignore(PhpCssScannerToken::WHITESPACE);
     while (!$this->endOfTokens()) {
       $currentToken = $this->lookahead($this->_expectedTokens);
       if ($currentToken->type == phpCssScannerToken::WHITESPACE) {

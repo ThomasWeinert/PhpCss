@@ -202,6 +202,7 @@ class PhpCssParserTest extends PhpCssTestCase {
     $this->assertTrue(
       $parser->ignore(PhpCssScannerToken::WHITESPACE)
     );
+    $this->assertTrue($parser->endOfTokens(1));
   }
 
   /**
@@ -219,6 +220,7 @@ class PhpCssParserTest extends PhpCssTestCase {
         PhpCssScannerToken::WHITESPACE
       )
     );
+    $this->assertTrue($parser->endOfTokens(1));
   }
 
   /**
@@ -232,6 +234,7 @@ class PhpCssParserTest extends PhpCssTestCase {
     $this->assertFalse(
       $parser->ignore(PhpCssScannerToken::WHITESPACE)
     );
+    $this->assertTrue($parser->endOfTokens(1));
   }
 
   /**

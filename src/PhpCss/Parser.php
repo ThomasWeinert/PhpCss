@@ -178,13 +178,17 @@ abstract class PhpCssParser {
     // a non matching token is found
     $position = 0;
     while (count($this->_tokens) > $position) {
-      foreach($expectedTokens as $token) {
-        if ($this->matchToken($position, $token)) {
+      foreach ($expectedTokens as $token) {
+        if ($found = $this->matchToken($position, $token)) {
           ++$position;
           continue;
         }
       }
-      break;
+      if ($found) {
+        continue;
+      } else {
+        break;
+      }
     }
 
     // remove the tokens from the stream
