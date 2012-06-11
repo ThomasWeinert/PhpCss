@@ -28,6 +28,8 @@ return array(
   'PhpCssAstSelectorSimpleId' => $path.'/Ast/Selector/Simple/Id.php',
   'PhpCssAstSelectorSimplePseudo' => $path.'/Ast/Selector/Simple/Pseudo.php',
   'PhpCssAstSelectorSimplePseudoClass' => $path.'/Ast/Selector/Simple/Pseudo/Class.php',
+  'PhpCssAstSelectorSimplePseudoClassPosition' =>
+    $path.'/Ast/Selector/Simple/Pseudo/Class/Position.php',
   'PhpCssAstSelectorSimplePseudoElement' => $path.'/Ast/Selector/Simple/Pseudo/Element.php',
   'PhpCssAstSelectorSimplePseudoNegation' => $path.'/Ast/Selector/Simple/Pseudo/Negation.php',
   'PhpCssAstSelectorSimpleType' => $path.'/Ast/Selector/Simple/Type.php',
@@ -45,6 +47,7 @@ return array(
   'PhpCssParser' => $path.'/Parser.php',
   'PhpCssParserAttribute' => $path.'/Parser/Attribute.php',
   'PhpCssParserDefault' => $path.'/Parser/Default.php',
+  'PhpCssParserPseudoClass' => $path.'/Parser/Pseudo/Class.php',
   'PhpCssParserSequence' => $path.'/Parser/Sequence.php',
   'PhpCssParserString' => $path.'/Parser/String.php',
   'PhpCssScanner' => $path.'/Scanner.php',
