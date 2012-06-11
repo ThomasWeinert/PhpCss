@@ -107,6 +107,7 @@ class PhpCssIntegrationTest extends PhpCssTestCase {
       array('tag#id.classOne.classTwo', 'tag#id.classOne.classTwo'),
       array('element > child', 'element > child'),
       array('element child', 'element child'),
+      //array('html|*:not(:link):not(:visited)', 'html|*:not(:link):not(:visited)')
       // optimized
       array('*', '*|*'),
       array('element', '*|element'),
