@@ -28,10 +28,11 @@ return array(
   'PhpCssAstSelectorSimpleId' => $path.'/Ast/Selector/Simple/Id.php',
   'PhpCssAstSelectorSimplePseudo' => $path.'/Ast/Selector/Simple/Pseudo.php',
   'PhpCssAstSelectorSimplePseudoClass' => $path.'/Ast/Selector/Simple/Pseudo/Class.php',
+  'PhpCssAstSelectorSimplePseudoClassLanguage' =>
+    $path.'/Ast/Selector/Simple/Pseudo/Class/Language.php',
   'PhpCssAstSelectorSimplePseudoClassPosition' =>
     $path.'/Ast/Selector/Simple/Pseudo/Class/Position.php',
   'PhpCssAstSelectorSimplePseudoElement' => $path.'/Ast/Selector/Simple/Pseudo/Element.php',
-  'PhpCssAstSelectorSimplePseudoNegation' => $path.'/Ast/Selector/Simple/Pseudo/Negation.php',
   'PhpCssAstSelectorSimpleType' => $path.'/Ast/Selector/Simple/Type.php',
   'PhpCssAstSelectorSimpleUniversal' => $path.'/Ast/Selector/Simple/Universal.php',
   'PhpCssAstVisitor' => $path.'/Ast/Visitor.php',

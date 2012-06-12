@@ -183,6 +183,37 @@ class PhpCssAstVisitorCss extends PhpCssAstVisitorOverload {
     $this->_buffer .= ':'.$class->name;
   }
 
+  public function visitEnterSelectorSimplePseudoClass(
+    PhpCssAstSelectorSimplePseudoClass $class
+  ) {
+    $this->_buffer .= ':'.$class->name.'(';
+  }
+
+  public function visitLeaveSelectorSimplePseudoClass(
+    PhpCssAstSelectorSimplePseudoClass $class
+  ) {
+    $this->_buffer .= ')';
+  }
+
+  public function visitSelectorSimplePseudoClassPosition(
+    PhpCssAstSelectorSimplePseudoClassPosition $position
+  ) {
+    if ($position->repeat == 0) {
+      $this->_buffer .= $position->add;
+    } elseif ($position->repeat == 1) {
+      $this->_buffer .= 'n';
+      if ($position->add != 0) {
+        $this->_buffer .= $position->add;
+      }
+    }
+  }
+
+  public function visitSelectorSimplePseudoClassLanguage(
+    PhpCssAstSelectorSimplePseudoClassLanguage $language
+  ) {
+    $this->_buffer .= ':lang('.$language->language.')';
+  }
+
   public function visitSelectorSimplePseudoElement(
     PhpCssAstSelectorSimplePseudoElement $element
   ) {

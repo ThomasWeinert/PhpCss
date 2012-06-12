@@ -68,17 +68,17 @@ class PhpCssParserPseudoClass extends PhpCssParser {
         case PhpCssScannerToken::ID_SELECTOR :
         case PhpCssScannerToken::CLASS_SELECTOR :
           $this->read($parameterToken->type);
-          $parameter = $this->createSelector($token);
+          $parameter = $this->createSelector($parameterToken);
           break;
         case PhpCssScannerToken::PSEUDO_CLASS :
-          if ($token->content == ':not') {
+          if ($parameterToken->content == ':not') {
             throw new LogicException('not not allowed in not - @todo implement exception');
           }
-          $parameter = $this->delegate(self);
+          $parameter = $this->delegate('PhpCssParserPseudoClass');
           break;
         case PhpCssScannerToken::PSEUDO_ELEMENT :
           $this->read($parameterToken->type);
-          $parameter = $this->createPseudoElement($token);
+          $parameter = $this->createPseudoElement($parameterToken);
           break;
         case PhpCssScannerToken::ATTRIBUTE_SELECTOR_START :
           $this->read($parameterToken->type);
@@ -100,7 +100,7 @@ class PhpCssParserPseudoClass extends PhpCssParser {
     switch ($name) {
     case 'not' :
       return self::PARAMETER_SIMPLE_SELECTOR;
-    case 'not' :
+    case 'lang' :
       return self::PARAMETER_IDENTIFIER;
     case 'nth-child' :
     case 'nth-last-child' :
@@ -164,7 +164,6 @@ class PhpCssParserPseudoClass extends PhpCssParser {
   }
 
   private function createPseudoClassPosition($string) {
-    var_dump('', $string);
     if ($string == 'n') {
       $position = new PhpCssAstSelectorSimplePseudoClassPosition(1, 0);
     } elseif ($string == 'odd') {

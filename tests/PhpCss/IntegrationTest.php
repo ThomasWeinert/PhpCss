@@ -54,10 +54,10 @@ class PhpCssIntegrationTest extends PhpCssTestCase {
       array('E[foo|="bar"]', 'E[foo|="bar"]'),
       // CSS 3 specification - structural pseudo classes
       array('E:root', 'E:root'),
-      //array('E:nth-child(42)', 'E:nth-child(42)'),
-      //array('E:nth-last-child(42)', 'E:nth-last-child(42)'),
-      //array('E:nth-of-type(42)', 'E:nth-of-type(42)'),
-      //array('E:nth-last-of-type(42)', 'E:nth-last-of-type(42)'),
+      array('E:nth-child(42)', 'E:nth-child(42)'),
+      array('E:nth-last-child(42)', 'E:nth-last-child(42)'),
+      array('E:nth-of-type(42)', 'E:nth-of-type(42)'),
+      array('E:nth-last-of-type(42)', 'E:nth-last-of-type(42)'),
       array('E:first-child', 'E:first-child'),
       array('E:last-child', 'E:last-child'),
       array('E:first-of-type', 'E:first-of-type'),
@@ -75,7 +75,7 @@ class PhpCssIntegrationTest extends PhpCssTestCase {
       // CSS 3 specification - target pseudo class
       array('E:target', 'E:target'),
       // CSS 3 specification - language pseudo class
-      //array('E:lang(fr)'. 'E:lang(fr)'),
+      array('E:lang(fr)', 'E:lang(fr)'),
       // CSS 3 specification - ui element states pseudo classes
       array('E:enabled', 'E:enabled'),
       array('E:disabled', 'E:disabled'),
@@ -90,7 +90,7 @@ class PhpCssIntegrationTest extends PhpCssTestCase {
       // CSS 3 specification - id selector
       array('E#myid', 'E#myid'),
       // CSS 3 specification - negation pseudo class
-      //array('E:not(s)', 'E:not(s)'),
+      array('E:not(s)', 'E:not(s)'),
       // CSS 3 specification - combinators
       array('E F', 'E F'),
       array('E > F', 'E > F'),
@@ -107,7 +107,7 @@ class PhpCssIntegrationTest extends PhpCssTestCase {
       array('tag#id.classOne.classTwo', 'tag#id.classOne.classTwo'),
       array('element > child', 'element > child'),
       array('element child', 'element child'),
-      //array('html|*:not(:link):not(:visited)', 'html|*:not(:link):not(:visited)')
+      array('html|*:not(:link):not(:visited)', 'html|*:not(:link):not(:visited)'),
       // optimized
       array('*', '*|*'),
       array('element', '*|element'),

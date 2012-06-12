@@ -1,6 +1,6 @@
 <?php
 
-class PhpCssAstSelectorSimplePseudoClassPosition {
+class PhpCssAstSelectorSimplePseudoClassPosition extends PhpCssAst {
 
   public $repeat = 0;
   public $add = 0;
