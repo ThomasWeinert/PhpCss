@@ -2,7 +2,7 @@ PhpCss - PHP CSS Parser Library
 
 License:   The MIT License
 Copyright: 2010-2012 PhpCss Team
-Authors:   Benjamin Eberlein, 
+Authors:   Benjamin Eberlei, 
            Bastian Feder,
            Jakob Westhoff,
            Thomas Weinert
