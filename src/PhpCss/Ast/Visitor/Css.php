@@ -198,7 +198,11 @@ class PhpCssAstVisitorCss extends PhpCssAstVisitorOverload {
   public function visitSelectorSimplePseudoClassPosition(
     PhpCssAstSelectorSimplePseudoClassPosition $position
   ) {
-    if ($position->repeat == 0) {
+    if ($position->repeat == 2 && $position->add == 1) {
+      $this->_buffer .= 'odd';
+    } elseif ($position->repeat == 2 && $position->add == 0) {
+      $this->_buffer .= 'even';
+    } elseif ($position->repeat == 0) {
       $this->_buffer .= $position->add;
     } elseif ($position->repeat == 1) {
       $this->_buffer .= 'n';

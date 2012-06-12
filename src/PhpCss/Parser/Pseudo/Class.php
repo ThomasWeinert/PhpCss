@@ -164,6 +164,7 @@ class PhpCssParserPseudoClass extends PhpCssParser {
   }
 
   private function createPseudoClassPosition($string) {
+    $string = str_replace(' ', '', $string);
     if ($string == 'n') {
       $position = new PhpCssAstSelectorSimplePseudoClassPosition(1, 0);
     } elseif ($string == 'odd') {
@@ -172,7 +173,7 @@ class PhpCssParserPseudoClass extends PhpCssParser {
       $position = new PhpCssAstSelectorSimplePseudoClassPosition(2, 0);
     } elseif (preg_match('(^[+-]?\d+$)D', $string)) {
       $position = new PhpCssAstSelectorSimplePseudoClassPosition(0, (int)$string);
-    } elseif (preg_match('(^(?P<repeat>[+-]?\d*)n\s*(?P<add>[+-]\d+)$)D', $string, $matches)) {
+    } elseif (preg_match('(^(?P<repeat>[+-]?\d*)n(?P<add>[+-]\d+)$)D', $string, $matches)) {
       $position = new PhpCssAstSelectorSimplePseudoClassPosition(
         isset($matches['repeat']) && $matches['repeat'] != ''
           ? (int)$matches['repeat'] : 1,

@@ -629,6 +629,33 @@ class PhpCssScannerTest extends PhpCssTestCase {
           "TOKEN::IDENTIFIER @4 'span'"
         )
       ),
+      array(
+        ':nth-child(10n-1)',
+        array(
+          "TOKEN::PSEUDOCLASS @0 ':nth-child'",
+          "TOKEN::PARENTHESES_START @10 '('",
+          "TOKEN::PSEUDOCLASS_POSITION @11 '10n-1'",
+          "TOKEN::PARENTHESES_END @16 ')'"
+        )
+      ),
+      array(
+        ':nth-child( -n+ 6)',
+        array(
+          "TOKEN::PSEUDOCLASS @0 ':nth-child'",
+          "TOKEN::PARENTHESES_START @10 '('",
+          "TOKEN::PSEUDOCLASS_POSITION @11 ' -n+ 6'",
+          "TOKEN::PARENTHESES_END @17 ')'"
+        )
+      ),
+      array(
+        ':nth-child( +3n - 2 )',
+        array(
+          "TOKEN::PSEUDOCLASS @0 ':nth-child'",
+          "TOKEN::PARENTHESES_START @10 '('",
+          "TOKEN::PSEUDOCLASS_POSITION @11 ' +3n - 2 '",
+          "TOKEN::PARENTHESES_END @20 ')'"
+        )
+      )
     );
   }
 

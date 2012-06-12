@@ -108,6 +108,20 @@ class PhpCssIntegrationTest extends PhpCssTestCase {
       array('element > child', 'element > child'),
       array('element child', 'element child'),
       array('html|*:not(:link):not(:visited)', 'html|*:not(:link):not(:visited)'),
+
+      // pseudo class positions
+      array('tr:nth-child(odd)', 'tr:nth-child(2n+1)'),
+      array('tr:nth-child(odd)', 'tr:nth-child(odd)'),
+      array('tr:nth-child(even)', 'tr:nth-child(2n+0)'),
+      array('tr:nth-child(even)', 'tr:nth-child(even)'),
+      //array('p:nth-child(4n+1)', 'p:nth-child(4n+1)'),
+      //array(':nth-child(10n-1)', ':nth-child(10n-1)'),
+      //array(':nth-child(10n+9)', ':nth-child(10n+9)'),
+      array('foo:nth-child(5)', 'foo:nth-child(0n+5)'),
+      array('bar:nth-child(n)', 'bar:nth-child(1n+0)'),
+      //array(':nth-child(3n-2)', ':nth-child( +3n - 2 )'),
+      array(':nth-child(6)', ':nth-child( -n+ 6)'),
+
       // optimized
       array('*', '*|*'),
       array('element', '*|element'),

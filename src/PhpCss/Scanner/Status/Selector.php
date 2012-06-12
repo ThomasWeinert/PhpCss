@@ -35,15 +35,15 @@ class PhpCssScannerStatusSelector extends PhpCssScannerStatus {
   * @var array
   */
   protected $_tokenPatterns = array(
-    PhpCssScannerToken::COMBINATOR => PhpCssScannerPatterns::COMBINATOR,
     PhpCssScannerToken::CLASS_SELECTOR => PhpCssScannerPatterns::CLASS_SELECTOR,
     PhpCssScannerToken::ID_SELECTOR => PhpCssScannerPatterns::ID_SELECTOR,
     PhpCssScannerToken::PSEUDO_CLASS => PhpCssScannerPatterns::PSEUDO_CLASS,
     PhpCssScannerToken::PSEUDO_CLASS_POSITION => PhpCssScannerPatterns::PSEUDO_CLASS_POSITION,
     PhpCssScannerToken::PSEUDO_ELEMENT => PhpCssScannerPatterns::PSEUDO_ELEMENT,
+    PhpCssScannerToken::IDENTIFIER => PhpCssScannerPatterns::IDENTIFIER,
+    PhpCssScannerToken::COMBINATOR => PhpCssScannerPatterns::COMBINATOR,
     PhpCssScannerToken::WHITESPACE => PhpCssScannerPatterns::WHITESPACE,
-    PhpCssScannerToken::NUMBER => PhpCssScannerPatterns::NUMBER,
-    PhpCssScannerToken::IDENTIFIER => PhpCssScannerPatterns::IDENTIFIER
+    PhpCssScannerToken::NUMBER => PhpCssScannerPatterns::NUMBER
   );
 
   /**

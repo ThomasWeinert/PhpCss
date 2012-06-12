@@ -45,5 +45,5 @@ abstract class PhpCssScannerPatterns {
   const PSEUDO_ELEMENT = '(::[^\r\n\t .,#:()[\\]\\\'"]+)S';
 
   const ATTRIBUTE_OPERATOR = '([~^$*|]?=)S';
-  const PSEUDO_CLASS_POSITION = '(([-+]?\\d+n\\s*[-+]?\s*\d+))';
+  const PSEUDO_CLASS_POSITION = '(\s*([-+]?(\\d+)?n\\s*[-+]\\s*\\d+)\s*)';
 }
