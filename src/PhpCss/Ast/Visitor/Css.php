@@ -207,7 +207,14 @@ class PhpCssAstVisitorCss extends PhpCssAstVisitorOverload {
     } elseif ($position->repeat == 1) {
       $this->_buffer .= 'n';
       if ($position->add != 0) {
-        $this->_buffer .= $position->add;
+        $this->_buffer .= $position->add >= 0
+          ? '+'.$position->add : $position->add;
+      }
+    } else {
+      $this->_buffer .= $position->repeat.'n';
+      if ($position->add != 0) {
+        $this->_buffer .= $position->add >= 0
+          ? '+'.$position->add : $position->add;
       }
     }
   }
