@@ -1,6 +1,6 @@
 <?php
 /**
-* Collection of tests for the Selector Sequence List class
+* Collection of tests for the Selector Group class
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 * @copyright Copyright 2010-2012 PhpCss Team
@@ -15,7 +15,7 @@
 require_once(dirname(__FILE__).'/../../TestCase.php');
 
 /**
-* Test class for PhpCssAstSelectorSequenceList.
+* Test class for PhpCssAstSelectorGroup.
 *
 * @package PhpCss
 * @subpackage Tests
@@ -38,7 +38,7 @@ class PhpCssAstVisitorCssTest extends PhpCssTestCase {
     return array(
       array(
         'ns|*',
-        new PhpCssAstSelectorSequenceList(
+        new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
               array(new PhpCssAstSelectorSimpleUniversal('ns'))
@@ -48,7 +48,7 @@ class PhpCssAstVisitorCssTest extends PhpCssTestCase {
       ),
       array(
         'element, #id, .class',
-        new PhpCssAstSelectorSequenceList(
+        new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
               array(new PhpCssAstSelectorSimpleType('element'))
@@ -64,7 +64,7 @@ class PhpCssAstVisitorCssTest extends PhpCssTestCase {
       ),
       array(
         'element > child',
-        new PhpCssAstSelectorSequenceList(
+        new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
               array(

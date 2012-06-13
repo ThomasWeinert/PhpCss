@@ -21,7 +21,7 @@ class PhpCssAstVisitorCss extends PhpCssAstVisitorOverload {
   private $_inSelectorSequence = FALSE;
 
   /**
-  * Clear the visitor object to visit another sequence list
+  * Clear the visitor object to visit another selector group
   */
   public function clear() {
     $this->_buffer = '';
@@ -35,19 +35,19 @@ class PhpCssAstVisitorCss extends PhpCssAstVisitorOverload {
   }
 
   /**
-  * Validate the buffer before vistiting a PhpCssAstSelectorSequenceList.
+  * Validate the buffer before vistiting a PhpCssAstSelectorGroup.
   * If the buffer already contains data, throw an exception.
   *
   * @throws LogicException
-  * @param PhpCssAstSelectorSequenceList $list
+  * @param PhpCssAstSelectorGroup $group
   * @return boolean
   */
-  public function visitEnterSelectorSequenceList(PhpCssAstSelectorSequenceList $list) {
+  public function visitEnterSelectorGroup(PhpCssAstSelectorGroup $group) {
     if (!empty($this->_buffer)) {
       throw new LogicException(
         sprintf(
           'Visitor buffer already contains data, can not visit "%s"',
-          get_class($list)
+          get_class($group)
         )
       );
     }

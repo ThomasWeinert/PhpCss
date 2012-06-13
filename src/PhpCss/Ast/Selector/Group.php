@@ -21,7 +21,7 @@
 * @package PhpCss
 * @subpackage Ast
 */
-class PhpCssAstSelectorSequenceList
+class PhpCssAstSelectorGroup
   extends PhpCssAstSelector
   implements ArrayAccess, Countable, IteratorAggregate {
 

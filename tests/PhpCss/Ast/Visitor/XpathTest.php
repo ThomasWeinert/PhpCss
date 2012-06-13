@@ -38,7 +38,7 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
     return array(
       'element, #id' => array(
         '*[local-name() = "element"]|*[@id = "#id]',
-        new PhpCssAstSelectorSequenceList(
+        new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
               array(new PhpCssAstSelectorSimpleType('element'))
@@ -51,7 +51,7 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
       ),
       'element.class' => array(
         '*[local-name() = "element"][contains(concat(" ", normalize-space(@class), " "), " class ")]."',
-        new PhpCssAstSelectorSequenceList(
+        new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
               array(

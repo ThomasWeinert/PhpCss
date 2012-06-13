@@ -21,7 +21,6 @@ return array(
   'PhpCssAstSelectorCombinatorNext' => $path.'/Ast/Selector/Combinator/Next.php',
   'PhpCssAstSelectorGroup' => $path.'/Ast/Selector/Group.php',
   'PhpCssAstSelectorSequence' => $path.'/Ast/Selector/Sequence.php',
-  'PhpCssAstSelectorSequenceList' => $path.'/Ast/Selector/Sequence/List.php',
   'PhpCssAstSelectorSimple' => $path.'/Ast/Selector/Simple.php',
   'PhpCssAstSelectorSimpleAttribute' => $path.'/Ast/Selector/Simple/Attribute.php',
   'PhpCssAstSelectorSimpleClass' => $path.'/Ast/Selector/Simple/Class.php',

@@ -12,10 +12,10 @@
 /**
 * Load necessary files
 */
-require_once(dirname(__FILE__).'/../../TestCase.php');
+require_once(dirname(__FILE__).'/../TestCase.php');
 
 /**
-* Test class for PhpCssAstSelectorSequenceList.
+* Test class for PhpCssAstSelectorGroup.
 *
 * @package PhpCss
 * @subpackage Tests
@@ -23,24 +23,24 @@ require_once(dirname(__FILE__).'/../../TestCase.php');
 class PhpCssAstSelectorSequenceTest extends PhpCssTestCase {
 
   /**
-  * @covers PhpCssAstSelectorSequenceList::__construct
+  * @covers PhpCssAstSelectorGroup::__construct
   */
   public function testConstructor() {
     $this->assertInstanceOf(
-      'PhpCssAstSelectorSequenceList',
-      new PhpCssAstSelectorSequenceList()
+      'PhpCssAstSelectorGroup',
+      new PhpCssAstSelectorGroup()
     );
   }
 
   /**
-  * @covers PhpCssAstSelectorSequenceList::__construct
-  * @covers PhpCssAstSelectorSequenceList::getIterator
+  * @covers PhpCssAstSelectorGroup::__construct
+  * @covers PhpCssAstSelectorGroup::getIterator
   */
   public function testConstructorWithSequences() {
     $sequences = array(
       new PhpCssAstSelectorSequence()
     );
-    $list = new PhpCssAstSelectorSequenceList(
+    $list = new PhpCssAstSelectorGroup(
       $sequences
     );
     $this->assertSame(
@@ -49,10 +49,10 @@ class PhpCssAstSelectorSequenceTest extends PhpCssTestCase {
   }
 
   /**
-  * @covers PhpCssAstSelectorSequenceList::__offsetExists
+  * @covers PhpCssAstSelectorGroup::__offsetExists
   */
   public function testOffsetExistsExpectingTrue() {
-    $list = new PhpCssAstSelectorSequenceList(
+    $list = new PhpCssAstSelectorGroup(
       array(
         new PhpCssAstSelectorSequence()
       )
@@ -61,18 +61,18 @@ class PhpCssAstSelectorSequenceTest extends PhpCssTestCase {
   }
 
   /**
-  * @covers PhpCssAstSelectorSequenceList::__offsetExists
+  * @covers PhpCssAstSelectorGroup::__offsetExists
   */
   public function testOffsetExistsExpectingFalse() {
-    $list = new PhpCssAstSelectorSequenceList();
+    $list = new PhpCssAstSelectorGroup();
     $this->assertFalse(isset($list[0]));
   }
 
   /**
-  * @covers PhpCssAstSelectorSequenceList::__offsetGet
+  * @covers PhpCssAstSelectorGroup::__offsetGet
   */
   public function testOffsetGet() {
-    $list = new PhpCssAstSelectorSequenceList(
+    $list = new PhpCssAstSelectorGroup(
       array(
         $sequence = new PhpCssAstSelectorSequence()
       )
@@ -81,19 +81,19 @@ class PhpCssAstSelectorSequenceTest extends PhpCssTestCase {
   }
 
   /**
-  * @covers PhpCssAstSelectorSequenceList::__offsetSet
+  * @covers PhpCssAstSelectorGroup::__offsetSet
   */
   public function testOffsetSetAppendsElement() {
-    $list = new PhpCssAstSelectorSequenceList();
+    $list = new PhpCssAstSelectorGroup();
     $list[] = $sequence = new PhpCssAstSelectorSequence();
     $this->assertSame($sequence, $list[0]);
   }
 
   /**
-  * @covers PhpCssAstSelectorSequenceList::__offsetSet
+  * @covers PhpCssAstSelectorGroup::__offsetSet
   */
   public function testOffsetSetReplacesElement() {
-    $list = new PhpCssAstSelectorSequenceList(
+    $list = new PhpCssAstSelectorGroup(
       array(
         $sequence = new PhpCssAstSelectorSequence()
       )
@@ -103,19 +103,19 @@ class PhpCssAstSelectorSequenceTest extends PhpCssTestCase {
   }
 
   /**
-  * @covers PhpCssAstSelectorSequenceList::__offsetSet
+  * @covers PhpCssAstSelectorGroup::__offsetSet
   */
   public function testOffsetSetValidatesElementExpectingException() {
-    $list = new PhpCssAstSelectorSequenceList();
+    $list = new PhpCssAstSelectorGroup();
     $this->setExpectedException('InvalidArgumentException');
     $list[] = 'INVALID TYPE';
   }
 
   /**
-  * @covers PhpCssAstSelectorSequenceList::__offsetGet
+  * @covers PhpCssAstSelectorGroup::__offsetGet
   */
   public function testOffsetUnset() {
-    $list = new PhpCssAstSelectorSequenceList(
+    $list = new PhpCssAstSelectorGroup(
       array(
         new PhpCssAstSelectorSequence()
       )

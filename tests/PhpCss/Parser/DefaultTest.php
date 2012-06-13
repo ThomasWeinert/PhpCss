@@ -35,12 +35,12 @@ class PhpCssParserDefaultTest extends PhpCssTestCase {
 
   public static function provideParseData() {
     return array(
-      'empty list' => array(
-        new PhpCssAstSelectorSequenceList(),
+      'empty group' => array(
+        new PhpCssAstSelectorGroup(),
         array()
       ),
       'element' => array(
-        new PhpCssAstSelectorSequenceList(
+        new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
               array(new PhpCssAstSelectorSimpleType('element'))
@@ -56,7 +56,7 @@ class PhpCssParserDefaultTest extends PhpCssTestCase {
         )
       ),
       'two whitespaces and an element' => array(
-        new PhpCssAstSelectorSequenceList(
+        new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
               array(new PhpCssAstSelectorSimpleType('element'))

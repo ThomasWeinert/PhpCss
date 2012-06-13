@@ -35,13 +35,13 @@ class PhpCssParserDefault extends PhpCssParser {
 
   /**
   * Start parsing looking for anything valid except whitespaces, add
-  * returned sequences to the list
+  * returned sequences to the group
   *
   * @see PhpCssParser::parse()
-  * @return PhpCssAstSelectorSequenceList
+  * @return PhpCssAstSelectorGroup
   */
   public function parse() {
-    $list = new PhpCssAstSelectorSequenceList();
+    $group = new PhpCssAstSelectorGroup();
     $this->ignore(PhpCssScannerToken::WHITESPACE);
     while (!$this->endOfTokens()) {
       $currentToken = $this->lookahead($this->_expectedTokens);
@@ -49,8 +49,8 @@ class PhpCssParserDefault extends PhpCssParser {
         $this->read(phpCssScannerToken::WHITESPACE);
         continue;
       }
-      $list[] = $this->delegate('PhpCssParserSequence');
+      $group[] = $this->delegate('PhpCssParserSequence');
     }
-    return $list;
+    return $group;
   }
 }
