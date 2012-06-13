@@ -12,7 +12,7 @@
 /**
 * Load necessary files
 */
-require_once(dirname(__FILE__).'/TestCase.php');
+require_once(dirname(__FILE__).'/../src/PhpCss.php');
 
 /**
 * Testing PhpCss usage
@@ -20,22 +20,16 @@ require_once(dirname(__FILE__).'/TestCase.php');
 * @package PhpCss
 * @subpackage Tests
 */
-class PhpCssIntegrationTest extends PhpCssTestCase {
+class PhpCssTest extends PHPUnit_Framework_TestCase {
 
   /**
   * @covers \stdClass
   * @dataProvider provideReformattedCss
   */
   public function testReformatCss($expected, $selector) {
-    $scanner = new PhpCssScanner(new PhpCssScannerStatusSelector());
-    $tokens = array();
-    $scanner->scan($tokens, $selector);
-    $parser = new PhpCssParserDefault($tokens);
-    $ast = $parser->parse();
-    $visitor = new PhpCssAstVisitorCss();
-    $ast->accept($visitor);
+    $phpCss = new PhpCss();
     $this->assertEquals(
-      $expected, (string)$visitor
+      $expected, $phpCss->reformat($selector)
     );
   }
 
