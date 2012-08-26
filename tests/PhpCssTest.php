@@ -33,6 +33,17 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
     );
   }
 
+  /**
+  * @covers \stdClass
+  * @dataProvider provideToXpath
+  */
+  public function testToXpath($expected, $selector) {
+    $phpCss = new PhpCss();
+    $this->assertEquals(
+      $expected, $phpCss->toXpath($selector)
+    );
+  }
+
   public static function provideReformattedCss() {
     return array(
       // CSS 3 specification
@@ -120,6 +131,15 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('*', '*|*'),
       array('element', '*|element'),
       array('element', ' element')
+    );
+  }
+
+  public function provideToXpath() {
+    return array(
+      array('*[local-name() = "bar"]', 'bar'),
+      array('foo:bar', 'foo|bar'),
+      array('foo:bar[@id = "ok"]', 'foo|bar#ok'),
+      array('*[local-name() = "div" and @data-plugin = "feed"]', 'div[data-plugin=feed]'),
     );
   }
 }

@@ -86,10 +86,10 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
    * @param string $literal
    */
   private function quoteLiteral($literal) {
-    if (preg_match('([\s])', $literal)) {
-      return '"'.$literal.'"';
+    if (preg_match('(["])', $literal)) {
+      return "'".$literal."'";
     } else {
-      return $literal;
+      return '"'.$literal.'"';
     }
   }
 

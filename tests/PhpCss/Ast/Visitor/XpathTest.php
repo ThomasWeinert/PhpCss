@@ -96,8 +96,8 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
           )
         )
       ),
-      '*[attr = value]' => array(
-        '*[@attr = value]',
+      '*[attr = "value"]' => array(
+        '*[@attr = "value"]',
         new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
@@ -124,8 +124,8 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
           )
         )
       ),
-      '*[starts-with(@attr, value)]' => array(
-        '*[starts-with(@attr, value)]',
+      '*[starts-with(@attr, "value")]' => array(
+        '*[starts-with(@attr, "value")]',
         new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
