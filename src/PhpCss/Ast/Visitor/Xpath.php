@@ -82,6 +82,18 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
   }
 
   /**
+   * Quote literal if needed
+   * @param string $literal
+   */
+  private function quoteLiteral($literal) {
+    if (preg_match('([\s])', $literal)) {
+      return '"'.$literal.'"';
+    } else {
+      return $literal;
+    }
+  }
+
+  /**
   * Validate the buffer before vistiting a PhpCssAstSelectorGroup.
   * If the buffer already contains data, throw an exception.
   *
@@ -158,7 +170,7 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
   */
   public function visitSelectorSimpleId(PhpCssAstSelectorSimpleId $id) {
     $this->prepareCondition();
-    $this->_buffer .= '@id = "#'.$id->id.'';
+    $this->_buffer .= '@id = "'.$id->id.'"';
     return TRUE;
   }
 
@@ -175,6 +187,30 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
       'contains(concat(" ", normalize-space(@class), " "), " %s ")',
       $class->className
     );
+    return TRUE;
+  }
+
+  public function visitSelectorSimpleAttribute(
+    PhpCssAstSelectorSimpleAttribute $attribute
+  ) {
+    $this->prepareCondition();
+    switch ($attribute->match) {
+    case PhpCssAstSelectorSimpleAttribute::MATCH_PREFIX :
+      $this->_buffer .=
+        'starts-with(@'.$attribute->name.', '.$this->quoteLiteral($attribute->literal).')';
+      break;
+    case PhpCssAstSelectorSimpleAttribute::MATCH_SUFFIX :
+      break;
+    case PhpCssAstSelectorSimpleAttribute::MATCH_SUBSTRING :
+      break;
+    case PhpCssAstSelectorSimpleAttribute::MATCH_EQUALS :
+      $this->_buffer .= '@'.$attribute->name.' = '.$this->quoteLiteral($attribute->literal);
+      break;
+    case PhpCssAstSelectorSimpleAttribute::MATCH_INCLUDES :
+      break;
+    case PhpCssAstSelectorSimpleAttribute::MATCH_DASHMATCH :
+      break;
+    }
     return TRUE;
   }
 }

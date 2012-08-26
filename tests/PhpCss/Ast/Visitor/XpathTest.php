@@ -47,7 +47,7 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
         )
       ),
       'element, #id' => array(
-        '*[local-name() = "element"]|*[@id = "#id]',
+        '*[local-name() = "element"]|*[@id = "id"]',
         new PhpCssAstSelectorGroup(
           array(
             new PhpCssAstSelectorSequence(
@@ -67,6 +67,72 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
               array(
                 new PhpCssAstSelectorSimpleType('element'),
                 new PhpCssAstSelectorSimpleClass('class')
+              )
+            )
+          )
+        )
+      ),
+      '.class' => array(
+        '*[contains(concat(" ", normalize-space(@class), " "), " class ")]',
+        new PhpCssAstSelectorGroup(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleClass('class')
+              )
+            )
+          )
+        )
+      ),
+      '#someId' => array(
+        '*[@id = "someId"]',
+        new PhpCssAstSelectorGroup(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleId('someId')
+              )
+            )
+          )
+        )
+      ),
+      '*[attr = value]' => array(
+        '*[@attr = value]',
+        new PhpCssAstSelectorGroup(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleAttribute(
+                  'attr', PhpCssAstSelectorSimpleAttribute::MATCH_EQUALS, 'value'
+                )
+              )
+            )
+          )
+        )
+      ),
+      '*[attr = "some value"]' => array(
+        '*[@attr = "some value"]',
+        new PhpCssAstSelectorGroup(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleAttribute(
+                  'attr', PhpCssAstSelectorSimpleAttribute::MATCH_EQUALS, 'some value'
+                )
+              )
+            )
+          )
+        )
+      ),
+      '*[starts-with(@attr, value)]' => array(
+        '*[starts-with(@attr, value)]',
+        new PhpCssAstSelectorGroup(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleAttribute(
+                  'attr', PhpCssAstSelectorSimpleAttribute::MATCH_PREFIX, 'value'
+                )
               )
             )
           )
