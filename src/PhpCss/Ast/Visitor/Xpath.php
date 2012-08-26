@@ -17,13 +17,43 @@
 */
 class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
 
+  const MODE_NONE = 0;
+  const MODE_IGNORE_NAMESPACES = 1;
+  const MODE_CASE_INSENSITIVE = 2;
+
+  const STATUS_DEFAULT = 0;
+  const STATUS_ELEMENT = 1;
+  const STATUS_CONDITION = 2;
+
   private $_buffer = '';
+
+  /**
+   * Current visitor status (position in expression)
+   * @var integer
+   */
+  private $_status = self::STATUS_DEFAULT;
+
+  /**
+   * Visitor mode
+   * @var integer
+   */
+  private $_mode = 0;
+
+  /**
+   * Create visitor and store mode options
+   *
+   * @param integer $mode
+   */
+  public function __construct($mode = self::MODE_NONE) {
+    $this->_mode = (int)$mode;
+  }
 
   /**
   * Clear the visitor object to visit another selector group
   */
   public function clear() {
     $this->_buffer = '';
+    $this->_status = self::STATUS_DEFAULT;
   }
 
   /**
@@ -31,6 +61,24 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
   */
   public function __toString() {
     return $this->_buffer;
+  }
+
+  /**
+   * prepare buffer to add a condition to the xpath expression
+   */
+  private function prepareCondition() {
+    switch ($this->_status) {
+    case self::STATUS_DEFAULT :
+      $this->_buffer .= '*[';
+      break;
+    case self::STATUS_ELEMENT :
+      $this->_buffer .= '[';
+      break;
+    default :
+      $this->_buffer .= ' and ';
+      break;
+    }
+    $this->_status = self::STATUS_CONDITION;
   }
 
   /**
@@ -63,7 +111,20 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
     if (!empty($this->_buffer)) {
       $this->_buffer .= '|';
     }
-    $this->_buffer .= '*';
+    return TRUE;
+  }
+
+  /**
+  * If the visitor is in the condition status, close it.
+  *
+  * @param PhpCssAstSelectorSequence $sequence
+  * @return boolean
+  */
+  public function visitLeaveSelectorSequence(PhpCssAstSelectorSequence $sequence) {
+    if ($this->_status == self::STATUS_CONDITION) {
+      $this->_buffer .= ']';
+    }
+    $this->_status = self::STATUS_DEFAULT;
     return TRUE;
   }
 
@@ -74,10 +135,17 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
   * @return boolean
   */
   public function visitSelectorSimpleType(PhpCssAstSelectorSimpleType $type) {
-    if (!empty($type->namespacePrefix) && $type->namespacePrefix != '*') {
-      $this->_buffer .= '[name() = "'.$type->namespacePrefix.':'.$type->elementName.'"]';
+    if ($this->_mode & self::MODE_IGNORE_NAMESPACES == self::MODE_IGNORE_NAMESPACES) {
+      $this->_buffer .= $type->elementName;
+      $this->_status = self::STATUS_ELEMENT;
     } else {
-      $this->_buffer .= '[local-name() = "'.$type->elementName.'"]';
+      if (!empty($type->namespacePrefix) && $type->namespacePrefix != '*') {
+        $this->_buffer .= $type->namespacePrefix.':'.$type->elementName;
+        $this->_status = self::STATUS_ELEMENT;
+      } else {
+        $this->prepareCondition();
+        $this->_buffer .= 'local-name() = "'.$type->elementName.'"';
+      }
     }
     return TRUE;
   }
@@ -89,7 +157,8 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
   * @return boolean
   */
   public function visitSelectorSimpleId(PhpCssAstSelectorSimpleId $id) {
-    $this->_buffer .= '[@id = "#'.$id->id.']';
+    $this->prepareCondition();
+    $this->_buffer .= '@id = "#'.$id->id.'';
     return TRUE;
   }
 
@@ -101,8 +170,9 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
   * @return boolean
   */
   public function visitSelectorSimpleClass(PhpCssAstSelectorSimpleClass $class) {
+    $this->prepareCondition();
     $this->_buffer .= sprintf(
-      '[contains(concat(" ", normalize-space(@class), " "), " %s ")]."',
+      'contains(concat(" ", normalize-space(@class), " "), " %s ")',
       $class->className
     );
     return TRUE;
