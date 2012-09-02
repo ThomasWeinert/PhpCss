@@ -96,7 +96,7 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
           )
         )
       ),
-      '*[attr = "value"]' => array(
+      '[attr=value]' => array(
         '*[@attr = "value"]',
         new PhpCssAstSelectorGroup(
           array(
@@ -110,7 +110,7 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
           )
         )
       ),
-      '*[attr = "some value"]' => array(
+      '[attr="some value"]' => array(
         '*[@attr = "some value"]',
         new PhpCssAstSelectorGroup(
           array(
@@ -124,7 +124,7 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
           )
         )
       ),
-      '*[starts-with(@attr, "value")]' => array(
+      '[attr^="value")]' => array(
         '*[starts-with(@attr, "value")]',
         new PhpCssAstSelectorGroup(
           array(
@@ -132,6 +132,62 @@ class PhpCssAstVisitorXpathTest extends PhpCssTestCase {
               array(
                 new PhpCssAstSelectorSimpleAttribute(
                   'attr', PhpCssAstSelectorSimpleAttribute::MATCH_PREFIX, 'value'
+                )
+              )
+            )
+          )
+        )
+      ),
+      '[attr*="value")]' => array(
+        '*[contains(@attr, "value")]',
+        new PhpCssAstSelectorGroup(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleAttribute(
+                  'attr', PhpCssAstSelectorSimpleAttribute::MATCH_SUBSTRING, 'value'
+                )
+              )
+            )
+          )
+        )
+      ),
+      '[attr~="value")]' => array(
+        '*[contains(concat(" ", normalize-space(@attr), " "), " value ")]',
+        new PhpCssAstSelectorGroup(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleAttribute(
+                  'attr', PhpCssAstSelectorSimpleAttribute::MATCH_INCLUDES, 'value'
+                )
+              )
+            )
+          )
+        )
+      ),
+      '[lang|="de")]' => array(
+        '*[(@lang = "de" or starts-with(@lang, "de-")]',
+        new PhpCssAstSelectorGroup(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleAttribute(
+                  'lang', PhpCssAstSelectorSimpleAttribute::MATCH_DASHMATCH, 'de'
+                )
+              )
+            )
+          )
+        )
+      ),
+      '[@type$="/xml")]' => array(
+        '*[substring(@type, string-length(@type) - string-length("/xml") + 1) = "/xml"]',
+        new PhpCssAstSelectorGroup(
+          array(
+            new PhpCssAstSelectorSequence(
+              array(
+                new PhpCssAstSelectorSimpleAttribute(
+                  'type', PhpCssAstSelectorSimpleAttribute::MATCH_SUFFIX, '/xml'
                 )
               )
             )

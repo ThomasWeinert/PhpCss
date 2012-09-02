@@ -194,21 +194,33 @@ class PhpCssAstVisitorXpath extends PhpCssAstVisitorOverload {
     PhpCssAstSelectorSimpleAttribute $attribute
   ) {
     $this->prepareCondition();
+    $name = '@'.$attribute->name;
+    $value = $this->quoteLiteral($attribute->literal);
     switch ($attribute->match) {
     case PhpCssAstSelectorSimpleAttribute::MATCH_PREFIX :
       $this->_buffer .=
-        'starts-with(@'.$attribute->name.', '.$this->quoteLiteral($attribute->literal).')';
+        'starts-with('.$name.', '.$value.')';
       break;
     case PhpCssAstSelectorSimpleAttribute::MATCH_SUFFIX :
+      $this->_buffer .=
+        'substring('.$name.', string-length('.$name.') - string-length('.$value.') + 1) = '.$value;
       break;
     case PhpCssAstSelectorSimpleAttribute::MATCH_SUBSTRING :
+      $this->_buffer .=
+        'contains('.$name.', '.$value.')';
       break;
     case PhpCssAstSelectorSimpleAttribute::MATCH_EQUALS :
-      $this->_buffer .= '@'.$attribute->name.' = '.$this->quoteLiteral($attribute->literal);
+      $this->_buffer .= $name.' = '.$value;
       break;
     case PhpCssAstSelectorSimpleAttribute::MATCH_INCLUDES :
+      $this->_buffer .=
+        'contains(concat(" ", normalize-space('.$name.'), " "), '.
+          $this->quoteLiteral(' '.$attribute->literal.' ').')';
       break;
     case PhpCssAstSelectorSimpleAttribute::MATCH_DASHMATCH :
+      $this->_buffer .=
+        '('.$name.' = '.$value.' or starts-with('.$name.', '.
+          $this->quoteLiteral($attribute->literal.'-').')';
       break;
     }
     return TRUE;
