@@ -1,18 +1,8 @@
 <?php
 /**
-* Testing PhpCss usage
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-
-/**
 * Load necessary files
 */
-require_once(dirname(__FILE__).'/../src/PhpCss.php');
+require_once(dirname(__FILE__).'/bootstrap.php');
 
 /**
 * Testing PhpCss usage
@@ -27,9 +17,8 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
   * @dataProvider provideReformattedCss
   */
   public function testReformatCss($expected, $selector) {
-    $phpCss = new PhpCss();
     $this->assertEquals(
-      $expected, $phpCss->reformat($selector)
+      $expected, PhpCss::reformat($selector)
     );
   }
 
@@ -38,9 +27,8 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
   * @dataProvider provideToXpath
   */
   public function testToXpath($expected, $selector) {
-    $phpCss = new PhpCss();
     $this->assertEquals(
-      $expected, $phpCss->toXpath($selector)
+      $expected, PhpCss::toXpath($selector)
     );
   }
 

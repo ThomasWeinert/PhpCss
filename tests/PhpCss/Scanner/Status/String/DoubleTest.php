@@ -1,91 +1,77 @@
 <?php
-/**
-* Collection of test for the PhpCssScannerStatusStringDouble class
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
+namespace PhpCss\Scanner\Status\String {
 
-/**
-* Load necessary files
-*/
-require_once(dirname(__FILE__).'/../../../TestCase.php');
+  use PhpCss\Scanner;
 
-/**
-* Collection of test for the PhpCssScannerStatusStringDouble class
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-class PhpCssScannerStatusStringDoubleTest extends PhpCssTestCase {
+  require_once(__DIR__.'/../../../../bootstrap.php');
 
-  /**
-  * @covers PhpCssScannerStatusStringDouble::getToken
-  * @dataProvider getTokenDataProvider
-  */
-  public function testGetToken($string, $expectedToken) {
-    $status = new PhpCssScannerStatusStringDouble();
-    $this->assertEquals(
-      $status->getToken($string, 0),
-      $expectedToken
-    );
-  }
+  class DoubleTest extends \PHPUnit_Framework_TestCase {
 
-  /**
-  * @covers PhpCssScannerStatusStringDouble::isEndToken
-  */
-  public function testIsEndToken() {
-    $status = new PhpCssScannerStatusStringDouble();
-    $this->assertTrue(
-      $status->isEndToken(
-        new PhpCssScannerToken(
-          PhpCssScannerToken::DOUBLEQUOTE_STRING_END, '"', 0
+    /**
+    * @covers PhpCss\Scanner\Status\String\Double::getToken
+    * @dataProvider getTokenDataProvider
+    */
+    public function testGetToken($string, $expectedToken) {
+      $status = new Double();
+      $this->assertEquals(
+        $status->getToken($string, 0),
+        $expectedToken
+      );
+    }
+
+    /**
+    * @covers PhpCss\Scanner\Status\String\Double::isEndToken
+    */
+    public function testIsEndToken() {
+      $status = new Double();
+      $this->assertTrue(
+        $status->isEndToken(
+          new Scanner\Token(
+            Scanner\Token::DOUBLEQUOTE_STRING_END, '"', 0
+          )
         )
-      )
-    );
-  }
-  /**
-  * @covers PhpCssScannerStatusStringDouble::getNewStatus
-  */
-  public function testGetNewStatus() {
-    $status = new PhpCssScannerStatusStringDouble();
-    $this->assertNULL(
-       $status->getNewStatus(NULL)
-    );
-  }
+      );
+    }
+    /**
+    * @covers PhpCss\Scanner\Status\String\Double::getNewStatus
+    */
+    public function testGetNewStatus() {
+      $status = new Double();
+      $this->assertNULL(
+         $status->getNewStatus($this->getMock(Scanner\Token::CLASS))
+      );
+    }
 
 
-  /*****************************
-  * Data provider
-  *****************************/
+    /*****************************
+    * Data provider
+    *****************************/
 
-  public static function getTokenDataProvider() {
-    return array(
-      'empty' => array(
-        '',
-        NULL
-      ),
-      'double quote string end' => array(
-        '"',
-        new PhpCssScannerToken(
-          PhpCssScannerToken::DOUBLEQUOTE_STRING_END, '"', 0
+    public static function getTokenDataProvider() {
+      return array(
+        'empty' => array(
+          '',
+          NULL
+        ),
+        'double quote string end' => array(
+          '"',
+          new Scanner\Token(
+            Scanner\Token::DOUBLEQUOTE_STRING_END, '"', 0
+          )
+        ),
+        'escaped backslash' => array(
+          '\\\\',
+          new Scanner\Token(
+            Scanner\Token::STRING_ESCAPED_CHARACTER, '\\\\', 0
+          )
+        ),
+        'string chars' => array(
+          'abcd',
+          new Scanner\Token(
+            Scanner\Token::STRING_CHARACTERS, 'abcd', 0
+          )
         )
-      ),
-      'escaped backslash' => array(
-        '\\\\',
-        new PhpCssScannerToken(
-          PhpCssScannerToken::STRING_ESCAPED_CHARACTER, '\\\\', 0
-        )
-      ),
-      'string chars' => array(
-        'abcd',
-        new PhpCssScannerToken(
-          PhpCssScannerToken::STRING_CHARACTERS, 'abcd', 0
-        )
-      )
-    );
+      );
+    }
   }
 }

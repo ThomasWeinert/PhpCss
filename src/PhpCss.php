@@ -3,23 +3,13 @@
 * PhpCss provides several integrative functions to use this library
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Scanner
+* @copyright Copyright 2010-2014 PhpCss Team
 */
-
-require_once(dirname(__FILE__).'/PhpCss/Loader.php');
-PhpCssLoader::addAutoloadFile(dirname(__FILE__).'/PhpCss/Loader/All.php');
-spl_autoload_register('PhpCssLoader::autoload');
 
 /**
 * PhpCss provides several integrative functions to use this library
-*
-* @package PhpCss
-* @subpackage Scanner
 */
-class PhpCss {
+abstract class PhpCss {
 
   /**
   * Parses a css selector and compiles it into an css selector again
@@ -27,9 +17,9 @@ class PhpCss {
   * @param string $cssSelector
   * @return string
   */
-  public function reformat($cssSelector) {
-    $ast = $this->getAst($cssSelector);
-    $visitor = new PhpCssAstVisitorCss();
+  public static function reformat($cssSelector) {
+    $ast = self::getAst($cssSelector);
+    $visitor = new PhpCss\Ast\Visitor\Css();
     $ast->accept($visitor);
     return (string)$visitor;
   }
@@ -40,9 +30,9 @@ class PhpCss {
   * @param string $cssSelector
   * @return string
   */
-  public function toXpath($cssSelector) {
-    $ast = $this->getAst($cssSelector);
-    $visitor = new PhpCssAstVisitorXpath();
+  public static function toXpath($cssSelector) {
+    $ast = self::getAst($cssSelector);
+    $visitor = new PhpCss\Ast\Visitor\Xpath();
     $ast->accept($visitor);
     return (string)$visitor;
   }
@@ -53,11 +43,11 @@ class PhpCss {
   * @param string $cssSelector
   * @return PhpCssAst
   */
-  public function getAst($cssSelector) {
+  public static function getAst($cssSelector) {
     $tokens = array();
-    $scanner = new PhpCssScanner(new PhpCssScannerStatusSelector());
+    $scanner = new PhpCss\Scanner(new PhpCss\Scanner\Status\Selector());
     $scanner->scan($tokens, $cssSelector);
-    $parser = new PhpCssParserDefault($tokens);
+    $parser = new PhpCss\Parser\Standard($tokens);
     return $parser->parse();
   }
 }

@@ -1,16 +1,20 @@
 <?php
+namespace PhpCss\Ast\Selector  {
 
-abstract class PhpCssAstSelectorCombinator extends PhpCssAstSelector {
+  use PhpCss\Ast;
 
-  public $sequence;
+  abstract class Combinator extends Ast\Selector {
 
-  public function __construct(PhpCssAstSelectorSequence $sequence = NULL) {
-    $this->sequence = $sequence;
-  }
+    public $sequence;
 
-  public function accept(PhpCssAstVisitor $visitor) {
-    $visitor->visitEnter($this);
-    $this->sequence->accept($visitor);
-    $visitor->visitLeave($this);
+    public function __construct(Sequence $sequence = NULL) {
+      $this->sequence = $sequence;
+    }
+
+    public function accept(Ast\Visitor $visitor) {
+      $visitor->visitEnter($this);
+      $this->sequence->accept($visitor);
+      $visitor->visitLeave($this);
+    }
   }
 }

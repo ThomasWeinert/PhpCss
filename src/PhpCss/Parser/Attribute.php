@@ -3,63 +3,63 @@
 * The attribute parser parses a simple attribute selector.
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Parser
+* @copyright Copyright 2010-2014 PhpCss Team
 */
+namespace PhpCss\Parser {
 
-/**
-* The attribute parser parses a simple attribute selector.
-*
-* The attribute value can be an string if a string start is found it delgates to a string
-* parser.
-*
-* @package PhpCss
-* @subpackage Parser
-*/
-class PhpCssParserAttribute extends PhpCssParser {
+  use PhpCss;
+  use PhpCss\Ast;
+  use PhpCss\Scanner;
 
-  private $_operators = array(
-    '^=' => PhpCssAstSelectorSimpleAttribute::MATCH_PREFIX,
-    '$=' => PhpCssAstSelectorSimpleAttribute::MATCH_SUFFIX,
-    '*=' => PhpCssAstSelectorSimpleAttribute::MATCH_SUBSTRING,
-    '=' => PhpCssAstSelectorSimpleAttribute::MATCH_EQUALS,
-    '~=' => PhpCssAstSelectorSimpleAttribute::MATCH_INCLUDES,
-    '|=' => PhpCssAstSelectorSimpleAttribute::MATCH_DASHMATCH
-  );
+  /**
+  * The attribute parser parses a simple attribute selector.
+  *
+  * The attribute value can be an string if a string start is found it delgates to a string
+  * parser.
+  */
+  class Attribute extends PhpCss\Parser {
 
-  public function parse() {
-    $token = $this->read(PhpCssScannerToken::IDENTIFIER);
-    $attribute = new PhpCssAstSelectorSimpleAttribute($token->content);
-    $token = $this->read(
-      array(
-        PhpCssScannerToken::ATTRIBUTE_OPERATOR,
-        PhpCssScannerToken::ATTRIBUTE_SELECTOR_END
-      )
+    private $_operators = array(
+      '^=' => Ast\Selector\Simple\Attribute::MATCH_PREFIX,
+      '$=' => Ast\Selector\Simple\Attribute::MATCH_SUFFIX,
+      '*=' => Ast\Selector\Simple\Attribute::MATCH_SUBSTRING,
+      '=' => Ast\Selector\Simple\Attribute::MATCH_EQUALS,
+      '~=' => Ast\Selector\Simple\Attribute::MATCH_INCLUDES,
+      '|=' => Ast\Selector\Simple\Attribute::MATCH_DASHMATCH
     );
-    if ($token->type == PhpCssScannerToken::ATTRIBUTE_OPERATOR) {
-      $attribute->match = $this->_operators[$token->content];
+
+    public function parse() {
+      $token = $this->read(Scanner\Token::IDENTIFIER);
+      $attribute = new Ast\Selector\Simple\Attribute($token->content);
       $token = $this->read(
         array(
-          PhpCssScannerToken::NUMBER,
-          PhpCssScannerToken::IDENTIFIER,
-          PhpCssScannerToken::SINGLEQUOTE_STRING_START,
-          PhpCssScannerToken::DOUBLEQUOTE_STRING_START
+          Scanner\Token::ATTRIBUTE_OPERATOR,
+          Scanner\Token::ATTRIBUTE_SELECTOR_END
         )
       );
-      switch ($token->type) {
-      case PhpCssScannerToken::NUMBER :
-      case PhpCssScannerToken::IDENTIFIER :
-        $attribute->literal = $token->content;
-        break;
-      case PhpCssScannerToken::SINGLEQUOTE_STRING_START :
-      case PhpCssScannerToken::DOUBLEQUOTE_STRING_START :
-        $attribute->literal = $this->delegate('PhpCssParserString');
-        break;
+      if ($token->type == Scanner\Token::ATTRIBUTE_OPERATOR) {
+        $attribute->match = $this->_operators[$token->content];
+        $token = $this->read(
+          array(
+            Scanner\Token::NUMBER,
+            Scanner\Token::IDENTIFIER,
+            Scanner\Token::SINGLEQUOTE_STRING_START,
+            Scanner\Token::DOUBLEQUOTE_STRING_START
+          )
+        );
+        switch ($token->type) {
+        case Scanner\Token::NUMBER :
+        case Scanner\Token::IDENTIFIER :
+          $attribute->literal = $token->content;
+          break;
+        case Scanner\Token::SINGLEQUOTE_STRING_START :
+        case Scanner\Token::DOUBLEQUOTE_STRING_START :
+          $attribute->literal = $this->delegate(String::CLASS);
+          break;
+        }
+        $this->read(Scanner\Token::ATTRIBUTE_SELECTOR_END);
       }
-      $this->read(PhpCssScannerToken::ATTRIBUTE_SELECTOR_END);
+      return $attribute;
     }
-    return $attribute;
   }
 }

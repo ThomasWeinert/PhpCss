@@ -1,129 +1,114 @@
 <?php
-/**
-* Collection of test for the PhpCssScannerStatusSelectorAttribute class
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
+namespace PhpCss\Scanner\Status\Selector {
 
-/**
-* Load necessary files
-*/
-require_once(dirname(__FILE__).'/../../../TestCase.php');
+  use PhpCss\Scanner;
 
-/**
-* Collection of test for the PhpCssScannerStatusSelectorAttribute class
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-class PhpCssScannerStatusSelectorAttributeTest extends PhpCssTestCase {
+  require_once(__DIR__.'/../../../../bootstrap.php');
 
-  /**
-  * @covers PhpCssScannerStatusSelectorAttribute::getToken
-  * @dataProvider getTokenDataProvider
-  */
-  public function testGetToken($string, $expectedToken) {
-    $status = new PhpCssScannerStatusSelectorAttribute();
-    $this->assertEquals(
-      $status->getToken($string, 0),
-      $expectedToken
-    );
-  }
+  class AttributeTest extends \PHPUnit_Framework_TestCase {
 
-  /**
-  * @covers PhpCssScannerStatusSelectorAttribute::isEndToken
-  */
-  public function testIsEndToken() {
-    $status = new PhpCssScannerStatusSelectorAttribute();
-    $this->assertTrue(
-      $status->isEndToken(
-        new PhpCssScannerToken(
-          PhpCssScannerToken::ATTRIBUTE_SELECTOR_END, "]", 0
+    /**
+    * @covers PhpCss\Scanner\Status\Selector\Attribute::getToken
+    * @dataProvider getTokenDataProvider
+    */
+    public function testGetToken($string, $expectedToken) {
+      $status = new Attribute();
+      $this->assertEquals(
+        $status->getToken($string, 0),
+        $expectedToken
+      );
+    }
+
+    /**
+    * @covers PhpCss\Scanner\Status\Selector\Attribute::isEndToken
+    */
+    public function testIsEndToken() {
+      $status = new Attribute();
+      $this->assertTrue(
+        $status->isEndToken(
+          new Scanner\Token(
+            Scanner\Token::ATTRIBUTE_SELECTOR_END, "]", 0
+          )
         )
-      )
-    );
-  }
-  /**
-  * @covers PhpCssScannerStatusSelectorAttribute::getNewStatus
-  * @dataProvider getNewStatusDataProvider
-  */
-  public function testGetNewStatus($token, $expectedStatus) {
-    $status = new PhpCssScannerStatusSelectorAttribute();
-    $this->assertEquals(
-      $status->getNewStatus($token),
-      $expectedStatus
-    );
-  }
+      );
+    }
+    /**
+    * @covers PhpCss\Scanner\Status\Selector\Attribute::getNewStatus
+    * @dataProvider getNewStatusDataProvider
+    */
+    public function testGetNewStatus($token, $expectedStatus) {
+      $status = new Attribute();
+      $this->assertEquals(
+        $status->getNewStatus($token),
+        $expectedStatus
+      );
+    }
 
 
-  /*****************************
-  * Data provider
-  *****************************/
+    /*****************************
+    * Data provider
+    *****************************/
 
-  public static function getTokenDataProvider() {
-    return array(
-      'empty' => array(
-        '',
-        NULL
-      ),
-      'attributes end' => array(
-        "]",
-        new PhpCssScannerToken(
-          PhpCssScannerToken::ATTRIBUTE_SELECTOR_END, "]", 0
-        )
-      ),
-      'attribute-name' => array(
-        "attribute-name",
-        new PhpCssScannerToken(
-          PhpCssScannerToken::IDENTIFIER, "attribute-name", 0
-        )
-      ),
-      'attribute operator' => array(
-        "=",
-        new PhpCssScannerToken(
-          PhpCssScannerToken::ATTRIBUTE_OPERATOR, "=", 0
-        )
-      ),
-      'single quote string start' => array(
-        "'",
-        new PhpCssScannerToken(
-          PhpCssScannerToken::SINGLEQUOTE_STRING_START, "'", 0
-        )
-      ),
-      'double quote string start' => array(
-        '"',
-        new PhpCssScannerToken(
-          PhpCssScannerToken::DOUBLEQUOTE_STRING_START, '"', 0
-        )
-      )
-    );
-  }
-
-  public static function getNewStatusDataProvider() {
-    return array(
-      'whitespaces - no new status' => array(
-        new PhpCssScannerToken(
-          PhpCssScannerToken::WHITESPACE, " ", 0
+    public static function getTokenDataProvider() {
+      return array(
+        'empty' => array(
+          '',
+          NULL
         ),
-        NULL
-      ),
-      'single quote string start' => array(
-        new PhpCssScannerToken(
-          PhpCssScannerToken::SINGLEQUOTE_STRING_START, "'", 0
+        'attributes end' => array(
+          "]",
+          new Scanner\Token(
+            Scanner\Token::ATTRIBUTE_SELECTOR_END, "]", 0
+          )
         ),
-        new PhpCssScannerStatusStringSingle()
-      ),
-      'double quote string start' => array(
-        new PhpCssScannerToken(
-          PhpCssScannerToken::DOUBLEQUOTE_STRING_START, "'", 0
+        'attribute-name' => array(
+          "attribute-name",
+          new Scanner\Token(
+            Scanner\Token::IDENTIFIER, "attribute-name", 0
+          )
         ),
-        new PhpCssScannerStatusStringDouble()
-      )
-    );
+        'attribute operator' => array(
+          "=",
+          new Scanner\Token(
+            Scanner\Token::ATTRIBUTE_OPERATOR, "=", 0
+          )
+        ),
+        'single quote string start' => array(
+          "'",
+          new Scanner\Token(
+            Scanner\Token::SINGLEQUOTE_STRING_START, "'", 0
+          )
+        ),
+        'double quote string start' => array(
+          '"',
+          new Scanner\Token(
+            Scanner\Token::DOUBLEQUOTE_STRING_START, '"', 0
+          )
+        )
+      );
+    }
+
+    public static function getNewStatusDataProvider() {
+      return array(
+        'whitespaces - no new status' => array(
+          new Scanner\Token(
+            Scanner\Token::WHITESPACE, " ", 0
+          ),
+          NULL
+        ),
+        'single quote string start' => array(
+          new Scanner\Token(
+            Scanner\Token::SINGLEQUOTE_STRING_START, "'", 0
+          ),
+          new Scanner\Status\String\Single()
+        ),
+        'double quote string start' => array(
+          new Scanner\Token(
+            Scanner\Token::DOUBLEQUOTE_STRING_START, "'", 0
+          ),
+          new Scanner\Status\String\Double()
+        )
+      );
+    }
   }
 }
-?>

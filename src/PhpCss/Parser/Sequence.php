@@ -4,136 +4,135 @@
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 * @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Parser
 */
+namespace PhpCss\Parser {
 
-/**
-* The Sequence parser parses a list of simple selector tokens into the AST.
-*
-* It delegates to separate parsers for pseude classes and attributes.
-*
-* A css combinator delegates to a new instance of this class.
-*
-* @package PhpCss
-* @subpackage Parser
-*/
-class PhpCssParserSequence extends PhpCssParser {
+  use PhpCss;
+  use PhpCss\Ast;
+  use PhpCss\Scanner;
 
   /**
-  * Parse the token stream for a simple selector sequence,
-  * after the first element the typeselector is not allowed any more,
-  * but a combinator is possible.
+  * The Sequence parser parses a list of simple selector tokens into the AST.
+  *
+  * It delegates to separate parsers for pseude classes and attributes.
+  *
+  * A css combinator delegates to a new instance of this class.
   */
-  public function parse() {
-    $sequence = new PhpCssAstSelectorSequence();
-    $token = $this->lookahead(
-      array(
-        PhpCssScannerToken::IDENTIFIER,
-        PhpCssScannerToken::ID_SELECTOR,
-        PhpCssScannerToken::CLASS_SELECTOR,
-        PhpCssScannerToken::PSEUDO_CLASS,
-        PhpCssScannerToken::PSEUDO_ELEMENT,
-        PhpCssScannerToken::ATTRIBUTE_SELECTOR_START
-      )
-    );
-    while (isset($token)) {
-      if ($selector = $this->createSelector($token)) {
-        $this->read($token->type);
-        $sequence->simples[] = $selector;
-      }
-      switch ($token->type) {
-      case PhpCssScannerToken::SEPARATOR :
-        $this->read(PhpCssScannerToken::SEPARATOR);
-        return $sequence;
-      case PhpCssScannerToken::PSEUDO_CLASS :
-        $sequence->simples[] = $this->delegate('PhpCssParserPseudoClass');
-        break;
-      case PhpCssScannerToken::PSEUDO_ELEMENT :
-        $sequence->simples[] = $this->createPseudoElement($token);
-        $this->read($token->type);
-        break;
-      case PhpCssScannerToken::ATTRIBUTE_SELECTOR_START :
-        $this->read($token->type);
-        $sequence->simples[] = $this->delegate('PhpCssParserAttribute');
-        break;
-      case PhpCssScannerToken::COMBINATOR :
-      case PhpCssScannerToken::WHITESPACE :
-        $this->read($token->type);
-        $sequence->combinator = $this->createCombinator(
-          $token, $this->delegate(get_class($this))
-        );
-        return $sequence;
-      }
-      if ($this->endOfTokens()) {
-        $token = NULL;
-        continue;
-      }
+  class Sequence extends PhpCss\Parser {
+
+    /**
+    * Parse the token stream for a simple selector sequence,
+    * after the first element the typeselector is not allowed any more,
+    * but a combinator is possible.
+    */
+    public function parse() {
+      $sequence = new Ast\Selector\Sequence();
       $token = $this->lookahead(
         array(
-          PhpCssScannerToken::ID_SELECTOR,
-          PhpCssScannerToken::CLASS_SELECTOR,
-          PhpCssScannerToken::PSEUDO_CLASS,
-          PhpCssScannerToken::PSEUDO_ELEMENT,
-          PhpCssScannerToken::ATTRIBUTE_SELECTOR_START,
-          PhpCssScannerToken::COMBINATOR,
-          PhpCssScannerToken::WHITESPACE,
-          PhpCssScannerToken::SEPARATOR
+          Scanner\Token::IDENTIFIER,
+          Scanner\Token::ID_SELECTOR,
+          Scanner\Token::CLASS_SELECTOR,
+          Scanner\Token::PSEUDO_CLASS,
+          Scanner\Token::PSEUDO_ELEMENT,
+          Scanner\Token::ATTRIBUTE_SELECTOR_START
         )
       );
-    }
-    return $sequence;
-  }
-
-  private function createSelector(PhpCssScannerToken $token) {
-    switch ($token->type) {
-    case PhpCssScannerToken::IDENTIFIER :
-      if (FALSE !== strpos($token->content, '|')) {
-        list($prefix, $name) = explode('|', $token->content);
-      } else {
-        $prefix = '*';
-        $name = $token->content;
+      while (isset($token)) {
+        if ($selector = $this->createSelector($token)) {
+          $this->read($token->type);
+          $sequence->simples[] = $selector;
+        }
+        switch ($token->type) {
+        case Scanner\Token::SEPARATOR :
+          $this->read(Scanner\Token::SEPARATOR);
+          return $sequence;
+        case Scanner\Token::PSEUDO_CLASS :
+          $sequence->simples[] = $this->delegate(PseudoClass::CLASS);
+          break;
+        case Scanner\Token::PSEUDO_ELEMENT :
+          $sequence->simples[] = $this->createPseudoElement($token);
+          $this->read($token->type);
+          break;
+        case Scanner\Token::ATTRIBUTE_SELECTOR_START :
+          $this->read($token->type);
+          $sequence->simples[] = $this->delegate(Attribute::CLASS);
+          break;
+        case Scanner\Token::COMBINATOR :
+        case Scanner\Token::WHITESPACE :
+          $this->read($token->type);
+          $sequence->combinator = $this->createCombinator(
+            $token, $this->delegate(get_class($this))
+          );
+          return $sequence;
+        }
+        if ($this->endOfTokens()) {
+          $token = NULL;
+          continue;
+        }
+        $token = $this->lookahead(
+          array(
+            Scanner\Token::ID_SELECTOR,
+            Scanner\Token::CLASS_SELECTOR,
+            Scanner\Token::PSEUDO_CLASS,
+            Scanner\Token::PSEUDO_ELEMENT,
+            Scanner\Token::ATTRIBUTE_SELECTOR_START,
+            Scanner\Token::COMBINATOR,
+            Scanner\Token::WHITESPACE,
+            Scanner\Token::SEPARATOR
+          )
+        );
       }
-      if ($name == '*') {
-        return new PhpCssAstSelectorSimpleUniversal($prefix);
-      } else {
-        return new PhpCssAstSelectorSimpleType($name, $prefix);
+      return $sequence;
+    }
+
+    private function createSelector(Scanner\Token $token) {
+      switch ($token->type) {
+      case Scanner\Token::IDENTIFIER :
+        if (FALSE !== strpos($token->content, '|')) {
+          list($prefix, $name) = explode('|', $token->content);
+        } else {
+          $prefix = '*';
+          $name = $token->content;
+        }
+        if ($name == '*') {
+          return new Ast\Selector\Simple\Universal($prefix);
+        } else {
+          return new Ast\Selector\Simple\Type($name, $prefix);
+        }
+      case Scanner\Token::ID_SELECTOR :
+        return new Ast\Selector\Simple\Id(substr($token->content, 1));
+      case Scanner\Token::CLASS_SELECTOR :
+        return new Ast\Selector\Simple\ClassName(substr($token->content, 1));
       }
-    case PhpCssScannerToken::ID_SELECTOR :
-      return new PhpCssAstSelectorSimpleId(substr($token->content, 1));
-    case PhpCssScannerToken::CLASS_SELECTOR :
-      return new PhpCssAstSelectorSimpleClass(substr($token->content, 1));
+      return NULL;
     }
-    return NULL;
-  }
 
-  private function createCombinator(
-    PhpCssScannerToken $token,
-    PhpCssAstSelectorSequence $sequence
-  ) {
-    switch (trim($token->content)) {
-    case '>' :
-      return new PhpCssAstSelectorCombinatorChild($sequence);
-    case '+' :
-      return new PhpCssAstSelectorCombinatorNext($sequence);
-    case '~' :
-      return new PhpCssAstSelectorCombinatorFollower($sequence);
-    default :
-      return new PhpCssAstSelectorCombinatorDescendant($sequence);
+    private function createCombinator(
+      Scanner\Token $token,
+      Ast\Selector\Sequence $sequence
+    ) {
+      switch (trim($token->content)) {
+      case '>' :
+        return new Ast\Selector\Combinator\Child($sequence);
+      case '+' :
+        return new Ast\Selector\Combinator\Next($sequence);
+      case '~' :
+        return new Ast\Selector\Combinator\Follower($sequence);
+      default :
+        return new Ast\Selector\Combinator\Descendant($sequence);
+      }
     }
-  }
 
-  private function createPseudoElement($token) {
-    $name = substr($token->content, 2);
-    switch ($name) {
-    case 'first-line' :
-    case 'first-letter' :
-    case 'after' :
-    case 'before' :
-      return new PhpCssAstSelectorSimplePseudoElement($name);
+    private function createPseudoElement($token) {
+      $name = substr($token->content, 2);
+      switch ($name) {
+      case 'first-line' :
+      case 'first-letter' :
+      case 'after' :
+      case 'before' :
+        return new Ast\Selector\Simple\PseudoElement($name);
+      }
+      throw new PhpCss\Exception\UnknownPseudoElement($token);
     }
-    throw new PhpCssExceptionUnknownPseudoElement($token);
   }
 }
-

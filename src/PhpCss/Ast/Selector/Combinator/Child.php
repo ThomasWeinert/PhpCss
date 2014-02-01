@@ -1,5 +1,9 @@
 <?php
+namespace PhpCss\Ast\Selector\Combinator {
 
-class PhpCssAstSelectorCombinatorChild extends PhpCssAstSelectorCombinator {
-  
+  use PhpCss\Ast\Selector\Combinator;
+
+  class Child extends Combinator {
+
+  }
 }

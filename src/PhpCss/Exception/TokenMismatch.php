@@ -3,43 +3,41 @@
 * Exception thrown if a token is encountered which wasn't expected.
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Exceptions
+* @copyright Copyright 2010-2014 PhpCss Team
 */
 
-/**
-* Exception thrown if a token is encountered which wasn't expected.
-*
-* @package PhpCss
-* @subpackage Exceptions
-*/
+namespace PhpCss\Exception {
 
-class PhpCssExceptionTokenMismatch extends PhpCssExceptionParser {
+  use PhpCss;
 
   /**
-  * The token encountered during the scan.
-  *
-  * This is the token object which was not expected to be found at the given
-  * position.
-  *
-  * @var PhpCssScannerToken
+  * Exception thrown if a token is encountered which wasn't expected.
   */
-  public $encounteredToken;
+  class TokenMismatch extends Parser {
 
-  public function __construct($encounteredToken, $expectedTokens) {
-    $this->encounteredToken = $encounteredToken;
-    $this->expectedTokens = $expectedTokens;
+    /**
+    * The token encountered during the scan.
+    *
+    * This is the token object which was not expected to be found at the given
+    * position.
+    *
+    * @var PhpCss\Scanner\Token
+    */
+    public $encounteredToken;
 
-    $expectedTokenStrings = array();
-    foreach($expectedTokens as $expectedToken) {
-      $expectedTokenStrings[] = PhpCssScannerToken::typeToString($expectedToken);
+    public function __construct(PhpCss\Scanner\Token $encounteredToken, array $expectedTokens) {
+      $this->encounteredToken = $encounteredToken;
+      $this->expectedTokens = $expectedTokens;
+
+      $expectedTokenStrings = array();
+      foreach ($expectedTokens as $expectedToken) {
+        $expectedTokenStrings[] = PhpCss\Scanner\Token::typeToString($expectedToken);
+      }
+
+      parent::__construct(
+       'Parse error: Found '.(string)$encounteredToken .
+       ' while one of '.implode(", ", $expectedTokenStrings).' was expected.'
+      );
     }
-
-    parent::__construct(
-     'Parse error: Found '.(string)$encounteredToken .
-     ' while one of '.implode(", ", $expectedTokenStrings).' was expected.'
-    );
   }
 }

@@ -1,5 +1,10 @@
 <?php
 
-abstract class PhpCssAstSelectorSimple extends PhpCssAstSelector {
+namespace PhpCss\Ast\Selector  {
 
+  use PhpCss\Ast;
+
+  abstract class Simple extends Ast\Selector {
+
+  }
 }

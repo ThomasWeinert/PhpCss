@@ -3,27 +3,22 @@
 * Abstract superclass of all elements in the abstract syntax tree.
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Ast
+* @copyright Copyright 2010-2014 PhpCss Team
 */
 
-/**
-* Abstract superclass of all elements in the abstract syntax tree.
-*
-* @package PhpCss
-* @subpackage Ast
-*/
-abstract class PhpCssAst {
-
+namespace PhpCss {
   /**
-  * The visitors are used to extract information from an ast.
-  *
-  * @param PhpCssAstVisitor $visitor
+  * Abstract superclass of all elements in the abstract syntax tree.
   */
-  public function accept(PhpCssAstVisitor $visitor) {
-    $visitor->visit($this);
-  }
+  abstract class Ast {
 
+    /**
+    * The visitors are used to extract information from an ast.
+    *
+    * @param Ast\Visitor $visitor
+    */
+    public function accept(Ast\Visitor $visitor) {
+      $visitor->visit($this);
+    }
+  }
 }

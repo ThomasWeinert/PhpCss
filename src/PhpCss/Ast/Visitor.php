@@ -3,38 +3,37 @@
 * Interface declaration for php css ast vistors
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Ast
+* @copyright Copyright 2010-2014 PhpCss Team
 */
 
-/**
-* Interface declaration for php css ast vistors
-*
-* @package PhpCss
-* @subpackage Ast
-*/
-interface PhpCssAstVisitor {
+namespace PhpCss\Ast {
+
+  use PhpCss;
 
   /**
-  * Visit an ast object
-  *
-  * @param PHPCssAst $ast
+  * Interface declaration for php css ast vistors
   */
-  function visit(PHPCssAst $ast);
+  interface Visitor {
 
-  /**
-  * Visit an ast object
-  *
-  * @param PHPCssAst $ast
-  */
-  function visitEnter(PHPCssAst $ast);
+    /**
+    * Visit an ast object
+    *
+    * @param PhpCss\Ast $ast
+    */
+    function visit(PhpCss\Ast $ast);
 
-  /**
-  * Visit an ast object
-  *
-  * @param PHPCssAst $ast
-  */
-  function visitLeave(PHPCssAst $ast);
+    /**
+    * Visit an ast object
+    *
+    * @param PhpCss\Ast $ast
+    */
+    function visitEnter(PhpCss\Ast $ast);
+
+    /**
+    * Visit an ast object
+    *
+    * @param PhpCss\Ast $ast
+    */
+    function visitLeave(PhpCss\Ast $ast);
+  }
 }

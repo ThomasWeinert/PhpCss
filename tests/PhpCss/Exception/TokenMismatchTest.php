@@ -1,49 +1,32 @@
 <?php
-/**
-* Collection of tests for the Parser class
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
+namespace PhpCss\Exception {
 
-/**
-* Load necessary files
-*/
-require_once(dirname(__FILE__).'/../TestCase.php');
+  use PhpCss\Scanner;
 
-PhpCssTestCase::includePhpCssFile('/Exception.php');
-PhpCssTestCase::includePhpCssFile('/Exception/TokenMismatch.php');
+  require_once(__DIR__.'/../../bootstrap.php');
 
-/**
-* Test class for PhpCssParser.
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-class PhpCssExceptionTokenMismatchTest extends PhpCssTestCase {
+  class TokenMismatchTest extends \PHPUnit_Framework_TestCase {
 
-  /**
-  * @covers PhpCssExceptionTokenMismatch::__construct
-  */
-  public function testConstructor() {
-    $expectedToken = new PhpCssScannerToken(
-      PhpCssScannerToken::IDENTIFIER, 'sample', 42
-    );
-    $e = new PhpCssExceptionTokenMismatch(
-      $expectedToken, array(PhpCssScannerToken::STRING_CHARACTERS)
-    );
-    $this->assertAttributeEquals(
-      $expectedToken, 'encounteredToken', $e
-    );
-    $this->assertAttributeEquals(
-      array(PhpCssScannerToken::STRING_CHARACTERS), 'expectedTokens', $e
-    );
-    $this->assertEquals(
-      'Parse error: Found TOKEN::IDENTIFIER @42 \'sample\' while one of STRING_CHARACTERS was expected.',
-      $e->getMessage()
-    );
+    /**
+    * @covers PhpCss\Exception\TokenMismatch::__construct
+    */
+    public function testConstructor() {
+      $expectedToken = new Scanner\Token(
+        Scanner\Token::IDENTIFIER, 'sample', 42
+      );
+      $e = new TokenMismatch(
+        $expectedToken, array(Scanner\Token::STRING_CHARACTERS)
+      );
+      $this->assertAttributeEquals(
+        $expectedToken, 'encounteredToken', $e
+      );
+      $this->assertAttributeEquals(
+        array(Scanner\Token::STRING_CHARACTERS), 'expectedTokens', $e
+      );
+      $this->assertEquals(
+        'Parse error: Found TOKEN::IDENTIFIER @42 \'sample\' while one of STRING_CHARACTERS was expected.',
+        $e->getMessage()
+      );
+    }
   }
 }

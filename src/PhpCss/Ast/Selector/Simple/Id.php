@@ -1,10 +1,15 @@
 <?php
 
-class PhpCssAstSelectorSimpleId extends PhpCssAstSelectorSimple {
+namespace PhpCss\Ast\Selector\Simple {
 
-  public $id = '';
+  use PhpCss\Ast;
 
-  public function __construct($id = '') {
-    $this->id = $id;
+  class Id extends Ast\Selector\Simple {
+
+    public $id = '';
+
+    public function __construct($id = '') {
+      $this->id = $id;
+    }
   }
 }

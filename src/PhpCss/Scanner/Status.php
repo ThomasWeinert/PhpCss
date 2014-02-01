@@ -3,63 +3,59 @@
 * PhpCssScannerStatus is the abstract subperclass for all scanner status implementations
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Scanner
+* @copyright Copyright 2010-2014 PhpCss Team
 */
-
-/**
-* PhpCssScannerStatus is the abstract subperclass for all scanner status implementations
-*
-* @package PhpCss
-* @subpackage Scanner
-*/
-abstract class PhpCssScannerStatus {
+namespace PhpCss\Scanner {
 
   /**
-  * Try to get token in buffer at offset position.
-  *
-  * @param string $buffer
-  * @param integer $offset
-  * @return PhpCssScannerToken
+  * PhpCssScannerStatus is the abstract subperclass for all scanner status implementations
   */
-  abstract public function getToken($buffer, $offset);
+  abstract class Status {
 
-  /**
-  * Check if token ends status
-  *
-  * @param PhpCssScannerToken $token
-  * @return boolean
-  */
-  abstract public function isEndToken($token);
+    /**
+    * Try to get token in buffer at offset position.
+    *
+    * @param string $buffer
+    * @param integer $offset
+    * @return Token
+    */
+    abstract public function getToken($buffer, $offset);
 
-  /**
-  * Get new (sub)status if needed.
-  *
-  * @param PhpCssScannerToken $token
-  * @return PhpCssScannerStatus
-  */
-  abstract public function getNewStatus($token);
+    /**
+    * Check if token ends status
+    *
+    * @param Token $token
+    * @return boolean
+    */
+    abstract public function isEndToken(Token $token);
 
-  /**
-  * Checks if the given offset position matches the pattern.
-  *
-  * @param string $buffer
-  * @param integer $offset
-  * @param string $pattern
-  * @return string|NULL
-  */
-  public function matchPattern($buffer, $offset, $pattern) {
-    $found = preg_match(
-      $pattern, $buffer, $match, PREG_OFFSET_CAPTURE, $offset
-    );
-    if ($found &&
-        isset($match[0]) &&
-        isset($match[0][1]) &&
-        $match[0][1] === $offset) {
-      return $match[0][0];
+    /**
+    * Get new (sub)status if needed.
+    *
+    * @param Token $token
+    * @return Status
+    */
+    abstract public function getNewStatus(Token $token);
+
+    /**
+    * Checks if the given offset position matches the pattern.
+    *
+    * @param string $buffer
+    * @param integer $offset
+    * @param string $pattern
+    * @return string|NULL
+    */
+    public function matchPattern($buffer, $offset, $pattern) {
+      $found = preg_match(
+        $pattern, $buffer, $match, PREG_OFFSET_CAPTURE, $offset
+      );
+      if ($found &&
+          isset($match[0]) &&
+          isset($match[0][1]) &&
+          $match[0][1] === $offset) {
+        return $match[0][0];
+      }
+      return NULL;
     }
-    return NULL;
   }
 }

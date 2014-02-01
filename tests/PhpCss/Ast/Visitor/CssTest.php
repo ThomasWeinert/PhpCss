@@ -1,85 +1,70 @@
 <?php
-/**
-* Collection of tests for the Selector Group class
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
+namespace PhpCss\Ast\Visitor {
 
-/**
-* Load necessary files
-*/
-require_once(dirname(__FILE__).'/../../TestCase.php');
+  use PhpCss\Ast;
 
-/**
-* Test class for PhpCssAstSelectorGroup.
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-class PhpCssAstVisitorCssTest extends PhpCssTestCase {
+  require_once(__DIR__.'/../../../bootstrap.php');
 
-  /**
-  * @covers PhpCssAstVisitorCss
-  * @dataProvider provideExamples
-  */
-  public function testIntegration($expected, $ast) {
-    $visitor = new PhpCssAstVisitorCss();
-    $ast->accept($visitor);
-    $this->assertEquals(
-      $expected, (string)$visitor
-    );
-  }
+  class CssTest extends \PHPUnit_Framework_TestCase {
 
-  public static function provideExamples() {
-    return array(
-      array(
-        'ns|*',
-        new PhpCssAstSelectorGroup(
-          array(
-            new PhpCssAstSelectorSequence(
-              array(new PhpCssAstSelectorSimpleUniversal('ns'))
+    /**
+    * @covers PhpCss\Ast\Visitor\Css
+    * @dataProvider provideExamples
+    */
+    public function testIntegration($expected, $ast) {
+      $visitor = new Css();
+      $ast->accept($visitor);
+      $this->assertEquals(
+        $expected, (string)$visitor
+      );
+    }
+
+    public static function provideExamples() {
+      return array(
+        array(
+          'ns|*',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(new Ast\Selector\Simple\Universal('ns'))
+              )
             )
           )
-        )
-      ),
-      array(
-        'element, #id, .class',
-        new PhpCssAstSelectorGroup(
-          array(
-            new PhpCssAstSelectorSequence(
-              array(new PhpCssAstSelectorSimpleType('element'))
-            ),
-            new PhpCssAstSelectorSequence(
-              array(new PhpCssAstSelectorSimpleId('id'))
-            ),
-            new PhpCssAstSelectorSequence(
-              array(new PhpCssAstSelectorSimpleClass('class'))
+        ),
+        array(
+          'element, #id, .class',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(new Ast\Selector\Simple\Type('element'))
+              ),
+              new Ast\Selector\Sequence(
+                array(new Ast\Selector\Simple\Id('id'))
+              ),
+              new Ast\Selector\Sequence(
+                array(new Ast\Selector\Simple\ClassName('class'))
+              )
             )
           )
-        )
-      ),
-      array(
-        'element > child',
-        new PhpCssAstSelectorGroup(
-          array(
-            new PhpCssAstSelectorSequence(
-              array(
-                new PhpCssAstSelectorSimpleType('element'),
-                new PhpCssAstSelectorCombinatorChild(
-                  new PhpCssAstSelectorSequence(
-                    array(new PhpCssAstSelectorSimpleType('child'))
+        ),
+        array(
+          'element > child',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Type('element'),
+                  new Ast\Selector\Combinator\Child(
+                    new Ast\Selector\Sequence(
+                      array(new Ast\Selector\Simple\Type('child'))
+                    )
                   )
                 )
               )
             )
           )
         )
-      )
-    );
+      );
+    }
   }
-
 }

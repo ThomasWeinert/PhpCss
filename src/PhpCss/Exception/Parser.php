@@ -3,27 +3,26 @@
 * Exception thrown if a parse error occurs
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Exceptions
+* @copyright Copyright 2010-2014 PhpCss Team
 */
 
-/**
-* Exception thrown if a parse error occurs
-*
-* A parse error occurs if certain tokens are expected for further parsing, but
-* none of them are found on the token stream
-*
-* @package PhpCss
-* @subpackage Exceptions
-*/
-class PhpCssExceptionParser extends PhpCssException {
+namespace PhpCss\Exception {
+
+  use PhpCss;
 
   /**
-  * An array of tokens which would have been expected to be found.
+  * Exception thrown if a parse error occurs
   *
-  * @var array(PhpCssScannerToken)
+  * A parse error occurs if certain tokens are expected for further parsing, but
+  * none of them are found on the token stream
   */
-  public $expectedTokens = array();
+  class Parser extends PhpCss\Exception {
+
+    /**
+    * An array of tokens which would have been expected to be found.
+    *
+    * @var array(PhpCss\Scanner\Token)
+    */
+    public $expectedTokens = array();
+  }
 }

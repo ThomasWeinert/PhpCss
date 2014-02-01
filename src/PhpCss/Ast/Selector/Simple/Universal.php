@@ -1,10 +1,15 @@
 <?php
 
-class PhpCssAstSelectorSimpleUniversal extends PhpCssAstSelectorSimple {
+namespace PhpCss\Ast\Selector\Simple {
 
-  public $namespacePrefix = '*';
+  use PhpCss\Ast;
 
-  public function __construct($prefix) {
-    $this->namespacePrefix = $prefix;
+  class Universal extends Ast\Selector\Simple {
+
+    public $namespacePrefix = '*';
+
+    public function __construct($prefix) {
+      $this->namespacePrefix = $prefix;
+    }
   }
 }

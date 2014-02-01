@@ -1,74 +1,73 @@
 <?php
 /**
-* PhpCssScannerStatusStringDouble checks for tokens in a double quoted string.
+* Double quote string status for the scanner
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Scanner
+* @copyright Copyright 2010-2014 PhpCss Team
 */
 
-/**
-* PhpCssScannerStatusStringDouble checks for tokens in a double quoted string.
-*
-* @package PhpCss
-* @subpackage Scanner
-*/
-class PhpCssScannerStatusStringDouble extends PhpCssScannerStatus {
+namespace PhpCss\Scanner\Status\String {
+
+  use PhpCss\Scanner;
 
   /**
-  * Try to get token in buffer at offset position.
-  *
-  * @param string $buffer
-  * @param integer $offset
-  * @return PhpCssScannerToken
+  * Double quote string status for the scanner
   */
-  public function getToken($buffer, $offset) {
-    if ('"' === substr($buffer, $offset, 1)) {
-      return new PhpCssScannerToken(
-        PhpCssScannerToken::DOUBLEQUOTE_STRING_END, '"', $offset
-      );
-    } else {
-      $tokenString = substr($buffer, $offset, 2);
-      if ('\\"' == $tokenString ||
-          '\\\\' == $tokenString) {
-        return new PhpCssScannerToken(
-           PhpCssScannerToken::STRING_ESCAPED_CHARACTER, $tokenString, $offset
+  class Double extends Scanner\Status {
+
+    /**
+    * Try to get token in buffer at offset position.
+    *
+    * @param string $buffer
+    * @param integer $offset
+    * @return Scanner\Token
+    */
+    public function getToken($buffer, $offset) {
+      if ('"' === substr($buffer, $offset, 1)) {
+        return new Scanner\Token(
+          Scanner\Token::DOUBLEQUOTE_STRING_END, '"', $offset
         );
       } else {
-        $tokenString = $this->matchPattern(
-          $buffer, $offset, '([^\\\\"]+)S'
-        );
-        if (!empty($tokenString)) {
-          return new PhpCssScannerToken(
-            PhpCssScannerToken::STRING_CHARACTERS, $tokenString, $offset
+        $tokenString = substr($buffer, $offset, 2);
+        if ('\\"' == $tokenString ||
+            '\\\\' == $tokenString) {
+          return new Scanner\Token(
+             Scanner\Token::STRING_ESCAPED_CHARACTER, $tokenString, $offset
           );
+        } else {
+          $tokenString = $this->matchPattern(
+            $buffer, $offset, '([^\\\\"]+)S'
+          );
+          if (!empty($tokenString)) {
+            return new Scanner\Token(
+              Scanner\Token::STRING_CHARACTERS, $tokenString, $offset
+            );
+          }
         }
       }
+      return NULL;
     }
-    return NULL;
-  }
 
-  /**
-  * Check if token ends status
-  *
-  * @param PhpCssScannerToken $token
-  * @return boolean
-  */
-  public function isEndToken($token) {
-    return (
-      $token->type == PhpCssScannerToken::DOUBLEQUOTE_STRING_END
-    );
-  }
+    /**
+    * Check if token ends status
+    *
+    * @param Scanner\Token $token
+    * @return boolean
+    */
+    public function isEndToken(Scanner\Token$token) {
+      return (
+        $token->type == Scanner\Token::DOUBLEQUOTE_STRING_END
+      );
+    }
 
-  /**
-  * Get new (sub)status if needed.
-  *
-  * @param PhpCssScannerToken $token
-  * @return NULL
-  */
-  public function getNewStatus($token) {
-    return NULL;
+    /**
+    * Get new (sub)status if needed.
+    *
+    * @param Scanner\Token $token
+    * @return NULL
+    */
+    public function getNewStatus(Scanner\Token$token) {
+      return NULL;
+    }
   }
 }

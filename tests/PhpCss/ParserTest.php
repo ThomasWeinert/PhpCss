@@ -1,421 +1,393 @@
 <?php
-/**
-* Collection of tests for the Parser class
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
+namespace PhpCss {
 
-/**
-* Load necessary files
-*/
-require_once(dirname(__FILE__).'/TestCase.php');
-require_once(dirname(__FILE__).'/Parser/Mock.php');
-require_once(dirname(__FILE__).'/Parser/Mock/Delegate.php');
+  require_once(__DIR__.'/../bootstrap.php');
+  require_once(__DIR__.'/Parser/Mocks.php');
 
-/**
-* Test class for PhpCssParser.
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-class PhpCssParserTest extends PhpCssTestCase {
+  class ParserTest extends \PHPUnit_Framework_TestCase {
 
-  /**
-  * @covers PhpCssParser::__construct
-  */
-  public function testConstructor() {
-    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0));
-    $parser = $this->getParserFixture($tokens);
-    $this->assertAttributeSame(
-      $tokens, '_tokens', $parser
-    );
-  }
+    /**
+    * @covers PhpCss\Parser::__construct
+    */
+    public function testConstructor() {
+      $tokens = array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0));
+      $parser = $this->getParserFixture($tokens);
+      $this->assertAttributeSame(
+        $tokens, '_tokens', $parser
+      );
+    }
 
-  /**
-  * @covers PhpCssParser::read
-  * @covers PhpCssParser::matchToken
-  * @dataProvider provideDirectMatchingTokens
-  */
-  public function testReadMatch($expectedResult, $tokens, $allowedTokens) {
-    $originalTokens = $tokens;
-    array_shift($originalTokens);
+    /**
+    * @covers PhpCss\Parser::read
+    * @covers PhpCss\Parser::matchToken
+    * @dataProvider provideDirectMatchingTokens
+    */
+    public function testReadMatch($expectedResult, $tokens, $allowedTokens) {
+      $originalTokens = $tokens;
+      array_shift($originalTokens);
 
-    $parser = $this->getParserFixture($tokens);
+      $parser = $this->getParserFixture($tokens);
 
-    $result = $parser->read($allowedTokens);
-
-    $this->assertSame($tokens[0], $result);
-    $this->assertEquals($expectedResult, $result->type);
-    $this->assertEquals($parser->_tokens, $originalTokens);
-  }
-
-  /**
-  * @covers PhpCssParser::read
-  * @covers PhpCssParser::matchToken
-  * @covers PhpCssParser::handleMismatch
-  * @dataProvider provideDirectMismatchingTokens
-  */
-  public function testReadMismatch($tokens, $allowedTokens) {
-    $parser = $this->getParserFixture($tokens);
-    try {
       $result = $parser->read($allowedTokens);
-      $this->fail('The expected exception PhpCssExceptionParser has not been thrown.');
-    } catch(PhpCssExceptionParser $e) {
+
+      $this->assertSame($tokens[0], $result);
+      $this->assertEquals($expectedResult, $result->type);
+      $this->assertEquals($parser->_tokens, $originalTokens);
     }
-  }
 
-  /**
-  * @covers PhpCssParser::lookahead
-  * @dataProvider provideDirectMatchingTokens
-  */
-  public function testDirectLookaheadMatch($expectedResult, $tokens, $allowedTokens) {
-    $originalTokens = $tokens;
+    /**
+    * @covers PhpCss\Parser::read
+    * @covers PhpCss\Parser::matchToken
+    * @covers PhpCss\Parser::handleMismatch
+    * @dataProvider provideDirectMismatchingTokens
+    */
+    public function testReadMismatch($tokens, $allowedTokens) {
+      $parser = $this->getParserFixture($tokens);
+      $this->setExpectedException(Exception\Parser::CLASS);
+      $result = $parser->read($allowedTokens);
+    }
 
-    $parser = $this->getParserFixture($tokens);
-    $result = $parser->lookahead($allowedTokens);
+    /**
+    * @covers PhpCss\Parser::lookahead
+    * @dataProvider provideDirectMatchingTokens
+    */
+    public function testDirectLookaheadMatch($expectedResult, $tokens, $allowedTokens) {
+      $originalTokens = $tokens;
 
-    $this->assertSame($tokens[0], $result);
-    $this->assertEquals($expectedResult, $result->type);
-    $this->assertEquals($parser->_tokens, $originalTokens);
-  }
-
-  /**
-  * @covers PhpCssParser::lookahead
-  * @dataProvider provideDirectMismatchingTokens
-  */
-  public function testDirectLookaheadMismatch($tokens, $allowedTokens) {
-    $parser = $this->getParserFixture($tokens);
-
-    try {
+      $parser = $this->getParserFixture($tokens);
       $result = $parser->lookahead($allowedTokens);
-      $this->fail('The expected exception PhpCssExceptionParser has not been thrown.');
-    } catch(PhpCssExceptionParser $e) {
+
+      $this->assertSame($tokens[0], $result);
+      $this->assertEquals($expectedResult, $result->type);
+      $this->assertEquals($parser->_tokens, $originalTokens);
     }
-  }
 
-  /**
-  * @covers PhpCssParser::lookahead
-  * @dataProvider provideLookaheadMatchingTokens
-  */
-  public function testLookaheadMatch($expectedResult, $tokens, $allowedTokens) {
-    $originalTokens = $tokens;
+    /**
+    * @covers PhpCss\Parser::lookahead
+    * @dataProvider provideDirectMismatchingTokens
+    */
+    public function testDirectLookaheadMismatch($tokens, $allowedTokens) {
+      $parser = $this->getParserFixture($tokens);
+      $this->setExpectedException(Exception\Parser::CLASS);
+      $result = $parser->lookahead($allowedTokens);
+    }
 
-    $parser = $this->getParserFixture($tokens);
-    $result = $parser->lookahead($allowedTokens, 1);
+    /**
+    * @covers PhpCss\Parser::lookahead
+    * @dataProvider provideLookaheadMatchingTokens
+    */
+    public function testLookaheadMatch($expectedResult, $tokens, $allowedTokens) {
+      $originalTokens = $tokens;
 
-    $this->assertSame($tokens[1], $result);
-    $this->assertEquals($expectedResult, $result->type);
-    $this->assertEquals($parser->_tokens, $originalTokens);
-  }
-
-  /**
-  * @covers PhpCssParser::lookahead
-  * @dataProvider provideLookaheadMismatchingTokens
-  */
-  public function testLookaheadMismatch($tokens, $allowedTokens) {
-    $parser = $this->getParserFixture($tokens);
-
-    try {
+      $parser = $this->getParserFixture($tokens);
       $result = $parser->lookahead($allowedTokens, 1);
-      $this->fail('The expected exception PhpCssExceptionParser has not been thrown.');
-    } catch(PhpCssExceptionParser $e) {
+
+      $this->assertSame($tokens[1], $result);
+      $this->assertEquals($expectedResult, $result->type);
+      $this->assertEquals($parser->_tokens, $originalTokens);
     }
-  }
 
-  /**
-  * @covers PhpCssParser::endOfTokens
-  */
-  public function testEndOfTokensExpectingTrue() {
-    $tokens = array();
-    $parser = $this->getParserFixture($tokens);
-    $this->assertTrue($parser->endOfTokens());
-  }
+    /**
+    * @covers PhpCss\Parser::lookahead
+    * @dataProvider provideLookaheadMismatchingTokens
+    */
+    public function testLookaheadMismatch($tokens, $allowedTokens) {
+      $parser = $this->getParserFixture($tokens);
+      $this->setExpectedException(Exception\Parser::CLASS);
+      $result = $parser->lookahead($allowedTokens, 1);
+    }
 
-  /**
-  * @covers PhpCssParser::endOfTokens
-  */
-  public function testEndOfTokensExpectingFalse() {
-    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0));
-    $parser = $this->getParserFixture($tokens);
-    $this->assertFalse($parser->endOfTokens());
-  }
+    /**
+    * @covers PhpCss\Parser::endOfTokens
+    */
+    public function testEndOfTokensExpectingTrue() {
+      $tokens = array();
+      $parser = $this->getParserFixture($tokens);
+      $this->assertTrue($parser->endOfTokens());
+    }
 
-  /**
-  * @covers PhpCssParser::endOfTokens
-  */
-  public function testEndOfTokensWithPositionExpectingTrue() {
-    $tokens = array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0));
-    $parser = $this->getParserFixture($tokens);
-    $this->assertTrue($parser->endOfTokens(2));
-  }
+    /**
+    * @covers PhpCss\Parser::endOfTokens
+    */
+    public function testEndOfTokensExpectingFalse() {
+      $tokens = array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0));
+      $parser = $this->getParserFixture($tokens);
+      $this->assertFalse($parser->endOfTokens());
+    }
 
-  /**
-  * @covers PhpCssParser::endOfTokens
-  */
-  public function testEndOfTokensWithPositionExpectingFalse() {
-    $tokens = array(
-      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-      new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
-    );
-    $parser = $this->getParserFixture($tokens);
-    $this->assertFalse($parser->endOfTokens(1));
-  }
+    /**
+    * @covers PhpCss\Parser::endOfTokens
+    */
+    public function testEndOfTokensWithPositionExpectingTrue() {
+      $tokens = array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0));
+      $parser = $this->getParserFixture($tokens);
+      $this->assertTrue($parser->endOfTokens(2));
+    }
 
-  /**
-  * @covers PhpCssParser::lookahead
-  */
-  public function testLookAheadAllowingEndOfTokens() {
-    $parser = $this->getParserFixture(array());
-    $this->assertEquals(
-      new PhpCssScannerToken(PhpCssScannerToken::ANY, '', 0),
-      $parser->lookahead(PhpCssScannerToken::IDENTIFIER, 0, TRUE)
-    );
-  }
+    /**
+    * @covers PhpCss\Parser::endOfTokens
+    */
+    public function testEndOfTokensWithPositionExpectingFalse() {
+      $tokens = array(
+        new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+        new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+      );
+      $parser = $this->getParserFixture($tokens);
+      $this->assertFalse($parser->endOfTokens(1));
+    }
 
-  /**
-  * @covers PhpCssParser::lookahead
-  */
-  public function testLookAheadWithPositionAllowingEndOfTokens() {
-    $tokens = array(
-      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)
-    );
-    $parser = $this->getParserFixture($tokens);
-    $this->assertEquals(
-      new PhpCssScannerToken(PhpCssScannerToken::ANY, '', 0),
-      $parser->lookahead(PhpCssScannerToken::IDENTIFIER, 1, TRUE)
-    );
-  }
+    /**
+    * @covers PhpCss\Parser::lookahead
+    */
+    public function testLookAheadAllowingEndOfTokens() {
+      $parser = $this->getParserFixture(array());
+      $this->assertEquals(
+        new Scanner\Token(Scanner\Token::ANY, '', 0),
+        $parser->lookahead(Scanner\Token::IDENTIFIER, 0, TRUE)
+      );
+    }
 
-  /**
-  * @covers PhpCssParser::ignore
-  */
-  public function testIgnoreExpectingTrue() {
-    $tokens = array(
-      new PhpCssScannerToken(PhpCssScannerToken::WHITESPACE, ' ', 0),
-      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 1)
-    );
-    $parser = $this->getParserFixture($tokens);
-    $this->assertTrue(
-      $parser->ignore(PhpCssScannerToken::WHITESPACE)
-    );
-    $this->assertTrue($parser->endOfTokens(1));
-  }
+    /**
+    * @covers PhpCss\Parser::lookahead
+    */
+    public function testLookAheadWithPositionAllowingEndOfTokens() {
+      $tokens = array(
+        new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0)
+      );
+      $parser = $this->getParserFixture($tokens);
+      $this->assertEquals(
+        new Scanner\Token(Scanner\Token::ANY, '', 0),
+        $parser->lookahead(Scanner\Token::IDENTIFIER, 1, TRUE)
+      );
+    }
 
-  /**
-  * @covers PhpCssParser::ignore
-  */
-  public function testIgnoreMultipleTokensExpectingTrue() {
-    $tokens = array(
-      new PhpCssScannerToken(PhpCssScannerToken::WHITESPACE, ' ', 0),
-      new PhpCssScannerToken(PhpCssScannerToken::WHITESPACE, ' ', 1),
-      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 2)
-    );
-    $parser = $this->getParserFixture($tokens);
-    $this->assertTrue(
-      $parser->ignore(
-        PhpCssScannerToken::WHITESPACE
-      )
-    );
-    $this->assertTrue($parser->endOfTokens(1));
-  }
+    /**
+    * @covers PhpCss\Parser::ignore
+    */
+    public function testIgnoreExpectingTrue() {
+      $tokens = array(
+        new Scanner\Token(Scanner\Token::WHITESPACE, ' ', 0),
+        new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 1)
+      );
+      $parser = $this->getParserFixture($tokens);
+      $this->assertTrue(
+        $parser->ignore(Scanner\Token::WHITESPACE)
+      );
+      $this->assertTrue($parser->endOfTokens(1));
+    }
 
-  /**
-  * @covers PhpCssParser::ignore
-  */
-  public function testIgnoreExpectingFalse() {
-    $tokens = array(
-      new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)
-    );
-    $parser = $this->getParserFixture($tokens);
-    $this->assertFalse(
-      $parser->ignore(PhpCssScannerToken::WHITESPACE)
-    );
-    $this->assertTrue($parser->endOfTokens(1));
-  }
+    /**
+    * @covers PhpCss\Parser::ignore
+    */
+    public function testIgnoreMultipleTokensExpectingTrue() {
+      $tokens = array(
+        new Scanner\Token(Scanner\Token::WHITESPACE, ' ', 0),
+        new Scanner\Token(Scanner\Token::WHITESPACE, ' ', 1),
+        new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 2)
+      );
+      $parser = $this->getParserFixture($tokens);
+      $this->assertTrue(
+        $parser->ignore(
+          Scanner\Token::WHITESPACE
+        )
+      );
+      $this->assertTrue($parser->endOfTokens(1));
+    }
 
-  /**
-  * @covers PhpCssParser::delegate
-  */
-  public function testDelegate() {
-    $parser = $this->getParserFixture();
-    $this->assertEquals(
-      'Delegated!',
-      $parser->delegate('PhpCssParserMockDelegate')
-    );
-  }
+    /**
+    * @covers PhpCss\Parser::ignore
+    */
+    public function testIgnoreExpectingFalse() {
+      $tokens = array(
+        new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0)
+      );
+      $parser = $this->getParserFixture($tokens);
+      $this->assertFalse(
+        $parser->ignore(Scanner\Token::WHITESPACE)
+      );
+      $this->assertTrue($parser->endOfTokens(1));
+    }
 
-  /*****************************
-  * Fixtures
-  *****************************/
+    /**
+    * @covers PhpCss\Parser::delegate
+    */
+    public function testDelegate() {
+      $parser = $this->getParserFixture();
+      $this->assertEquals(
+        'Delegated!',
+        $parser->delegate(Parser\MockDelegate::CLASS)
+      );
+    }
 
-  public function getParserFixture(array $tokens = array()) {
-    return new PhpCssParserMock($tokens);
-  }
+    /*****************************
+    * Fixtures
+    *****************************/
 
-  public function getParserFixtureWithReference(array &$tokens) {
-    return new PhpCssParserMock($tokens);
-  }
+    public function getParserFixture(array $tokens = array()) {
+      return new Parser\Mock($tokens);
+    }
 
-  /*****************************
-  * Data Provider
-  *****************************/
+    public function getParserFixtureWithReference(array &$tokens) {
+      return new Parser\Mock($tokens);
+    }
 
-  public static function provideDirectMatchingTokens() {
-    return array(
-      'one token, one token type' => array(
-        PhpCssScannerToken::IDENTIFIER, // expected token type
-        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)), // token list
-        array(PhpCssScannerToken::IDENTIFIER), // allowed token types
-      ),
-      'one token, one token type as string' => array(
-        PhpCssScannerToken::IDENTIFIER, // expected token type
-        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)), // token list
-        PhpCssScannerToken::IDENTIFIER, // allowed token types
-      ),
-      'one token, two token types' =>  array(
-        PhpCssScannerToken::IDENTIFIER,
-        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)),
-        array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::IDENTIFIER),
-      ),
-      'two tokens, one token type' => array(
-        PhpCssScannerToken::IDENTIFIER,
-        array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+    /*****************************
+    * Data Provider
+    *****************************/
+
+    public static function provideDirectMatchingTokens() {
+      return array(
+        'one token, one token type' => array(
+          Scanner\Token::IDENTIFIER, // expected token type
+          array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0)), // token list
+          array(Scanner\Token::IDENTIFIER), // allowed token types
         ),
-        array(PhpCssScannerToken::IDENTIFIER),
-      ),
-      'two tokens, two token types' => array(
-        PhpCssScannerToken::IDENTIFIER,
-        array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+        'one token, one token type as string' => array(
+          Scanner\Token::IDENTIFIER, // expected token type
+          array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0)), // token list
+          Scanner\Token::IDENTIFIER, // allowed token types
         ),
-        array(PhpCssScannerToken::IDENTIFIER, PhpCssScannerToken::CLASS_SELECTOR),
-      ),
-      'two tokens, any token type' => array(
-        PhpCssScannerToken::IDENTIFIER,
-        array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+        'one token, two token types' =>  array(
+          Scanner\Token::IDENTIFIER,
+          array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0)),
+          array(Scanner\Token::CLASS_SELECTOR, Scanner\Token::IDENTIFIER),
         ),
-        array(PhpCssScannerToken::ANY),
-      ),
-      'two tokens, any token type as skalar' => array(
-        PhpCssScannerToken::IDENTIFIER,
-        array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+        'two tokens, one token type' => array(
+          Scanner\Token::IDENTIFIER,
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          array(Scanner\Token::IDENTIFIER),
         ),
-        PhpCssScannerToken::ANY,
-      )
-    );
-  }
+        'two tokens, two token types' => array(
+          Scanner\Token::IDENTIFIER,
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          array(Scanner\Token::IDENTIFIER, Scanner\Token::CLASS_SELECTOR),
+        ),
+        'two tokens, any token type' => array(
+          Scanner\Token::IDENTIFIER,
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          array(Scanner\Token::ANY),
+        ),
+        'two tokens, any token type as skalar' => array(
+          Scanner\Token::IDENTIFIER,
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          Scanner\Token::ANY,
+        )
+      );
+    }
 
-  public static function provideDirectMismatchingTokens() {
-    return array(
-      'one token, one token type' => array(
-        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)), // token list
-        array(PhpCssScannerToken::CLASS_SELECTOR), // allowed token types
-      ),
-      'one token, two token types' => array(
-        array(new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0)),
-        array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::ID_SELECTOR),
-      ),
-      'two tokens, one token type' => array(
-        array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+    public static function provideDirectMismatchingTokens() {
+      return array(
+        'one token, one token type' => array(
+          array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0)), // token list
+          array(Scanner\Token::CLASS_SELECTOR), // allowed token types
         ),
-        array(PhpCssScannerToken::CLASS_SELECTOR),
-      ),
-      'two tokens, two token types' => array(
-        array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+        'one token, two token types' => array(
+          array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0)),
+          array(Scanner\Token::CLASS_SELECTOR, Scanner\Token::ID_SELECTOR),
         ),
-        array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::ID_SELECTOR),
-      ),
-      'empty tokens, one token type' => array(
-        array(),
-        array(PhpCssScannerToken::IDENTIFIER),
-      ),
-      'empty tokens, special any token type' => array(
-        array(),
-        array(PhpCssScannerToken::ANY),
-      )
-    );
-  }
+        'two tokens, one token type' => array(
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          array(Scanner\Token::CLASS_SELECTOR),
+        ),
+        'two tokens, two token types' => array(
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          array(Scanner\Token::CLASS_SELECTOR, Scanner\Token::ID_SELECTOR),
+        ),
+        'empty tokens, one token type' => array(
+          array(),
+          array(Scanner\Token::IDENTIFIER),
+        ),
+        'empty tokens, special any token type' => array(
+          array(),
+          array(Scanner\Token::ANY),
+        )
+      );
+    }
 
-  public static function provideLookaheadMatchingTokens() {
-    return array(
-      array(
-        PhpCssScannerToken::CLASS_SELECTOR,
+    public static function provideLookaheadMatchingTokens() {
+      return array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+          Scanner\Token::CLASS_SELECTOR,
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          array(Scanner\Token::CLASS_SELECTOR)
         ),
-        array(PhpCssScannerToken::CLASS_SELECTOR)
-      ),
-      array(
-        PhpCssScannerToken::CLASS_SELECTOR,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+          Scanner\Token::CLASS_SELECTOR,
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          array(Scanner\Token::CLASS_SELECTOR, Scanner\Token::IDENTIFIER)
         ),
-        array(PhpCssScannerToken::CLASS_SELECTOR, PhpCssScannerToken::IDENTIFIER)
-      ),
-      array(
-        PhpCssScannerToken::CLASS_SELECTOR,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
+          Scanner\Token::CLASS_SELECTOR,
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          array(Scanner\Token::ANY)
         ),
-        array(PhpCssScannerToken::ANY)
-      ),
-      array(
-        PhpCssScannerToken::CLASS_SELECTOR,
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, '.bar', 0)
-        ),
-        PhpCssScannerToken::ANY
-      )
-    );
-  }
+          Scanner\Token::CLASS_SELECTOR,
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, '.bar', 0)
+          ),
+          Scanner\Token::ANY
+        )
+      );
+    }
 
-  public static function provideLookaheadMismatchingTokens() {
-    return array(
-      array(
+    public static function provideLookaheadMismatchingTokens() {
+      return array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+          ),
+          array(Scanner\Token::IDENTIFIER)
         ),
-        array(PhpCssScannerToken::IDENTIFIER)
-      ),
-      array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+          ),
+          array(Scanner\Token::IDENTIFIER, Scanner\Token::CLASS_SELECTOR)
         ),
-        array(PhpCssScannerToken::IDENTIFIER, PhpCssScannerToken::CLASS_SELECTOR)
-      ),
-      array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, 'foo', 0),
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, 'foo', 0),
+          ),
+          array(Scanner\Token::IDENTIFIER)
         ),
-        array(PhpCssScannerToken::IDENTIFIER)
-      ),
-      array(
         array(
-          new PhpCssScannerToken(PhpCssScannerToken::IDENTIFIER, 'foo', 0),
-          new PhpCssScannerToken(PhpCssScannerToken::CLASS_SELECTOR, 'foo', 0),
-        ),
-        array(PhpCssScannerToken::IDENTIFIER, PhpCssScannerToken::ID_SELECTOR)
-      )
-    );
+          array(
+            new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0),
+            new Scanner\Token(Scanner\Token::CLASS_SELECTOR, 'foo', 0),
+          ),
+          array(Scanner\Token::IDENTIFIER, Scanner\Token::ID_SELECTOR)
+        )
+      );
+    }
   }
 }

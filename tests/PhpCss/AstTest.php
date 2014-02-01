@@ -1,41 +1,21 @@
 <?php
-/**
-* Collection of tests for the abstract ast superclass
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
+namespace PhpCss {
 
-/**
-* Load necessary files
-*/
-require_once(dirname(__FILE__).'/TestCase.php');
+  require_once(__DIR__.'/../bootstrap.php');
 
-/**
-* Test class for PhpCssAst.
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-class PhpCssAstTest extends PhpCssTestCase {
+  class AstTest extends \PHPUnit_Framework_TestCase {
 
-  /**
-  * @covers PhpCssAst::accept
-  */
-  public function testAccept() {
-    $ast = new PhpCssAst_TestProxy();
-    $visitor = $this->getMock('PhpCssAstVisitor');
-    $visitor
-      ->expects($this->once())
-      ->method('visit')
-      ->with($this->equalTo($ast));
-    $ast->accept($visitor);
+    /**
+    * @covers PhpCss\Ast::accept
+    */
+    public function testAccept() {
+      $ast = $this->getMockForAbstractClass(Ast::CLASS);
+      $visitor = $this->getMock(Ast\Visitor::CLASS);
+      $visitor
+        ->expects($this->once())
+        ->method('visit')
+        ->with($this->equalTo($ast));
+      $ast->accept($visitor);
+    }
   }
 }
-
-class PhpCssAst_TestProxy extends PhpCssAst {
-}
-

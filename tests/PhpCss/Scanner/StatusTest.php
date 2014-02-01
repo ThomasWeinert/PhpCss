@@ -1,57 +1,28 @@
 <?php
-/**
-* Collection of test for the PHPCssScannerStatus class
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
+namespace PhpCss\Scanner {
 
-/**
-* Load necessary files
-*/
-require_once(dirname(__FILE__).'/../TestCase.php');
-require_once(dirname(__FILE__).'/../../../src/PhpCss/Scanner/Status.php');
+  require_once(__DIR__.'/../../bootstrap.php');
 
-/**
-* Collection of test for the PHPCssScannerStatus class
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-class PHPCssScannerStatusTest extends PhpCssTestCase {
+  class StatusTest extends \PHPUnit_Framework_TestCase {
 
-  /**
-  * @covers PHPCssScannerStatus::matchPattern
-   */
-  public function testMatchPatternExpectingString() {
-    $status = new PHPCssScannerStatus_TestProxy();
-    $this->assertEquals(
-      'y',
-      $status->matchPattern('xyz', 1, '(y)')
-    );
-  }
-  /**
-  * @covers PHPCssScannerStatus::matchPattern
-   */
-  public function testMatchPatternExpectingNull() {
-    $status = new PHPCssScannerStatus_TestProxy();
-    $this->assertNull(
-      $status->matchPattern('xyz', 1, '(=)')
-    );
-  }
-}
-
-class PHPCssScannerStatus_TestProxy extends PHPCssScannerStatus {
-
-  public function getToken($buffer, $offset) {
-  }
-
-  public function getNewStatus($token) {
-  }
-
-  public function isEndToken($token) {
+    /**
+    * @covers PHPCss\Scanner\Status::matchPattern
+     */
+    public function testMatchPatternExpectingString() {
+      $status = $this->getMockForAbstractClass(Status::CLASS);
+      $this->assertEquals(
+        'y',
+        $status->matchPattern('xyz', 1, '(y)')
+      );
+    }
+    /**
+    * @covers PHPCss\Scanner\Status::matchPattern
+     */
+    public function testMatchPatternExpectingNull() {
+      $status = $this->getMockForAbstractClass(Status::CLASS);
+      $this->assertNull(
+        $status->matchPattern('xyz', 1, '(=)')
+      );
+    }
   }
 }

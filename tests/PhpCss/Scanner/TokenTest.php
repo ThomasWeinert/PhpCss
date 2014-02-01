@@ -1,120 +1,98 @@
 <?php
-/**
-* Collection of test for the PhpCssScannerToken class
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
+namespace PhpCss\Scanner {
 
-/**
-* Load necessary files
-*/
-require_once(dirname(__FILE__).'/../TestCase.php');
+  require_once(__DIR__.'/../../bootstrap.php');
 
-/**
-* Test class for PhpCssScannerToken.
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-class PhpCssScannerTokenTest extends PhpCssTestCase {
+  class TokenTest extends \PHPUnit_Framework_TestCase {
 
-  /**
-  * @covers PhpCssScannerToken::__construct
-  * @covers PhpCssScannerToken::__get
-  */
-  public function testAttributeTypeRead() {
-    $token = new PhpCssScannerToken(PhpCssScannerToken::STRING_CHARACTERS, 'hello', 42);
-    $this->assertEquals(
-      PhpCssScannerToken::STRING_CHARACTERS,
-      $token->type
-    );
-  }
-
-  /**
-  * @covers PhpCssScannerToken::__construct
-  * @covers PhpCssScannerToken::__get
-  */
-  public function testAttributeContentRead() {
-    $token = new PhpCssScannerToken(PhpCssScannerToken::STRING_CHARACTERS, 'hello', 42);
-    $this->assertEquals(
-      'hello',
-      $token->content
-    );
-  }
-
-  /**
-  * @covers PhpCssScannerToken::__construct
-  * @covers PhpCssScannerToken::__get
-  */
-  public function testAttributeLengthRead() {
-    $token = new PhpCssScannerToken(PhpCssScannerToken::STRING_CHARACTERS, 'hello', 42);
-    $this->assertEquals(
-      5,
-      $token->length
-    );
-  }
-
-
-  /**
-  * @covers PhpCssScannerToken::__construct
-  * @covers PhpCssScannerToken::__get
-  */
-  public function testAttributePositionRead() {
-    $token = new PhpCssScannerToken(PhpCssScannerToken::STRING_CHARACTERS, 'hello', 42);
-    $this->assertEquals(
-      42,
-      $token->position
-    );
-  }
-
-  /**
-  * @covers PhpCssScannerToken::__construct
-  * @covers PhpCssScannerToken::__get
-  */
-  public function testAttributeInvalidReadExpectingException() {
-    $token = new PhpCssScannerToken(PhpCssScannerToken::STRING_CHARACTERS, 'hello', 42);
-    try {
-      $dummy = $token->invalidAttribute;
-      $this->fail('An expected exception has not been raised.');
-    } catch (InvalidArgumentException $expected) {
+    /**
+    * @covers PhpCss\Scanner\Token::__construct
+    * @covers PhpCss\Scanner\Token::__get
+    */
+    public function testAttributeTypeRead() {
+      $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
+      $this->assertEquals(
+        Token::STRING_CHARACTERS,
+        $token->type
+      );
     }
-  }
 
-  /**
-  * @covers PhpCssScannerToken::__set
-  */
-  public function testAttributeWriteExpectingException() {
-    $token = new PhpCssScannerToken(PhpCssScannerToken::STRING_CHARACTERS, 'hello', 42);
-    try {
+    /**
+    * @covers PhpCss\Scanner\Token::__construct
+    * @covers PhpCss\Scanner\Token::__get
+    */
+    public function testAttributeContentRead() {
+      $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
+      $this->assertEquals(
+        'hello',
+        $token->content
+      );
+    }
+
+    /**
+    * @covers PhpCss\Scanner\Token::__construct
+    * @covers PhpCss\Scanner\Token::__get
+    */
+    public function testAttributeLengthRead() {
+      $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
+      $this->assertEquals(
+        5,
+        $token->length
+      );
+    }
+
+
+    /**
+    * @covers PhpCss\Scanner\Token::__construct
+    * @covers PhpCss\Scanner\Token::__get
+    */
+    public function testAttributePositionRead() {
+      $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
+      $this->assertEquals(
+        42,
+        $token->position
+      );
+    }
+
+    /**
+    * @covers PhpCss\Scanner\Token::__construct
+    * @covers PhpCss\Scanner\Token::__get
+    */
+    public function testAttributeInvalidReadExpectingException() {
+      $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
+      $this->setExpectedException(\InvalidArgumentException::CLASS);
+      $token->invalidAttribute;
+    }
+
+    /**
+    * @covers PhpCss\Scanner\Token::__set
+    */
+    public function testAttributeWriteExpectingException() {
+      $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
+      $this->setExpectedException(\BadMethodCallException::CLASS);
       $token->anyAttribute = 'fail';
-      $this->fail('An expected exception has not been raised.');
-    } catch (BadMethodCallException $expected) {
     }
-  }
 
-  /**
-  * @covers PhpCssScannerToken::__toString
-  * @covers PhpCssScannerToken::quoteContent
-  */
-  public function testToString() {
-    $token = new PhpCssScannerToken(PhpCssScannerToken::STRING_CHARACTERS, 'hello', 42);
-    $this->assertEquals(
-      "TOKEN::STRING_CHARACTERS @42 'hello'",
-      (string)$token
-    );
-  }
+    /**
+    * @covers PhpCss\Scanner\Token::__toString
+    * @covers PhpCss\Scanner\Token::quoteContent
+    */
+    public function testToString() {
+      $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
+      $this->assertEquals(
+        "TOKEN::STRING_CHARACTERS @42 'hello'",
+        (string)$token
+      );
+    }
 
-  /**
-  * @covers PhpCssScannerToken::typeToString
-  */
-  public function testTypeToString() {
-    $this->assertEquals(
-      'STRING_CHARACTERS',
-      PhpCssScannerToken::typeToString(PhpCssScannerToken::STRING_CHARACTERS)
-    );
+    /**
+    * @covers PhpCss\Scanner\Token::typeToString
+    */
+    public function testTypeToString() {
+      $this->assertEquals(
+        'STRING_CHARACTERS',
+        Token::typeToString(Token::STRING_CHARACTERS)
+      );
+    }
   }
 }

@@ -1,105 +1,104 @@
 <?php
 /**
-* PhpCss Scanner Status Selector
+* Scanner Status "Selector"
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Scanner
+* @copyright Copyright 2010-2014 PhpCss Team
 */
 
-/**
-* PhpCss Scanner Status Selector recognizes token of a css selector sequence.
-*
-* @package PhpCss
-* @subpackage Scanner
-*/
-class PhpCssScannerStatusSelector extends PhpCssScannerStatus {
+namespace PhpCss\Scanner\Status {
+
+  use PhpCss\Scanner;
 
   /**
-  * single char tokens
-  * @var array
+  * Scanner Status Selector recognizes token of a css selector sequence.
   */
-  protected $_tokenChars = array(
-    PhpCssScannerToken::SEPARATOR => ',',
-    PhpCssScannerToken::ATTRIBUTE_SELECTOR_START => '[',
-    PhpCssScannerToken::PARENTHESES_START => '(',
-    PhpCssScannerToken::PARENTHESES_END => ')',
-    PhpCssScannerToken::SINGLEQUOTE_STRING_START => "'",
-    PhpCssScannerToken::DOUBLEQUOTE_STRING_START => '"'
-  );
+  class Selector extends Scanner\Status {
 
-  /**
-  * patterns for more complex tokens
-  * @var array
-  */
-  protected $_tokenPatterns = array(
-    PhpCssScannerToken::CLASS_SELECTOR => PhpCssScannerPatterns::CLASS_SELECTOR,
-    PhpCssScannerToken::ID_SELECTOR => PhpCssScannerPatterns::ID_SELECTOR,
-    PhpCssScannerToken::PSEUDO_CLASS => PhpCssScannerPatterns::PSEUDO_CLASS,
-    PhpCssScannerToken::PSEUDO_CLASS_POSITION => PhpCssScannerPatterns::PSEUDO_CLASS_POSITION,
-    PhpCssScannerToken::PSEUDO_ELEMENT => PhpCssScannerPatterns::PSEUDO_ELEMENT,
-    PhpCssScannerToken::IDENTIFIER => PhpCssScannerPatterns::IDENTIFIER,
-    PhpCssScannerToken::COMBINATOR => PhpCssScannerPatterns::COMBINATOR,
-    PhpCssScannerToken::WHITESPACE => PhpCssScannerPatterns::WHITESPACE,
-    PhpCssScannerToken::NUMBER => PhpCssScannerPatterns::NUMBER
-  );
+    /**
+    * single char tokens
+    * @var array
+    */
+    protected $_tokenChars = array(
+      Scanner\Token::SEPARATOR => ',',
+      Scanner\Token::ATTRIBUTE_SELECTOR_START => '[',
+      Scanner\Token::PARENTHESES_START => '(',
+      Scanner\Token::PARENTHESES_END => ')',
+      Scanner\Token::SINGLEQUOTE_STRING_START => "'",
+      Scanner\Token::DOUBLEQUOTE_STRING_START => '"'
+    );
 
-  /**
-  * Try to get token in buffer at offset position.
-  *
-  * @param string $buffer
-  * @param integer $offset
-  * @return FluentDOMSelectorCssToken
-  */
-  public function getToken($buffer, $offset) {
-    $char = substr($buffer, $offset, 1);
-    foreach ($this->_tokenChars as $type => $expectedChar) {
-      if ($char === $expectedChar) {
-        return new PhpCssScannerToken(
-          $type, $char, $offset
-        );
+    /**
+    * patterns for more complex tokens
+    * @var array
+    */
+    protected $_tokenPatterns = array(
+      Scanner\Token::CLASS_SELECTOR => Scanner\Patterns::CLASS_SELECTOR,
+      Scanner\Token::ID_SELECTOR => Scanner\Patterns::ID_SELECTOR,
+      Scanner\Token::PSEUDO_CLASS => Scanner\Patterns::PSEUDO_CLASS,
+      Scanner\Token::PSEUDO_CLASS_POSITION => Scanner\Patterns::PSEUDO_CLASS_POSITION,
+      Scanner\Token::PSEUDO_ELEMENT => Scanner\Patterns::PSEUDO_ELEMENT,
+      Scanner\Token::IDENTIFIER => Scanner\Patterns::IDENTIFIER,
+      Scanner\Token::COMBINATOR => Scanner\Patterns::COMBINATOR,
+      Scanner\Token::WHITESPACE => Scanner\Patterns::WHITESPACE,
+      Scanner\Token::NUMBER => Scanner\Patterns::NUMBER
+    );
+
+    /**
+    * Try to get token in buffer at offset position.
+    *
+    * @param string $buffer
+    * @param integer $offset
+    * @return Scanner\Token
+    */
+    public function getToken($buffer, $offset) {
+      $char = substr($buffer, $offset, 1);
+      foreach ($this->_tokenChars as $type => $expectedChar) {
+        if ($char === $expectedChar) {
+          return new Scanner\Token(
+            $type, $char, $offset
+          );
+        }
       }
-    }
-    foreach ($this->_tokenPatterns as $type => $pattern) {
-      $tokenString = $this->matchPattern(
-        $buffer, $offset, $pattern
-      );
-      if (!empty($tokenString)) {
-        return new PhpCssScannerToken(
-          $type, $tokenString, $offset
+      foreach ($this->_tokenPatterns as $type => $pattern) {
+        $tokenString = $this->matchPattern(
+          $buffer, $offset, $pattern
         );
+        if (!empty($tokenString)) {
+          return new Scanner\Token(
+            $type, $tokenString, $offset
+          );
+        }
       }
+      return NULL;
     }
-    return NULL;
-  }
 
-  /**
-  * Check if token ends status
-  *
-  * @param PhpCssScannerToken $token
-  * @return boolean
-  */
-  public function isEndToken($token) {
-    return FALSE;
-  }
-
-  /**
-  * Get new (sub)status if needed.
-  *
-  * @param PhpCssScannerToken $token
-  * @return PhpCssScannerStatus
-  */
-  public function getNewStatus($token) {
-    switch ($token->type) {
-    case PhpCssScannerToken::SINGLEQUOTE_STRING_START :
-      return new PhpCssScannerStatusStringSingle();
-    case PhpCssScannerToken::DOUBLEQUOTE_STRING_START :
-      return new PhpCssScannerStatusStringDouble();
-    case PhpCssScannerToken::ATTRIBUTE_SELECTOR_START :
-      return new PhpCssScannerStatusSelectorAttribute();
+    /**
+    * Check if token ends status
+    *
+    * @param Scanner\Token $token
+    * @return boolean
+    */
+    public function isEndToken(Scanner\Token $token) {
+      return FALSE;
     }
-    return NULL;
+
+    /**
+    * Get new (sub)status if needed.
+    *
+    * @param Scanner\Token $token
+    * @return Scanner\Status
+    */
+    public function getNewStatus(Scanner\Token $token) {
+      switch ($token->type) {
+      case Scanner\Token::SINGLEQUOTE_STRING_START :
+        return new Scanner\Status\String\Single();
+      case Scanner\Token::DOUBLEQUOTE_STRING_START :
+        return new Scanner\Status\String\Double();
+      case Scanner\Token::ATTRIBUTE_SELECTOR_START :
+        return new Scanner\Status\Selector\Attribute();
+      }
+      return NULL;
+    }
   }
 }

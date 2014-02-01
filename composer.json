@@ -1,0 +1,19 @@
+{
+  "name": "carica/phpcss",
+  "description": "An css selector parser and converter",
+  "minimum-stability": "stable",
+  "license": "MIT license",
+  "authors": [
+    {
+      "name": "Thomas Weinert",
+      "email": "thomas@weinert.info"
+    }
+  ],
+  "require" : {
+    "PHP" : ">=5.5"
+  },
+  "autoload": {
+    "psr-4": {"PhpCss\\": "src/"},
+    "file": ["src/PhpCss.php"]
+  }
+}

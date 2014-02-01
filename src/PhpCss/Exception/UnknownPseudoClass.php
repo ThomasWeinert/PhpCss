@@ -3,27 +3,26 @@
 * Exception thrown if an a pseudo class is found and the name is not known.
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Exceptions
+* @copyright Copyright 2010-2014 PhpCss Team
 */
 
-/**
-* Exception thrown if an a pseudo class is found and the name is not known.
-*
-* @package PhpCss
-* @subpackage Exceptions
-*/
-class PhpCssExceptionUnknownPseudoClass extends PhpCssExceptionParser {
+namespace PhpCss\Exception {
 
-  public function __construct($token) {
-    parent::__construct(
-      sprintf(
-        'Parse error: Unknown pseudo class "%s" at character "%d".',
-        $token->content,
-        $token->position
-      )
-    );
+  use PhpCss;
+
+  /**
+  * Exception thrown if an a pseudo class is found and the name is not known.
+  */
+  class UnknownPseudoClass extends Parser {
+
+    public function __construct(PhpCss\Scanner\Token $token) {
+      parent::__construct(
+        sprintf(
+          'Parse error: Unknown pseudo class "%s" at character "%d".',
+          $token->content,
+          $token->position
+        )
+      );
+    }
   }
 }

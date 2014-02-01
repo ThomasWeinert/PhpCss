@@ -1,126 +1,112 @@
 <?php
-/**
-* Collection of tests for the Selector Sequence List class
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*
-* @package PhpCss
-* @subpackage Tests
-*/
+namespace PhpCss\Ast {
 
-/**
-* Load necessary files
-*/
-require_once(dirname(__FILE__).'/../TestCase.php');
+  use PhpCss;
 
-/**
-* Test class for PhpCssAstSelectorGroup.
-*
-* @package PhpCss
-* @subpackage Tests
-*/
-class PhpCssAstSelectorSequenceTest extends PhpCssTestCase {
+  require_once(__DIR__.'/../../bootstrap.php');
 
-  /**
-  * @covers PhpCssAstSelectorGroup::__construct
-  */
-  public function testConstructor() {
-    $this->assertInstanceOf(
-      'PhpCssAstSelectorGroup',
-      new PhpCssAstSelectorGroup()
-    );
-  }
+  class GroupTest extends \PHPUnit_Framework_TestCase {
 
-  /**
-  * @covers PhpCssAstSelectorGroup::__construct
-  * @covers PhpCssAstSelectorGroup::getIterator
-  */
-  public function testConstructorWithSequences() {
-    $sequences = array(
-      new PhpCssAstSelectorSequence()
-    );
-    $list = new PhpCssAstSelectorGroup(
-      $sequences
-    );
-    $this->assertSame(
-      $sequences, iterator_to_array($list)
-    );
-  }
+    /**
+    * @covers PhpCss\Ast\Selector\Group::__construct
+    */
+    public function testConstructor() {
+      $this->assertInstanceOf(
+        Selector\Group::CLASS,
+        new Selector\Group()
+      );
+    }
 
-  /**
-  * @covers PhpCssAstSelectorGroup::__offsetExists
-  */
-  public function testOffsetExistsExpectingTrue() {
-    $list = new PhpCssAstSelectorGroup(
-      array(
-        new PhpCssAstSelectorSequence()
-      )
-    );
-    $this->assertTrue(isset($list[0]));
-  }
+    /**
+    * @covers PhpCss\Ast\Selector\Group::__construct
+    * @covers PhpCss\Ast\Selector\Group::getIterator
+    */
+    public function testConstructorWithSequences() {
+      $sequences = array(
+        new Selector\Sequence()
+      );
+      $list = new Selector\Group(
+        $sequences
+      );
+      $this->assertSame(
+        $sequences, iterator_to_array($list)
+      );
+    }
 
-  /**
-  * @covers PhpCssAstSelectorGroup::__offsetExists
-  */
-  public function testOffsetExistsExpectingFalse() {
-    $list = new PhpCssAstSelectorGroup();
-    $this->assertFalse(isset($list[0]));
-  }
+    /**
+    * @covers PhpCss\Ast\Selector\Group::offsetExists
+    */
+    public function testOffsetExistsExpectingTrue() {
+      $list = new Selector\Group(
+        array(
+          new Selector\Sequence()
+        )
+      );
+      $this->assertTrue(isset($list[0]));
+    }
 
-  /**
-  * @covers PhpCssAstSelectorGroup::__offsetGet
-  */
-  public function testOffsetGet() {
-    $list = new PhpCssAstSelectorGroup(
-      array(
-        $sequence = new PhpCssAstSelectorSequence()
-      )
-    );
-    $this->assertSame($sequence, $list[0]);
-  }
+    /**
+    * @covers PhpCss\Ast\Selector\Group::offsetExists
+    */
+    public function testOffsetExistsExpectingFalse() {
+      $list = new Selector\Group();
+      $this->assertFalse(isset($list[0]));
+    }
 
-  /**
-  * @covers PhpCssAstSelectorGroup::__offsetSet
-  */
-  public function testOffsetSetAppendsElement() {
-    $list = new PhpCssAstSelectorGroup();
-    $list[] = $sequence = new PhpCssAstSelectorSequence();
-    $this->assertSame($sequence, $list[0]);
-  }
+    /**
+    * @covers PhpCss\Ast\Selector\Group::offsetGet
+    */
+    public function testOffsetGet() {
+      $list = new Selector\Group(
+        array(
+          $sequence = new Selector\Sequence()
+        )
+      );
+      $this->assertSame($sequence, $list[0]);
+    }
 
-  /**
-  * @covers PhpCssAstSelectorGroup::__offsetSet
-  */
-  public function testOffsetSetReplacesElement() {
-    $list = new PhpCssAstSelectorGroup(
-      array(
-        $sequence = new PhpCssAstSelectorSequence()
-      )
-    );
-    $list[0] = $sequence = new PhpCssAstSelectorSequence();
-    $this->assertSame($sequence, $list[0]);
-  }
+    /**
+    * @covers PhpCss\Ast\Selector\Group::offsetSet
+    */
+    public function testOffsetSetAppendsElement() {
+      $list = new Selector\Group();
+      $list[] = $sequence = new Selector\Sequence();
+      $this->assertSame($sequence, $list[0]);
+    }
 
-  /**
-  * @covers PhpCssAstSelectorGroup::__offsetSet
-  */
-  public function testOffsetSetValidatesElementExpectingException() {
-    $list = new PhpCssAstSelectorGroup();
-    $this->setExpectedException('InvalidArgumentException');
-    $list[] = 'INVALID TYPE';
-  }
+    /**
+    * @covers PhpCss\Ast\Selector\Group::offsetSet
+    */
+    public function testOffsetSetReplacesElement() {
+      $list = new Selector\Group(
+        array(
+          $sequence = new Selector\Sequence()
+        )
+      );
+      $list[0] = $sequence = new Selector\Sequence();
+      $this->assertSame($sequence, $list[0]);
+    }
 
-  /**
-  * @covers PhpCssAstSelectorGroup::__offsetGet
-  */
-  public function testOffsetUnset() {
-    $list = new PhpCssAstSelectorGroup(
-      array(
-        new PhpCssAstSelectorSequence()
-      )
-    );
-    unset($list[0]);
-    $this->assertFalse(isset($list[0]));
+    /**
+    * @covers PhpCss\Ast\Selector\Group::offsetSet
+    */
+    public function testOffsetSetValidatesElementExpectingException() {
+      $list = new Selector\Group();
+      $this->setExpectedException(\InvalidArgumentException::CLASS);
+      $list[] = 'INVALID TYPE';
+    }
+
+    /**
+    * @covers PhpCss\Ast\Selector\Group::offsetGet
+    */
+    public function testOffsetUnset() {
+      $list = new Selector\Group(
+        array(
+          new Selector\Sequence()
+        )
+      );
+      unset($list[0]);
+      $this->assertFalse(isset($list[0]));
+    }
   }
 }

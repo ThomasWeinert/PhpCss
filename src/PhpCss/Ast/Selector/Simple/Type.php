@@ -1,12 +1,17 @@
 <?php
 
-class PhpCssAstSelectorSimpleType extends PhpCssAstSelectorSimple {
+namespace PhpCss\Ast\Selector\Simple {
 
-  public $namespacePrefix = '*';
-  public $elementName = '';
+  use PhpCss\Ast;
 
-  public function __construct($name, $prefix = '*') {
-    $this->namespacePrefix = $prefix;
-    $this->elementName = $name;
+  class Type extends Ast\Selector\Simple {
+
+    public $namespacePrefix = '*';
+    public $elementName = '';
+
+    public function __construct($name, $prefix = '*') {
+      $this->namespacePrefix = $prefix;
+      $this->elementName = $name;
+    }
   }
 }

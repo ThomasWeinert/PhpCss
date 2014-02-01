@@ -4,7 +4,7 @@
          backupStaticAttributes="false"
          syntaxCheck="false">
   <testsuites>
-    <testsuite name="phpCss">
+    <testsuite name="PhpCss">
       <directory suffix="Test.php">tests</directory>
     </testsuite>
   </testsuites>
