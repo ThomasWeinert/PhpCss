@@ -62,7 +62,7 @@ namespace PhpCss {
     * value, which is handled the same way an array with only one entry would
     * be.
     *
-    * The special Token PhpCssScannerToken::ANY may be used to indicate
+    * The special Token Scanner\Token::ANY may be used to indicate
     * everything is valid and may be matched. However if it is used no other
     * token may be specified, which does not make any sense, anyway.
     *
@@ -100,7 +100,7 @@ namespace PhpCss {
      * value, which is handled the same way an array with only one entry would
      * be.
      *
-     * The special Token PhpCssScannerToken::ANY may be used to indicate
+     * The special Token Scanner\Token::ANY may be used to indicate
      * everything is valid and may be matched. However if it is used no other
      * token may be specified, which does not make any sense, anyway.
      *
@@ -140,8 +140,7 @@ namespace PhpCss {
      * may be provided to look forward.
      *
      * @param int $position
-     * @internal param array|int|string $expectedTokens
-     * @return Scanner\Token|NULL
+     * @return boolean
      */
     protected function endOfTokens($position = 0) {
       return (count($this->_tokens) <= $position);
@@ -159,7 +158,7 @@ namespace PhpCss {
      * value, which is handled the same way an array with only one entry would
      * be.
      *
-     * The special Token PhpCssScannerToken::ANY is not valid here.
+     * The special Token Scanner\Token::ANY is not valid here.
      *
      * The method return TRUE if tokens were removed, otherwise FALSE.
      *
@@ -209,13 +208,15 @@ namespace PhpCss {
      * of providing the current tokenstream as well as instantiating the
      * subparser.
      *
-     * @param string $subparserClass
-     * @internal param string $subparserclass
+     * @param string $parserClass
      * @return Ast
      */
-    protected function delegate($subparserClass) {
-      $subparser = new $subparserClass($this->_tokens);
-      return $subparser->parse();
+    protected function delegate($parserClass) {
+      $parser = new $parserClass($this->_tokens);
+      /**
+       * @var Parser $parser
+       */
+      return $parser->parse();
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
-* PhpCssScanner scans a string for tokens.
+* Scans a string and creates list of tokens.
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 * @copyright Copyright 2010-2014 PhpCss Team
@@ -8,7 +8,7 @@
 namespace PhpCss {
 
   /**
-  * The PhpCssScanner scans a string for tokens.
+  * Scans a string and creates list of tokens.
   *
   * The actual result depends on the status, the status
   * class does the actual token matching and generation, the scanner handles, to loops and
@@ -18,7 +18,7 @@ namespace PhpCss {
 
     /**
     * Scanner status object
-    * @var PhpCssScannerStatus
+    * @var Scanner\Status
     */
     private $_status = NULL;
     /**
@@ -47,7 +47,7 @@ namespace PhpCss {
      * @param array &$target token target
      * @param string $string content string
      * @param integer $offset start offset
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      * @return integer new offset
      */
     public function scan(&$target, $string, $offset = 0) {
@@ -85,7 +85,7 @@ namespace PhpCss {
     /**
     * Get next token
     *
-    * @return PhpCssScannerToken|NULL
+    * @return Scanner\Token|NULL
     */
     private function _next() {
       if (($token = $this->_status->getToken($this->_buffer, $this->_offset)) &&

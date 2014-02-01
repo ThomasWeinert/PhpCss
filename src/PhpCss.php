@@ -41,7 +41,7 @@ abstract class PhpCss {
   * Parses a css selector and returns the AST
   *
   * @param string $cssSelector
-  * @return PhpCssAst
+  * @return PhpCss\Ast
   */
   public static function getAst($cssSelector) {
     $tokens = array();

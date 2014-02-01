@@ -11,7 +11,7 @@ namespace PhpCss\Ast\Visitor {
     * @covers PhpCss\Ast\Visitor\Css
     * @dataProvider provideExamples
     */
-    public function testIntegration($expected, $ast) {
+    public function testIntegration($expected, Ast $ast) {
       $visitor = new Css();
       $ast->accept($visitor);
       $this->assertEquals(

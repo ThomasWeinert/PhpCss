@@ -11,7 +11,7 @@ namespace PhpCss\Ast\Visitor {
     * @covers PhpCss\Ast\Visitor\Xpath
     * @dataProvider provideExamples
     */
-    public function testIntegration($expected, $ast) {
+    public function testIntegration($expected, Ast $ast) {
       $visitor = new Xpath();
       $ast->accept($visitor);
       $this->assertEquals(

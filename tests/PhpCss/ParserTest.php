@@ -44,7 +44,7 @@ namespace PhpCss {
     public function testReadMismatch($tokens, $allowedTokens) {
       $parser = $this->getParserFixture($tokens);
       $this->setExpectedException(Exception\Parser::CLASS);
-      $result = $parser->read($allowedTokens);
+      $parser->read($allowedTokens);
     }
 
     /**
@@ -69,7 +69,7 @@ namespace PhpCss {
     public function testDirectLookaheadMismatch($tokens, $allowedTokens) {
       $parser = $this->getParserFixture($tokens);
       $this->setExpectedException(Exception\Parser::CLASS);
-      $result = $parser->lookahead($allowedTokens);
+      $parser->lookahead($allowedTokens);
     }
 
     /**
@@ -94,7 +94,7 @@ namespace PhpCss {
     public function testLookaheadMismatch($tokens, $allowedTokens) {
       $parser = $this->getParserFixture($tokens);
       $this->setExpectedException(Exception\Parser::CLASS);
-      $result = $parser->lookahead($allowedTokens, 1);
+      $parser->lookahead($allowedTokens, 1);
     }
 
     /**

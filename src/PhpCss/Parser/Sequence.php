@@ -60,8 +60,12 @@ namespace PhpCss\Parser {
         case Scanner\Token::COMBINATOR :
         case Scanner\Token::WHITESPACE :
           $this->read($token->type);
+          $subSequence = $this->delegate(get_class($this));
+          /**
+           * @var Ast\Selector\Sequence $subSequence
+           */
           $sequence->combinator = $this->createCombinator(
-            $token, $this->delegate(get_class($this))
+            $token, $subSequence
           );
           return $sequence;
         }

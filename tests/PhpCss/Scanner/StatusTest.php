@@ -10,6 +10,9 @@ namespace PhpCss\Scanner {
      */
     public function testMatchPatternExpectingString() {
       $status = $this->getMockForAbstractClass(Status::CLASS);
+      /**
+       * @var Status $status
+       */
       $this->assertEquals(
         'y',
         $status->matchPattern('xyz', 1, '(y)')
@@ -20,6 +23,9 @@ namespace PhpCss\Scanner {
      */
     public function testMatchPatternExpectingNull() {
       $status = $this->getMockForAbstractClass(Status::CLASS);
+      /**
+       * @var Status $status
+       */
       $this->assertNull(
         $status->matchPattern('xyz', 1, '(=)')
       );

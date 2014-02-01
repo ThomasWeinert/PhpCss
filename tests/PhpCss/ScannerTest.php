@@ -10,6 +10,9 @@ namespace PhpCss {
     */
     public function testConstructor() {
       $status = $this->getMock(Scanner\Status::CLASS);
+      /**
+       * @var Scanner\Status $status
+       */
       $scanner = new Scanner($status);
       $this->assertAttributeSame(
         $status, '_status', $scanner
@@ -644,7 +647,7 @@ namespace PhpCss {
     *****************************/
 
     public function assertTokenListEqualsStringList($expected, $tokens) {
-      $string = array();
+      $strings = array();
       foreach ($tokens as $token) {
         $strings[] = (string)$token;
       }
@@ -658,6 +661,10 @@ namespace PhpCss {
     * Fixtures
     ******************************/
 
+    /**
+     * @param integer $length
+     * @return Scanner\Token|\PHPUnit_Framework_MockObject_MockObject
+     */
     private function getTokenMockObjectFixture($length) {
       $token = $this->getMock(Scanner\Token::CLASS);
       $token
@@ -667,6 +674,11 @@ namespace PhpCss {
       return $token;
     }
 
+    /**
+     * @param array $tokens
+     * @param null $isEndToken
+     * @return Scanner\Status|\PHPUnit_Framework_MockObject_MockObject
+     */
     private function getStatusMockObjectFixture($tokens, $isEndToken = NULL) {
       $status = $this->getMock(Scanner\Status::CLASS);
       if (count($tokens) > 0) {

@@ -5,9 +5,16 @@ namespace PhpCss\Ast\Selector  {
 
   class Sequence extends Ast\Selector {
 
+    /**
+     * @var array(Simple)
+     */
     public $simples = array();
     public $combinator = NULL;
 
+    /**
+     * @param array(Simple) $simples
+     * @param Combinator $combinator
+     */
     public function __construct(array $simples = array(), Combinator $combinator = NULL) {
       $this->simples = $simples;
       $this->combinator = $combinator;
@@ -22,6 +29,9 @@ namespace PhpCss\Ast\Selector  {
     public function accept(Ast\Visitor $visitor) {
       if ($visitor->visitEnter($this)) {
         foreach ($this->simples as $simple) {
+          /**
+           * @var Simple $simple
+           */
           $simple->accept($visitor);
         }
         if (isset($this->combinator)) {

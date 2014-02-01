@@ -61,6 +61,7 @@ namespace PhpCss\Scanner {
     public function testAttributeInvalidReadExpectingException() {
       $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
       $this->setExpectedException(\InvalidArgumentException::CLASS);
+      /** @noinspection PhpUndefinedFieldInspection */
       $token->invalidAttribute;
     }
 
@@ -70,6 +71,7 @@ namespace PhpCss\Scanner {
     public function testAttributeWriteExpectingException() {
       $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
       $this->setExpectedException(\BadMethodCallException::CLASS);
+      /** @noinspection PhpUndefinedFieldInspection */
       $token->anyAttribute = 'fail';
     }
 

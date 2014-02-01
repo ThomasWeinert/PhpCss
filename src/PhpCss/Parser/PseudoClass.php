@@ -70,7 +70,7 @@ namespace PhpCss\Parser {
             break;
           case Scanner\Token::PSEUDO_CLASS :
             if ($parameterToken->content == ':not') {
-              throw new LogicException('not not allowed in not - @todo implement exception');
+              throw new \LogicException('not not allowed in not - @todo implement exception');
             }
             $parameter = $this->delegate(PseudoClass::CLASS);
             break;
@@ -81,11 +81,16 @@ namespace PhpCss\Parser {
           case Scanner\Token::ATTRIBUTE_SELECTOR_START :
             $this->read($parameterToken->type);
             $parameter = $this->delegate(Attribute::CLASS);
+            break;
+          default :
+            $parameter = NULL;
           }
           $class = new Ast\Selector\Simple\PseudoClass(
             $name, $parameter
           );
           break;
+        default :
+          $class = NULL;
         }
         $this->ignore(Scanner\Token::WHITESPACE);
         $this->read(Scanner\Token::PARENTHESES_END);

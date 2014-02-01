@@ -37,9 +37,11 @@ namespace PhpCss\Scanner\Status\String {
     */
     public function testGetNewStatus() {
       $status = new Single();
-      $this->assertNULL(
-         $status->getNewStatus($this->getMock(Scanner\Token::CLASS))
-      );
+      $token = $this->getMock(Scanner\Token::CLASS);
+      /**
+       * @var Scanner\Token $token
+       */
+      $this->assertNULL($status->getNewStatus($token));
     }
 
 

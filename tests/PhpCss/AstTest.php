@@ -15,6 +15,10 @@ namespace PhpCss {
         ->expects($this->once())
         ->method('visit')
         ->with($this->equalTo($ast));
+      /**
+       * @var Ast $ast
+       * @var Ast\Visitor $visitor
+       */
       $ast->accept($visitor);
     }
   }

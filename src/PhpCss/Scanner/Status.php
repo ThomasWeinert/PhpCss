@@ -1,6 +1,6 @@
 <?php
 /**
-* PhpCssScannerStatus is the abstract subperclass for all scanner status implementations
+* Abstract subperclass for all scanner status implementations
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 * @copyright Copyright 2010-2014 PhpCss Team
@@ -8,8 +8,10 @@
 namespace PhpCss\Scanner {
 
   /**
-  * PhpCssScannerStatus is the abstract subperclass for all scanner status implementations
-  */
+   * Abstract subperclass for all scanner status implementations
+   *
+   * It defines the API and provides basic logic to match patterns.
+   */
   abstract class Status {
 
     /**

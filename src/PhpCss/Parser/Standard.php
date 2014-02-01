@@ -40,8 +40,8 @@ namespace PhpCss\Parser {
     * Start parsing looking for anything valid except whitespaces, add
     * returned sequences to the group
     *
-    * @see PhpCssParser::parse()
-    * @return PhpCssAstSelectorGroup
+    * @see PhpCss\Parser::parse()
+    * @return Ast\Selector\Group
     */
     public function parse() {
       $group = new Ast\Selector\Group();
