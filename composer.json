@@ -13,7 +13,7 @@
     "PHP" : ">=5.5"
   },
   "autoload": {
-    "psr-4": {"PhpCss\\": "src/"},
+    "psr-4": {"PhpCss\\": "src/PhpCss"},
     "files": ["src/PhpCss.php"]
   }
 }
