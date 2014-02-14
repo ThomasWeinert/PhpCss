@@ -26,9 +26,9 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
   * @covers \stdClass
   * @dataProvider provideToXpath
   */
-  public function testToXpath($expected, $selector) {
+  public function testToXpath($expected, $selector, $options = 0) {
     $this->assertEquals(
-      $expected, PhpCss::toXpath($selector)
+      $expected, PhpCss::toXpath($selector, $options)
     );
   }
 
@@ -124,10 +124,10 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
 
   public function provideToXpath() {
     return array(
-      array('*[local-name() = "bar"]', 'bar'),
-      array('foo:bar', 'foo|bar'),
-      array('foo:bar[@id = "ok"]', 'foo|bar#ok'),
-      array('*[local-name() = "div" and @data-plugin = "feed"]', 'div[data-plugin=feed]'),
+      array('.//*[local-name() = "bar"]', 'bar'),
+      array('.//foo:bar', 'foo|bar'),
+      array('.//foo:bar[@id = "ok"]', 'foo|bar#ok'),
+      array('.//*[local-name() = "div" and @data-plugin = "feed"]', 'div[data-plugin=feed]'),
     );
   }
 }

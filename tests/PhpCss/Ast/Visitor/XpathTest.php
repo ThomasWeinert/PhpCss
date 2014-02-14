@@ -8,6 +8,56 @@ namespace PhpCss\Ast\Visitor {
   class XpathTest extends \PHPUnit_Framework_TestCase {
 
     /**
+     * @param $option
+     * @param $options
+     * @dataProvider provideIncludedOptionsExamples
+     */
+    public function testHasOptionExpectingTrue($option, $options) {
+      $xpath = new Xpath($options);
+      $this->assertTrue($xpath->hasOption($option));
+    }
+
+    public static function provideIncludedOptionsExamples() {
+      return [
+        [Xpath::OPTION_EXPLICT_NAMESPACES, Xpath::OPTION_EXPLICT_NAMESPACES],
+        [Xpath::OPTION_USE_DOCUMENT_CONTEXT, Xpath::OPTION_USE_DOCUMENT_CONTEXT],
+        [
+          Xpath::OPTION_EXPLICT_NAMESPACES,
+          Xpath::OPTION_EXPLICT_NAMESPACES | Xpath::OPTION_USE_DOCUMENT_CONTEXT
+        ],
+        [
+          Xpath::OPTION_USE_DOCUMENT_CONTEXT,
+          Xpath::OPTION_EXPLICT_NAMESPACES | Xpath::OPTION_USE_DOCUMENT_CONTEXT
+        ]
+      ];
+    }
+
+    /**
+     * @param $option
+     * @param $options
+     * @dataProvider provideExcludedOptionsExamples
+     */
+    public function testHasOptionExpectingFalse($option, $options) {
+      $xpath = new Xpath($options);
+      $this->assertFalse($xpath->hasOption($option));
+    }
+
+    public static function provideExcludedOptionsExamples() {
+      return [
+        [Xpath::OPTION_EXPLICT_NAMESPACES, Xpath::OPTION_USE_DOCUMENT_CONTEXT],
+        [Xpath::OPTION_USE_DOCUMENT_CONTEXT, Xpath::OPTION_EXPLICT_NAMESPACES],
+        [
+          Xpath::OPTION_EXPLICT_NAMESPACES,
+          0
+        ],
+        [
+          Xpath::OPTION_USE_DOCUMENT_CONTEXT,
+          0
+        ]
+      ];
+    }
+
+    /**
     * @covers PhpCss\Ast\Visitor\Xpath
     * @dataProvider provideExamples
     */
@@ -22,7 +72,7 @@ namespace PhpCss\Ast\Visitor {
     public static function provideExamples() {
       return array(
         'element' => array(
-          '*[local-name() = "element"]',
+          './/*[local-name() = "element"]',
           new Ast\Selector\Group(
             array(
               new Ast\Selector\Sequence(
@@ -32,7 +82,7 @@ namespace PhpCss\Ast\Visitor {
           )
         ),
         'element, #id' => array(
-          '*[local-name() = "element"]|*[@id = "id"]',
+          './/*[local-name() = "element"]|.//*[@id = "id"]',
           new Ast\Selector\Group(
             array(
               new Ast\Selector\Sequence(
@@ -45,7 +95,7 @@ namespace PhpCss\Ast\Visitor {
           )
         ),
         'element.class' => array(
-          '*[local-name() = "element" and contains(concat(" ", normalize-space(@class), " "), " class ")]',
+          './/*[local-name() = "element" and contains(concat(" ", normalize-space(@class), " "), " class ")]',
           new Ast\Selector\Group(
             array(
               new Ast\Selector\Sequence(
@@ -58,7 +108,7 @@ namespace PhpCss\Ast\Visitor {
           )
         ),
         '.class' => array(
-          '*[contains(concat(" ", normalize-space(@class), " "), " class ")]',
+          './/*[contains(concat(" ", normalize-space(@class), " "), " class ")]',
           new Ast\Selector\Group(
             array(
               new Ast\Selector\Sequence(
@@ -70,7 +120,7 @@ namespace PhpCss\Ast\Visitor {
           )
         ),
         '#someId' => array(
-          '*[@id = "someId"]',
+          './/*[@id = "someId"]',
           new Ast\Selector\Group(
             array(
               new Ast\Selector\Sequence(
@@ -82,7 +132,7 @@ namespace PhpCss\Ast\Visitor {
           )
         ),
         '*[attr = "value"]' => array(
-          '*[@attr = "value"]',
+          './/*[@attr = "value"]',
           new Ast\Selector\Group(
             array(
               new Ast\Selector\Sequence(
@@ -96,7 +146,7 @@ namespace PhpCss\Ast\Visitor {
           )
         ),
         '*[attr = "some value"]' => array(
-          '*[@attr = "some value"]',
+          './/*[@attr = "some value"]',
           new Ast\Selector\Group(
             array(
               new Ast\Selector\Sequence(
@@ -109,8 +159,8 @@ namespace PhpCss\Ast\Visitor {
             )
           )
         ),
-        '*[starts-with(@attr, "value")]' => array(
-          '*[starts-with(@attr, "value")]',
+        '*[attr~="value"]' => array(
+          './/*[starts-with(@attr, "value")]',
           new Ast\Selector\Group(
             array(
               new Ast\Selector\Sequence(

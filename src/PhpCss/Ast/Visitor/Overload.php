@@ -21,7 +21,6 @@ namespace PhpCss\Ast\Visitor  {
     *
     * @param Ast $object
     * @param string $prefix
-    * @return callback|NULL
     */
     protected function getMethodByClass(Ast $object, $prefix = 'visit') {
       $method = $prefix.substr(str_replace('\\', '', get_class($object)), 9);
@@ -33,7 +32,7 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * Entering an element in the ast, called before visting children
+    * Entering an element in the ast, called before visiting children
     *
     * @param Ast $ast
     * @return boolean

@@ -28,11 +28,12 @@ abstract class PhpCss {
   * Parses a css selector and transforms it into an xpath expression
   *
   * @param string $cssSelector
+  * @param int $options
   * @return string
   */
-  public static function toXpath($cssSelector) {
+  public static function toXpath($cssSelector, $options = 0) {
     $ast = self::getAst($cssSelector);
-    $visitor = new PhpCss\Ast\Visitor\Xpath();
+    $visitor = new PhpCss\Ast\Visitor\Xpath($options);
     $ast->accept($visitor);
     return (string)$visitor;
   }

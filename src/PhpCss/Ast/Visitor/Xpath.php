@@ -14,9 +14,8 @@ namespace PhpCss\Ast\Visitor  {
   */
   class Xpath extends Overload {
 
-    const MODE_NONE = 0;
-    const MODE_IGNORE_NAMESPACES = 1;
-    const MODE_CASE_INSENSITIVE = 2;
+    const OPTION_EXPLICT_NAMESPACES = 1;
+    const OPTION_USE_DOCUMENT_CONTEXT = 2;
 
     const STATUS_DEFAULT = 0;
     const STATUS_ELEMENT = 1;
@@ -39,10 +38,10 @@ namespace PhpCss\Ast\Visitor  {
     /**
      * Create visitor and store mode options
      *
-     * @param integer $mode
+     * @param integer $options
      */
-    public function __construct($mode = self::MODE_NONE) {
-      $this->_mode = (int)$mode;
+    public function __construct($options = 0) {
+      $this->_options = (int)$options;
     }
 
     /**
@@ -51,6 +50,16 @@ namespace PhpCss\Ast\Visitor  {
     public function clear() {
       $this->_buffer = '';
       $this->_status = self::STATUS_DEFAULT;
+    }
+
+    /**
+     * Read the status of an option
+     *
+     * @param $option
+     * @return int
+     */
+    public function hasOption($option) {
+      return ($this->_options & $option) == $option;
     }
 
     /**
@@ -122,6 +131,7 @@ namespace PhpCss\Ast\Visitor  {
       if (!empty($this->_buffer)) {
         $this->_buffer .= '|';
       }
+      $this->_buffer .= $this->hasOption(self::OPTION_USE_DOCUMENT_CONTEXT) ? '//' : './/';
       return TRUE;
     }
 
@@ -146,7 +156,7 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitSelectorSimpleType(Ast\Selector\Simple\Type $type) {
-      if ($this->_mode & self::MODE_IGNORE_NAMESPACES == self::MODE_IGNORE_NAMESPACES) {
+      if ($this->hasOption(self::OPTION_EXPLICT_NAMESPACES)) {
         $this->_buffer .= $type->elementName;
         $this->_status = self::STATUS_ELEMENT;
       } else {
