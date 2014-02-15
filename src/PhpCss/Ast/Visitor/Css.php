@@ -54,10 +54,9 @@ namespace PhpCss\Ast\Visitor  {
     /**
     * If here is already data in the buffer, add a separator before starting the next.
     *
-    * @param Ast\Selector\Sequence $sequence
     * @return boolean
     */
-    public function visitEnterSelectorSequence(Ast\Selector\Sequence $sequence) {
+    public function visitEnterSelectorSequence() {
       if ($this->_inSelectorSequence) {
         $this->_buffer .= ', ';
       }
@@ -117,33 +116,25 @@ namespace PhpCss\Ast\Visitor  {
       return TRUE;
     }
 
-    public function visitEnterSelectorCombinatorDescendant(
-      Ast\Selector\Combinator\Descendant $combinator
-    ) {
+    public function visitEnterSelectorCombinatorDescendant() {
       $this->_buffer .= ' ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
     }
 
-    public function visitEnterSelectorCombinatorChild(
-      Ast\Selector\Combinator\Child $combinator
-    ) {
+    public function visitEnterSelectorCombinatorChild() {
       $this->_buffer .= ' > ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
     }
 
-    public function visitEnterSelectorCombinatorFollower(
-      Ast\Selector\Combinator\Follower $combinator
-    ) {
+    public function visitEnterSelectorCombinatorFollower() {
       $this->_buffer .= ' ~ ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
     }
 
-    public function visitEnterSelectorCombinatorNext(
-      Ast\Selector\Combinator\Next $combinator
-    ) {
+    public function visitEnterSelectorCombinatorNext() {
       $this->_buffer .= ' + ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
@@ -184,11 +175,10 @@ namespace PhpCss\Ast\Visitor  {
       Ast\Selector\Simple\PseudoClass $class
     ) {
       $this->_buffer .= ':'.$class->name.'(';
+      return TRUE;
     }
 
-    public function visitLeaveSelectorSimplePseudoClass(
-      Ast\Selector\Simple\PseudoClass $class
-    ) {
+    public function visitLeaveSelectorSimplePseudoClass() {
       $this->_buffer .= ')';
     }
 

@@ -21,6 +21,7 @@ namespace PhpCss\Ast\Visitor  {
     const STATUS_ELEMENT = 1;
     const STATUS_CONDITION = 2;
     const STATUS_COMBINATOR = 3;
+    const STATUS_PSEUDOCLASS = 4;
 
     private $_buffer = '';
 
@@ -102,6 +103,7 @@ namespace PhpCss\Ast\Visitor  {
         case self::STATUS_COMBINATOR :
           $this->add('*[');
           break;
+        case self::STATUS_PSEUDOCLASS :
         case self::STATUS_ELEMENT :
           $this->add('[');
           break;
@@ -331,12 +333,26 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     public function visitSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass) {
-      $condition = '';
       switch ($pseudoClass->name) {
       case 'root' :
         $condition = '(. = //*)';
+        $this->addCondition($condition);
       }
-      $this->addCondition($condition);
+    }
+
+    public function visitEnterSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass) {
+      switch ($pseudoClass->name) {
+      case 'not' :
+        $this->addCondition('not(');
+        $this->status(self::STATUS_PSEUDOCLASS);
+        return TRUE;
+      }
+      return FALSE;
+    }
+
+    public function visitLeaveSelectorSimplePseudoClass() {
+      $this->add(')');
+      $this->status(self::STATUS_CONDITION);
     }
   }
 }

@@ -143,6 +143,8 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//*[local-name() = "E" and contains(concat(" ", normalize-space(@class), " "), " warning ")]', 'E.warning'),
       // CSS 3 specification - id selector
       array('.//*[local-name() = "E" and @id = "myid"]', 'E#myid'),
+      // CSS 3 specification - negation pseudo class
+      array('.//*[local-name() = "E" and not([local-name() = "s")]', 'E:not(s)'),
       // CSS 3 specification - combinators
       array('.//*[local-name() = "E"]//*[local-name() = "F"]', 'E F'),
       array('.//*[local-name() = "E"]/*[local-name() = "F"]', 'E > F'),
@@ -151,6 +153,10 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
 
       // two selectors
       array('.//*[local-name() = "foo"]|.//*[local-name() = "bar"]', 'foo, bar'),
+
+      // foo but not in namespace bar
+      array('.//*[local-name() = "foo" and not(bar:*)]', 'foo:not(bar|*)'),
+
       // individual
       array('.//*[local-name() = "bar"]', 'bar'),
       array('.//foo:bar', 'foo|bar'),

@@ -328,6 +328,22 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        'E:not(s)' => array(
+          './/*[local-name() = "E" and not([local-name() = "s")]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Type('E'),
+                  new Ast\Selector\Simple\PseudoClass(
+                    'not',
+                    new Ast\Selector\Simple\Type('s')
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }
