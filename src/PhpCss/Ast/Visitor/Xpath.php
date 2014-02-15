@@ -95,20 +95,23 @@ namespace PhpCss\Ast\Visitor  {
     /**
      * prepare buffer to add a condition to the xpath expression
      */
-    private function startCondition() {
-      switch ($this->status()) {
-      case self::STATUS_DEFAULT :
-      case self::STATUS_COMBINATOR :
-        $this->add('*[');
-        break;
-      case self::STATUS_ELEMENT :
-        $this->add('[');
-        break;
-      case self::STATUS_CONDITION :
-        $this->add(' and ');
-        break;
+    private function addCondition($condition) {
+      if (!empty($condition)) {
+        switch ($this->status()) {
+        case self::STATUS_DEFAULT :
+        case self::STATUS_COMBINATOR :
+          $this->add('*[');
+          break;
+        case self::STATUS_ELEMENT :
+          $this->add('[');
+          break;
+        case self::STATUS_CONDITION :
+          $this->add(' and ');
+          break;
+        }
+        $this->status(self::STATUS_CONDITION);
+        $this->add($condition);
       }
-      $this->status(self::STATUS_CONDITION);
     }
 
     /**
@@ -215,8 +218,7 @@ namespace PhpCss\Ast\Visitor  {
           $this->add($type->namespacePrefix.':'.$type->elementName);
           $this->status(self::STATUS_ELEMENT);
         } else {
-          $this->startCondition();
-          $this->add('local-name() = "'.$type->elementName.'"');
+          $this->addCondition('local-name() = "'.$type->elementName.'"');
         }
       }
       return TRUE;
@@ -229,8 +231,7 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitSelectorSimpleId(Ast\Selector\Simple\Id $id) {
-      $this->startCondition();
-      $this->add('@id = "'.$id->id.'"');
+      $this->addCondition('@id = "'.$id->id.'"');
       return TRUE;
     }
 
@@ -242,8 +243,7 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitSelectorSimpleClassName(Ast\Selector\Simple\ClassName $class) {
-      $this->startCondition();
-      $this->add(
+      $this->addCondition(
         sprintf(
           'contains(concat(" ", normalize-space(@class), " "), " %s ")',
           $class->className
@@ -301,8 +301,7 @@ namespace PhpCss\Ast\Visitor  {
         break;
       }
       if (!empty($condition)) {
-        $this->startCondition();
-        $this->add($condition);
+        $this->addCondition($condition);
       }
       return TRUE;
     }
@@ -329,6 +328,15 @@ namespace PhpCss\Ast\Visitor  {
       $this->endConditions();
       $this->add('/following-sibling::*[1]/self::');
       $this->status(self::STATUS_COMBINATOR);
+    }
+
+    public function visitSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass) {
+      $condition = '';
+      switch ($pseudoClass->name) {
+      case 'root' :
+        $condition = '(. = //*)';
+      }
+      $this->addCondition($condition);
     }
   }
 }
