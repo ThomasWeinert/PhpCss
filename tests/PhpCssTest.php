@@ -136,6 +136,8 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//*[local-name() = "E" and substring(@foo, string-length(@foo) - 3) = "bar"]', 'E[foo$="bar"]'),
       array('.//*[local-name() = "E" and contains(@foo, "bar")]', 'E[foo*="bar"]'),
       array('.//*[local-name() = "E" and (@foo = "bar" or substring-before(@foo, "-") = "bar")]', 'E[foo|="bar"]'),
+      // CSS 3 specification - combinators
+      array('.//*[local-name() = "E"]//*[local-name() = "F"]', 'E F'),
 
       // individual
       array('.//*[local-name() = "bar"]', 'bar'),

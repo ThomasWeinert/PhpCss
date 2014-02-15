@@ -20,6 +20,7 @@ namespace PhpCss\Ast\Visitor  {
     const STATUS_DEFAULT = 0;
     const STATUS_ELEMENT = 1;
     const STATUS_CONDITION = 2;
+    const STATUS_COMBINATOR = 3;
 
     private $_buffer = '';
 
@@ -53,6 +54,28 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
+     * Add a string to the buffer
+     *
+     * @param string $string
+     */
+    private function add($string) {
+      $this->_buffer .= (string)$string;
+    }
+
+    /**
+     * Get/Set the current visiting status
+     *
+     * @param null|int $status
+     * @return int
+     */
+    private function status($status = NULL) {
+      if (isset($status)) {
+        $this->_status = $status;
+      }
+      return $this->_status;
+    }
+
+    /**
      * Read the status of an option
      *
      * @param $option
@@ -73,18 +96,19 @@ namespace PhpCss\Ast\Visitor  {
      * prepare buffer to add a condition to the xpath expression
      */
     private function prepareCondition() {
-      switch ($this->_status) {
+      switch ($this->status()) {
       case self::STATUS_DEFAULT :
-        $this->_buffer .= '*[';
+      case self::STATUS_COMBINATOR :
+        $this->add('*[');
         break;
       case self::STATUS_ELEMENT :
-        $this->_buffer .= '[';
+        $this->add('[');
         break;
-      default :
-        $this->_buffer .= ' and ';
+      case self::STATUS_CONDITION :
+        $this->add(' and ');
         break;
       }
-      $this->_status = self::STATUS_CONDITION;
+      $this->status(self::STATUS_CONDITION);
     }
 
     /**
@@ -127,10 +151,17 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitEnterSelectorSequence() {
-      if (!empty($this->_buffer)) {
-        $this->_buffer .= '|';
+      switch ($this->status()) {
+      case self::STATUS_DEFAULT :
+        if (!empty($this->_buffer)) {
+          $this->add('|');
+        }
+        $this->add($this->hasOption(self::OPTION_USE_DOCUMENT_CONTEXT) ? '//' : './/');
+        break;
+      case self::STATUS_CONDITION :
+        $this->add(']//');
+        break;
       }
-      $this->_buffer .= $this->hasOption(self::OPTION_USE_DOCUMENT_CONTEXT) ? '//' : './/';
       return TRUE;
     }
 
@@ -140,10 +171,10 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitLeaveSelectorSequence() {
-      if ($this->_status == self::STATUS_CONDITION) {
-        $this->_buffer .= ']';
+      if ($this->status() == self::STATUS_CONDITION) {
+        $this->add(']');
       }
-      $this->_status = self::STATUS_DEFAULT;
+      $this->status(self::STATUS_DEFAULT);
       return TRUE;
     }
 
@@ -155,9 +186,9 @@ namespace PhpCss\Ast\Visitor  {
      */
     public function visitSelectorSimpleUniversal(Ast\Selector\Simple\Universal $universal) {
       if ($universal->namespacePrefix != '*' && trim($universal->namespacePrefix) != '') {
-        $this->_buffer .= $universal->namespacePrefix.':*';
+        $this->add($universal->namespacePrefix.':*');
       } else {
-        $this->_buffer .= '*';
+        $this->add('*');
       }
     }
 
@@ -169,15 +200,15 @@ namespace PhpCss\Ast\Visitor  {
     */
     public function visitSelectorSimpleType(Ast\Selector\Simple\Type $type) {
       if ($this->hasOption(self::OPTION_EXPLICT_NAMESPACES)) {
-        $this->_buffer .= $type->elementName;
-        $this->_status = self::STATUS_ELEMENT;
+        $this->add($type->elementName);
+        $this->status(self::STATUS_ELEMENT);
       } else {
         if (!empty($type->namespacePrefix) && $type->namespacePrefix != '*') {
-          $this->_buffer .= $type->namespacePrefix.':'.$type->elementName;
-          $this->_status = self::STATUS_ELEMENT;
+          $this->add($type->namespacePrefix.':'.$type->elementName);
+          $this->status(self::STATUS_ELEMENT);
         } else {
           $this->prepareCondition();
-          $this->_buffer .= 'local-name() = "'.$type->elementName.'"';
+          $this->add('local-name() = "'.$type->elementName.'"');
         }
       }
       return TRUE;
@@ -191,7 +222,7 @@ namespace PhpCss\Ast\Visitor  {
     */
     public function visitSelectorSimpleId(Ast\Selector\Simple\Id $id) {
       $this->prepareCondition();
-      $this->_buffer .= '@id = "'.$id->id.'"';
+      $this->add('@id = "'.$id->id.'"');
       return TRUE;
     }
 
@@ -204,9 +235,11 @@ namespace PhpCss\Ast\Visitor  {
     */
     public function visitSelectorSimpleClassName(Ast\Selector\Simple\ClassName $class) {
       $this->prepareCondition();
-      $this->_buffer .= sprintf(
-        'contains(concat(" ", normalize-space(@class), " "), " %s ")',
-        $class->className
+      $this->add(
+        sprintf(
+          'contains(concat(" ", normalize-space(@class), " "), " %s ")',
+          $class->className
+        )
       );
       return TRUE;
     }
@@ -261,9 +294,17 @@ namespace PhpCss\Ast\Visitor  {
       }
       if (!empty($condition)) {
         $this->prepareCondition();
-        $this->_buffer .= $condition;
+        $this->add($condition);
       }
       return TRUE;
+    }
+
+    public function visitSelectorCombinatorDescendant(Ast\Selector\Combinator\Descendant $combinator) {
+      if ($this->status() == self::STATUS_CONDITION) {
+        $this->add(']');
+      }
+      $this->add('//');
+      $this->status(self::STATUS_COMBINATOR);
     }
   }
 }

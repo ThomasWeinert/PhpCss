@@ -13,6 +13,7 @@ namespace PhpCss\Ast\Selector  {
 
     public function accept(Ast\Visitor $visitor) {
       $visitor->visitEnter($this);
+      $visitor->visit($this);
       $this->sequence->accept($visitor);
       $visitor->visitLeave($this);
     }

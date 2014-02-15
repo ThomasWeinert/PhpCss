@@ -252,6 +252,25 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        'E F' => array(
+          './/*[local-name() = "E"]//*[local-name() = "F"]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Type('E')
+                ),
+                new Ast\Selector\Combinator\Descendant(
+                  new Ast\Selector\Sequence(
+                    array(
+                      new Ast\Selector\Simple\Type('F')
+                    )
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }
