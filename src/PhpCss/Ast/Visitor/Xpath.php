@@ -370,6 +370,12 @@ namespace PhpCss\Ast\Visitor  {
       case 'checked' :
         $condition = '@'.$pseudoClass->name;
         break;
+      case 'first-child' :
+        $condition = 'position() = 1';
+        break;
+      case 'last-child' :
+        $condition = 'position() = last()';
+        break;
       }
       $this->addCondition($condition);
     }
