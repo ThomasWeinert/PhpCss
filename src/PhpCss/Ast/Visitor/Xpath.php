@@ -118,6 +118,7 @@ namespace PhpCss\Ast\Visitor  {
       if ($this->status() == self::STATUS_CONDITION) {
         $this->add(']');
       }
+      $this->status(self::STATUS_DEFAULT);
     }
 
     /**
@@ -168,7 +169,8 @@ namespace PhpCss\Ast\Visitor  {
         $this->add($this->hasOption(self::OPTION_USE_DOCUMENT_CONTEXT) ? '//' : './/');
         break;
       case self::STATUS_CONDITION :
-        $this->add(']//');
+        $this->endConditions();
+        $this->add('//');
         break;
       }
       return TRUE;
@@ -180,10 +182,7 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitLeaveSelectorSequence() {
-      if ($this->status() == self::STATUS_CONDITION) {
-        $this->add(']');
-      }
-      $this->status(self::STATUS_DEFAULT);
+      $this->endConditions();
       return TRUE;
     }
 
