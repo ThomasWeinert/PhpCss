@@ -136,12 +136,18 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//*[local-name() = "E" and substring(@foo, string-length(@foo) - 3) = "bar"]', 'E[foo$="bar"]'),
       array('.//*[local-name() = "E" and contains(@foo, "bar")]', 'E[foo*="bar"]'),
       array('.//*[local-name() = "E" and (@foo = "bar" or substring-before(@foo, "-") = "bar")]', 'E[foo|="bar"]'),
+      // CSS 3 specification - class selector
+      array('.//*[local-name() = "E" and contains(concat(" ", normalize-space(@class), " "), " warning ")]', 'E.warning'),
+      // CSS 3 specification - id selector
+      array('.//*[local-name() = "E" and @id = "myid"]', 'E#myid'),
       // CSS 3 specification - combinators
       array('.//*[local-name() = "E"]//*[local-name() = "F"]', 'E F'),
       array('.//*[local-name() = "E"]/*[local-name() = "F"]', 'E > F'),
       array('.//*[local-name() = "E"]/following-sibling::*[1]/self::*[local-name() = "F"]', 'E + F'),
       array('.//*[local-name() = "E"]/following-sibling::*[local-name() = "F"]', 'E ~ F'),
 
+      // two selectors
+      array('.//*[local-name() = "foo"]|.//*[local-name() = "bar"]', 'foo, bar'),
       // individual
       array('.//*[local-name() = "bar"]', 'bar'),
       array('.//foo:bar', 'foo|bar'),
