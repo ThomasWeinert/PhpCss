@@ -130,6 +130,9 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       // CSS 3 specification - Attributes
       array('.//*[@foo]', '[foo]'),
       array('.//*[local-name() = "E" and @foo]', 'E[foo]'),
+      array('.//*[local-name() = "E" and @foo = "bar"]', 'E[foo="bar"]'),
+      array('.//*[local-name() = "E" and contains(concat(" ", normalize-space(@foo), " "), " bar ")]', 'E[foo~="bar"]'),
+      array('.//*[local-name() = "E" and starts-with(@foo, "bar")]', 'E[foo^="bar"]'),
 
       // individual
       array('.//*[local-name() = "bar"]', 'bar'),

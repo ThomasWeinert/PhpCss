@@ -228,6 +228,11 @@ namespace PhpCss\Ast\Visitor  {
         $this->_buffer .= '@'.$attribute->name.' = '.$this->quoteLiteral($attribute->literal);
         break;
       case Ast\Selector\Simple\Attribute::MATCH_INCLUDES :
+        $this->_buffer .= sprintf(
+          'contains(concat(" ", normalize-space(@%s), " "), %s)',
+          $attribute->name,
+          $this->quoteLiteral(' '.trim($attribute->literal).' ')
+        );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_DASHMATCH :
         break;

@@ -183,7 +183,7 @@ namespace PhpCss\Ast\Visitor {
             )
           )
         ),
-        '*[attr~="value"]' => array(
+        '*[attr^="value"]' => array(
           './/*[starts-with(@attr, "value")]',
           new Ast\Selector\Group(
             array(
@@ -191,6 +191,20 @@ namespace PhpCss\Ast\Visitor {
                 array(
                   new Ast\Selector\Simple\Attribute(
                     'attr', Ast\Selector\Simple\Attribute::MATCH_PREFIX, 'value'
+                  )
+                )
+              )
+            )
+          )
+        ),
+        '*[attr~="value"]' => array(
+          './/*[contains(concat(" ", normalize-space(@attr), " "), " value ")]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Attribute(
+                    'attr', Ast\Selector\Simple\Attribute::MATCH_INCLUDES, 'value'
                   )
                 )
               )
