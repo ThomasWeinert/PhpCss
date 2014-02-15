@@ -134,6 +134,7 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//*[local-name() = "E" and contains(concat(" ", normalize-space(@foo), " "), " bar ")]', 'E[foo~="bar"]'),
       array('.//*[local-name() = "E" and starts-with(@foo, "bar")]', 'E[foo^="bar"]'),
       array('.//*[local-name() = "E" and substring(@foo, string-length(@foo) - 3) = "bar"]', 'E[foo$="bar"]'),
+      array('.//*[local-name() = "E" and contains(@foo, "bar")]', 'E[foo*="bar"]'),
 
       // individual
       array('.//*[local-name() = "bar"]', 'bar'),

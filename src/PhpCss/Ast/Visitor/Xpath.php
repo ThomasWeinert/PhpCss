@@ -232,6 +232,11 @@ namespace PhpCss\Ast\Visitor  {
         );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_SUBSTRING :
+        $condition = sprintf(
+          'contains(@%s, %s)',
+          $attribute->name,
+          $this->quoteLiteral($attribute->literal)
+        );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_EQUALS :
         $condition = '@'.$attribute->name.' = '.$this->quoteLiteral($attribute->literal);

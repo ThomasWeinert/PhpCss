@@ -224,6 +224,20 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        '[attr*="value"]' => array(
+          './/*[contains(@attr, "value")]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Attribute(
+                    'attr', Ast\Selector\Simple\Attribute::MATCH_SUBSTRING, 'value'
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }
