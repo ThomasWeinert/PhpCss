@@ -155,7 +155,7 @@ namespace PhpCss\Ast\Visitor {
             )
           )
         ),
-        '*[attr = "value"]' => array(
+        '[attr = "value"]' => array(
           './/*[@attr = "value"]',
           new Ast\Selector\Group(
             array(
@@ -169,7 +169,7 @@ namespace PhpCss\Ast\Visitor {
             )
           )
         ),
-        '*[attr = "some value"]' => array(
+        '[attr = "some value"]' => array(
           './/*[@attr = "some value"]',
           new Ast\Selector\Group(
             array(
@@ -183,7 +183,7 @@ namespace PhpCss\Ast\Visitor {
             )
           )
         ),
-        '*[attr^="value"]' => array(
+        '[attr^="value"]' => array(
           './/*[starts-with(@attr, "value")]',
           new Ast\Selector\Group(
             array(
@@ -197,7 +197,7 @@ namespace PhpCss\Ast\Visitor {
             )
           )
         ),
-        '*[attr~="value"]' => array(
+        '[attr~="value"]' => array(
           './/*[contains(concat(" ", normalize-space(@attr), " "), " value ")]',
           new Ast\Selector\Group(
             array(
@@ -205,6 +205,20 @@ namespace PhpCss\Ast\Visitor {
                 array(
                   new Ast\Selector\Simple\Attribute(
                     'attr', Ast\Selector\Simple\Attribute::MATCH_INCLUDES, 'value'
+                  )
+                )
+              )
+            )
+          )
+        ),
+        '[attr$="value"]' => array(
+          './/*[substring(@attr, string-length(@attr) - 5) = "value"]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Attribute(
+                    'attr', Ast\Selector\Simple\Attribute::MATCH_SUFFIX, 'value'
                   )
                 )
               )

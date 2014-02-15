@@ -214,21 +214,30 @@ namespace PhpCss\Ast\Visitor  {
     public function visitSelectorSimpleAttribute(
       Ast\Selector\Simple\Attribute $attribute
     ) {
-      $this->prepareCondition();
+      $condition = '';
       switch ($attribute->match) {
       case Ast\Selector\Simple\Attribute::MATCH_PREFIX :
-        $this->_buffer .=
-          'starts-with(@'.$attribute->name.', '.$this->quoteLiteral($attribute->literal).')';
+        $condition = sprintf(
+          'starts-with(@%s, %s)',
+          $attribute->name,
+          $this->quoteLiteral($attribute->literal)
+        );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_SUFFIX :
+        $condition = sprintf(
+          'substring(@%1$s, string-length(@%1$s) - %2$s) = %3$s',
+          $attribute->name,
+          strlen($attribute->literal),
+          $this->quoteLiteral($attribute->literal)
+        );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_SUBSTRING :
         break;
       case Ast\Selector\Simple\Attribute::MATCH_EQUALS :
-        $this->_buffer .= '@'.$attribute->name.' = '.$this->quoteLiteral($attribute->literal);
+        $condition = '@'.$attribute->name.' = '.$this->quoteLiteral($attribute->literal);
         break;
       case Ast\Selector\Simple\Attribute::MATCH_INCLUDES :
-        $this->_buffer .= sprintf(
+        $condition = sprintf(
           'contains(concat(" ", normalize-space(@%s), " "), %s)',
           $attribute->name,
           $this->quoteLiteral(' '.trim($attribute->literal).' ')
@@ -238,8 +247,12 @@ namespace PhpCss\Ast\Visitor  {
         break;
       case Ast\Selector\Simple\Attribute::MATCH_EXISTS :
       default :
-        $this->_buffer .= '@'.$attribute->name;
+        $condition = '@'.$attribute->name;
         break;
+      }
+      if (!empty($condition)) {
+        $this->prepareCondition();
+        $this->_buffer .= $condition;
       }
       return TRUE;
     }
