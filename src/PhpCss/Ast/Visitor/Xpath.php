@@ -346,6 +346,9 @@ namespace PhpCss\Ast\Visitor  {
       case 'root' :
         $condition = '(. = //*)';
         break;
+      case 'empty' :
+        $condition = '(count(*|text()) = 0)';
+        break;
       case 'enabled' :
         $condition = 'not(@disabled)';
         break;
