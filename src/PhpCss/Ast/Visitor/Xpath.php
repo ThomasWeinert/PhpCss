@@ -141,8 +141,22 @@ namespace PhpCss\Ast\Visitor  {
      * @return string
      */
     private function quoteLiteral($literal) {
-      if (preg_match('(["])', $literal)) {
-        return "'".$literal."'";
+      $hasDoubleQuote = FALSE !== strpos($literal, '"');
+      if ($hasDoubleQuote) {
+        $hasSingleQuote = FALSE !== strpos($literal, "'");
+        if ($hasSingleQuote) {
+          $result = '';
+          $parts = explode('"', $literal);
+          foreach ($parts as $part) {
+            $result .= ", '\"'";
+            if ("" !== $part) {
+              $result .= ', "'.$part.'"';
+            }
+          };
+          return 'concat('.substr($result, 7).')';
+        } else {
+          return "'".$literal."'";
+        }
       } else {
         return '"'.$literal.'"';
       }
