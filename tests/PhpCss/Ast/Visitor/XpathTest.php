@@ -141,6 +141,20 @@ namespace PhpCss\Ast\Visitor {
             )
           )
         ),
+        '[attr]' => array(
+          './/*[@attr]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Attribute(
+                    'attr', Ast\Selector\Simple\Attribute::MATCH_EXISTS
+                  )
+                )
+              )
+            )
+          )
+        ),
         '*[attr = "value"]' => array(
           './/*[@attr = "value"]',
           new Ast\Selector\Group(

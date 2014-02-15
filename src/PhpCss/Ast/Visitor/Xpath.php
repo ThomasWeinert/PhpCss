@@ -231,6 +231,10 @@ namespace PhpCss\Ast\Visitor  {
         break;
       case Ast\Selector\Simple\Attribute::MATCH_DASHMATCH :
         break;
+      case Ast\Selector\Simple\Attribute::MATCH_EXISTS :
+      default :
+        $this->_buffer .= '@'.$attribute->name;
+        break;
       }
       return TRUE;
     }
