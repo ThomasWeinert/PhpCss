@@ -214,7 +214,6 @@ namespace PhpCss\Ast\Visitor  {
     public function visitSelectorSimpleAttribute(
       Ast\Selector\Simple\Attribute $attribute
     ) {
-      $condition = '';
       switch ($attribute->match) {
       case Ast\Selector\Simple\Attribute::MATCH_PREFIX :
         $condition = sprintf(
@@ -249,6 +248,11 @@ namespace PhpCss\Ast\Visitor  {
         );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_DASHMATCH :
+        $condition = sprintf(
+          '(@%1$s = %2$s or substring-before(@%1$s, "-") = %2$s)',
+          $attribute->name,
+          $this->quoteLiteral($attribute->literal)
+        );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_EXISTS :
       default :

@@ -238,6 +238,20 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        '[attr|="value"]' => array(
+          './/*[(@attr = "value" or substring-before(@attr, "-") = "value")]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Attribute(
+                    'attr', Ast\Selector\Simple\Attribute::MATCH_DASHMATCH, 'value'
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }
