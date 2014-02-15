@@ -376,6 +376,9 @@ namespace PhpCss\Ast\Visitor  {
       case 'last-child' :
         $condition = 'position() = last()';
         break;
+      case 'only-child' :
+        $condition = '(count(parent::*/*|parent::*/text()) = 1)';
+        break;
       }
       $this->addCondition($condition);
     }
