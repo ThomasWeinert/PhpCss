@@ -271,6 +271,63 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        'E > F' => array(
+          './/*[local-name() = "E"]/*[local-name() = "F"]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Type('E')
+                ),
+                new Ast\Selector\Combinator\Child(
+                  new Ast\Selector\Sequence(
+                    array(
+                      new Ast\Selector\Simple\Type('F')
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+        'E ~ F' => array(
+          './/*[local-name() = "E"]/following-sibling::*[local-name() = "F"]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Type('E')
+                ),
+                new Ast\Selector\Combinator\Follower(
+                  new Ast\Selector\Sequence(
+                    array(
+                      new Ast\Selector\Simple\Type('F')
+                    )
+                  )
+                )
+              )
+            )
+          )
+        ),
+        'E + F' => array(
+          './/*[local-name() = "E"]/following-sibling::*[1]/self::*[local-name() = "F"]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Type('E')
+                ),
+                new Ast\Selector\Combinator\Next(
+                  new Ast\Selector\Sequence(
+                    array(
+                      new Ast\Selector\Simple\Type('F')
+                    )
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }

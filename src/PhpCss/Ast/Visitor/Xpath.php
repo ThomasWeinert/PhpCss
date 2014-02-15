@@ -95,7 +95,7 @@ namespace PhpCss\Ast\Visitor  {
     /**
      * prepare buffer to add a condition to the xpath expression
      */
-    private function prepareCondition() {
+    private function startCondition() {
       switch ($this->status()) {
       case self::STATUS_DEFAULT :
       case self::STATUS_COMBINATOR :
@@ -109,6 +109,15 @@ namespace PhpCss\Ast\Visitor  {
         break;
       }
       $this->status(self::STATUS_CONDITION);
+    }
+
+    /**
+     * end condition if in condition status
+     */
+    private function endConditions() {
+      if ($this->status() == self::STATUS_CONDITION) {
+        $this->add(']');
+      }
     }
 
     /**
@@ -207,7 +216,7 @@ namespace PhpCss\Ast\Visitor  {
           $this->add($type->namespacePrefix.':'.$type->elementName);
           $this->status(self::STATUS_ELEMENT);
         } else {
-          $this->prepareCondition();
+          $this->startCondition();
           $this->add('local-name() = "'.$type->elementName.'"');
         }
       }
@@ -221,7 +230,7 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitSelectorSimpleId(Ast\Selector\Simple\Id $id) {
-      $this->prepareCondition();
+      $this->startCondition();
       $this->add('@id = "'.$id->id.'"');
       return TRUE;
     }
@@ -234,7 +243,7 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitSelectorSimpleClassName(Ast\Selector\Simple\ClassName $class) {
-      $this->prepareCondition();
+      $this->startCondition();
       $this->add(
         sprintf(
           'contains(concat(" ", normalize-space(@class), " "), " %s ")',
@@ -293,17 +302,33 @@ namespace PhpCss\Ast\Visitor  {
         break;
       }
       if (!empty($condition)) {
-        $this->prepareCondition();
+        $this->startCondition();
         $this->add($condition);
       }
       return TRUE;
     }
 
-    public function visitSelectorCombinatorDescendant(Ast\Selector\Combinator\Descendant $combinator) {
-      if ($this->status() == self::STATUS_CONDITION) {
-        $this->add(']');
-      }
+    public function visitSelectorCombinatorChild() {
+      $this->endConditions();
+      $this->add('/');
+      $this->status(self::STATUS_COMBINATOR);
+    }
+
+    public function visitSelectorCombinatorDescendant() {
+      $this->endConditions();
       $this->add('//');
+      $this->status(self::STATUS_COMBINATOR);
+    }
+
+    public function visitSelectorCombinatorFollower() {
+      $this->endConditions();
+      $this->add('/following-sibling::');
+      $this->status(self::STATUS_COMBINATOR);
+    }
+
+    public function visitSelectorCombinatorNext() {
+      $this->endConditions();
+      $this->add('/following-sibling::*[1]/self::');
       $this->status(self::STATUS_COMBINATOR);
     }
   }
