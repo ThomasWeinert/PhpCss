@@ -71,6 +71,16 @@ namespace PhpCss\Ast\Visitor {
 
     public static function provideExamples() {
       return array(
+        '*' => array(
+          './/*',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(new Ast\Selector\Simple\Universal('*'))
+              )
+            )
+          )
+        ),
         'element' => array(
           './/*[local-name() = "element"]',
           new Ast\Selector\Group(

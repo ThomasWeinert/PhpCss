@@ -33,7 +33,7 @@ namespace PhpCss\Ast\Visitor  {
      * Visitor mode
      * @var integer
      */
-    private $_mode = 0;
+    private $_options = 0;
 
     /**
      * Create visitor and store mode options
@@ -124,10 +124,9 @@ namespace PhpCss\Ast\Visitor  {
     /**
     * If here is already data in the buffer, add a separator before starting the next.
     *
-    * @param Ast\Selector\Sequence $sequence
     * @return boolean
     */
-    public function visitEnterSelectorSequence(Ast\Selector\Sequence $sequence) {
+    public function visitEnterSelectorSequence() {
       if (!empty($this->_buffer)) {
         $this->_buffer .= '|';
       }
@@ -138,10 +137,9 @@ namespace PhpCss\Ast\Visitor  {
     /**
     * If the visitor is in the condition status, close it.
     *
-    * @param Ast\Selector\Sequence $sequence
     * @return boolean
     */
-    public function visitLeaveSelectorSequence(Ast\Selector\Sequence $sequence) {
+    public function visitLeaveSelectorSequence() {
       if ($this->_status == self::STATUS_CONDITION) {
         $this->_buffer .= ']';
       }
@@ -150,7 +148,21 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * Output the type selector to the buffer
+     * Output the universal type (* or xmlns|*) selector to the buffer
+     *
+     * @param Ast\Selector\Simple\Universal $type
+     * @return boolean
+     */
+    public function visitSelectorSimpleUniversal(Ast\Selector\Simple\Universal $universal) {
+      if ($universal->namespacePrefix != '*' && trim($universal->namespacePrefix) != '') {
+        $this->_buffer .= $universal->namespacePrefix.':*';
+      } else {
+        $this->_buffer .= '*';
+      }
+    }
+
+    /**
+    * Output the type (element name) selector to the buffer
     *
     * @param Ast\Selector\Simple\Type $type
     * @return boolean

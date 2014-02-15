@@ -124,6 +124,7 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
 
   public function provideToXpath() {
     return array(
+      array('.//*', '*'),
       array('.//*[local-name() = "bar"]', 'bar'),
       array('.//foo:bar', 'foo|bar'),
       array('.//foo:bar[@id = "ok"]', 'foo|bar#ok'),
