@@ -341,11 +341,20 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     public function visitSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass) {
+      $condition = '';
       switch ($pseudoClass->name) {
       case 'root' :
         $condition = '(. = //*)';
-        $this->addCondition($condition);
+        break;
+      case 'enabled' :
+        $condition = 'not(@disabled)';
+        break;
+      case 'disabled' :
+      case 'checked' :
+        $condition = '@'.$pseudoClass->name;
+        break;
       }
+      $this->addCondition($condition);
     }
 
     public function visitEnterSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass) {

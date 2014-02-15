@@ -140,6 +140,10 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//*[local-name() = "E" and (. = //*)]', 'E:root'),
       array('.//*[local-name() = "E" and (position() = 42)]', 'E:nth-child(42)'),
 
+      // CSS 3 specification - ui element states pseudo classes
+      array('.//*[local-name() = "E" and not(@disabled)]', 'E:enabled'),
+      array('.//*[local-name() = "E" and @disabled]', 'E:disabled'),
+      array('.//*[local-name() = "E" and @checked]', 'E:checked'),
       // CSS 3 specification - class selector
       array('.//*[local-name() = "E" and contains(concat(" ", normalize-space(@class), " "), " warning ")]', 'E.warning'),
       // CSS 3 specification - id selector
