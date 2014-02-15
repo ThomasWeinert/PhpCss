@@ -38,6 +38,14 @@ namespace PhpCss\Ast\Visitor  {
     private $_options = 0;
 
     /**
+     * store expressions for use in visitor methods, the actual expression can depend on
+     * the visitor methods called before.
+     *
+     * @var array
+     */
+    private $_expressions = [];
+
+    /**
      * Create visitor and store mode options
      *
      * @param integer $options
@@ -346,6 +354,12 @@ namespace PhpCss\Ast\Visitor  {
         $this->addCondition('not(');
         $this->status(self::STATUS_PSEUDOCLASS);
         return TRUE;
+      case 'nth-child' :
+        $this->addCondition('(');
+        $this->status(self::STATUS_PSEUDOCLASS);
+        $this->_expressions['position'] = 'position()';
+        $this->_expressions['last'] = 'last()';
+        return TRUE;
       }
       return FALSE;
     }
@@ -353,6 +367,41 @@ namespace PhpCss\Ast\Visitor  {
     public function visitLeaveSelectorSimplePseudoClass() {
       $this->add(')');
       $this->status(self::STATUS_CONDITION);
+    }
+
+    public function visitSelectorSimplePseudoClassPosition(
+      Ast\Selector\Simple\PseudoClass\Position $position
+    ) {
+      $repeat = $position->repeat;
+      $add = $position->add;
+      $expressionPosition = empty($this->_expressions['position'])
+        ? 'position()' : $this->_expressions['position'];
+      $expressionLast = empty($this->_expressions['last'])
+        ? 'last()' : $this->_expressions['last'];
+      if ($repeat == 0) {
+        $condition = 'position() = '.(int)$add;
+      } else {
+        if ($add > $repeat) {
+          $balance = $add - (floor($add / $repeat) * $repeat);
+          $start = $add;
+        } elseif ($add < 0 and abs($add) > $repeat) {
+          $balance = $add - (floor($add / $repeat) * $repeat);
+          $start = $add;
+        } elseif ($add < 0) {
+          $balance = $repeat + $add;
+          $start = 1;
+        } else {
+          $balance = $add;
+          $start = 1;
+        }
+        $condition = sprintf('(%s mod %d) = %d', $expressionPosition, $repeat, $balance);
+        if ($start > 1) {
+          $condition .= sprintf(' %s >= %d', $expressionPosition, $start);
+        } elseif ($start < 0) {
+          $condition .= sprintf(' %s <=  - %d', $expressionPosition, $expressionLast, abs($start));
+        }
+      }
+      $this->add($condition);
     }
   }
 }

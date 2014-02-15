@@ -344,6 +344,51 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        ':nth-child(3n+1)'  => array(
+          './/*[((position() mod 3) = 1)]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\PseudoClass(
+                    'nth-child',
+                    new Ast\Selector\Simple\PseudoClass\Position(3, 1)
+                  )
+                )
+              )
+            )
+          )
+        ),
+        ':nth-child(3n-1)'  => array(
+          './/*[((position() mod 3) = 2)]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\PseudoClass(
+                    'nth-child',
+                    new Ast\Selector\Simple\PseudoClass\Position(3, -1)
+                  )
+                )
+              )
+            )
+          )
+        ),
+        ':nth-child(42)'  => array(
+          './/*[(position() = 42)]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\PseudoClass(
+                    'nth-child',
+                    new Ast\Selector\Simple\PseudoClass\Position(0, 42)
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }

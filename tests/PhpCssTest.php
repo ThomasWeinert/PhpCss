@@ -138,6 +138,7 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//*[local-name() = "E" and (@foo = "bar" or substring-before(@foo, "-") = "bar")]', 'E[foo|="bar"]'),
       // CSS 3 specification - structural pseudo classes
       array('.//*[local-name() = "E" and (. = //*)]', 'E:root'),
+      array('.//*[local-name() = "E" and (position() = 42)]', 'E:nth-child(42)'),
 
       // CSS 3 specification - class selector
       array('.//*[local-name() = "E" and contains(concat(" ", normalize-space(@class), " "), " warning ")]', 'E.warning'),
@@ -156,6 +157,9 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
 
       // foo but not in namespace bar
       array('.//*[local-name() = "foo" and not(bar:*)]', 'foo:not(bar|*)'),
+
+      // every even but not the first 2
+      array('.//*[((position() mod 2) = 1 position() >= 3)]', ':nth-child(2n+3)'),
 
       // individual
       array('.//*[local-name() = "bar"]', 'bar'),
