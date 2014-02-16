@@ -421,13 +421,25 @@ namespace PhpCss\Ast\Visitor  {
         $this->addCondition('(');
         $this->status(self::STATUS_PSEUDOCLASS);
         $this->_expressions['position'] = 'position()';
-        $this->_expressions['last'] = 'last()';
+        $this->_expressions['count'] = 'last()';
+        return TRUE;
+      case 'nth-last-child' :
+        $this->addCondition('(');
+        $this->status(self::STATUS_PSEUDOCLASS);
+        $this->_expressions['position'] = '(last() - position() + 1)';
+        $this->_expressions['count'] = 'count()';
         return TRUE;
       case 'nth-of-type' :
         $this->addCondition('(');
         $this->status(self::STATUS_PSEUDOCLASS);
         $this->_expressions['position'] = '(count(preceding-sibling::'.$this->_element.') + 1)';
-        $this->_expressions['last'] = 'count(parent::*/'.$this->_element.')';
+        $this->_expressions['count'] = 'count(parent::*/'.$this->_element.')';
+        return TRUE;
+      case 'nth-last-of-type' :
+        $this->addCondition('(');
+        $this->status(self::STATUS_PSEUDOCLASS);
+        $this->_expressions['position'] = '(count(following-sibling::'.$this->_element.') + 1)';
+        $this->_expressions['count'] = 'count(parent::*/'.$this->_element.')';
         return TRUE;
       }
       return FALSE;
@@ -446,8 +458,8 @@ namespace PhpCss\Ast\Visitor  {
       $add = $position->add;
       $expressionPosition = empty($this->_expressions['position'])
         ? 'position()' : $this->_expressions['position'];
-      $expressionLast = empty($this->_expressions['last'])
-        ? 'last()' : $this->_expressions['last'];
+      $expressionCount = empty($this->_expressions['count'])
+        ? 'last()' : $this->_expressions['count'];
       if ($repeat == 0) {
         $condition = $expressionPosition.' = '.(int)$add;
       } else {
@@ -468,7 +480,7 @@ namespace PhpCss\Ast\Visitor  {
         if ($start > 1) {
           $condition .= sprintf(' %s >= %d', $expressionPosition, $start);
         } elseif ($start < 0) {
-          $condition .= sprintf(' %s <=  - %d', $expressionPosition, $expressionLast, abs($start));
+          $condition .= sprintf(' %s <= %s - %d', $expressionPosition, $expressionCount, abs($start));
         }
       }
       $this->add($condition);
