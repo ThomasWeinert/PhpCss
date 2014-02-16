@@ -2,6 +2,7 @@
 namespace PhpCss\Ast\Visitor {
 
   use PhpCss\Ast;
+  use PhpCss\Exception;
 
   require_once(__DIR__.'/../../../bootstrap.php');
 
@@ -55,6 +56,25 @@ namespace PhpCss\Ast\Visitor {
           0
         ]
       ];
+    }
+
+    /**
+     * @covers PhpCss\Ast\Visitor\Xpath
+     * @dataProvider provideNotConvertableExamples
+     */
+    public function testNotConvertableElements(Ast $ast) {
+      $visitor = new Xpath();
+      $this->setExpectedException(Exception\NotConvertable::CLASS);
+      $ast->accept($visitor);
+    }
+
+    public static function provideNotConvertableExamples() {
+      return array(
+        ':link' => array(new Ast\Selector\Simple\PseudoClass('link')),
+        ':visited' => array(new Ast\Selector\Simple\PseudoClass('visited')),
+        ':hover' => array(new Ast\Selector\Simple\PseudoClass('hover')),
+        ':first-line' => array(new Ast\Selector\Simple\PseudoElement('first-line'))
+      );
     }
 
     /**

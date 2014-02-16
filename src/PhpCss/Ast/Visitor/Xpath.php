@@ -8,6 +8,7 @@
 namespace PhpCss\Ast\Visitor  {
 
   use PhpCss\Ast;
+  use PhpCss\Exception;
 
   /**
   * An visitor that compiles the AST into a xpath expression
@@ -233,7 +234,7 @@ namespace PhpCss\Ast\Visitor  {
     /**
      * Output the universal type (* or xmlns|*) selector to the buffer
      *
-     * @param Ast\Selector\Simple\Universal $type
+     * @param \PhpCss\Ast\Selector\Simple\Universal $universal
      * @return boolean
      */
     public function visitSelectorSimpleUniversal(Ast\Selector\Simple\Universal $universal) {
@@ -387,7 +388,6 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     public function visitSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass) {
-      $condition = '';
       switch ($pseudoClass->name) {
       case 'root' :
         $condition = '(. = //*)';
@@ -420,6 +420,8 @@ namespace PhpCss\Ast\Visitor  {
       case 'only-of-type' :
         $condition = '(count(parent::*/'.$this->_element.') = 1)';
         break;
+      default :
+        throw new Exception\NotConvertable('pseudoclass '.$pseudoClass->name, 'Xpath');
       }
       $this->addCondition($condition);
     }
@@ -497,6 +499,10 @@ namespace PhpCss\Ast\Visitor  {
         }
       }
       $this->add($condition);
+    }
+
+    public function visitSelectorSimplePseudoElement(Ast\Selector\Simple\PseudoElement $pseudoElement) {
+      throw new Exception\NotConvertable('pseudoelement '.$pseudoElement->name, 'Xpath');
     }
   }
 }
