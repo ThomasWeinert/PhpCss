@@ -423,6 +423,12 @@ namespace PhpCss\Ast\Visitor  {
         $this->_expressions['position'] = 'position()';
         $this->_expressions['last'] = 'last()';
         return TRUE;
+      case 'nth-of-type' :
+        $this->addCondition('(');
+        $this->status(self::STATUS_PSEUDOCLASS);
+        $this->_expressions['position'] = '(count(preceding-sibling::'.$this->_element.') + 1)';
+        $this->_expressions['last'] = 'count(parent::*/'.$this->_element.')';
+        return TRUE;
       }
       return FALSE;
     }
@@ -443,7 +449,7 @@ namespace PhpCss\Ast\Visitor  {
       $expressionLast = empty($this->_expressions['last'])
         ? 'last()' : $this->_expressions['last'];
       if ($repeat == 0) {
-        $condition = 'position() = '.(int)$add;
+        $condition = $expressionPosition.' = '.(int)$add;
       } else {
         if ($add > $repeat) {
           $balance = $add - (floor($add / $repeat) * $repeat);
