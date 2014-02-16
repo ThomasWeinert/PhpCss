@@ -16,6 +16,7 @@ namespace PhpCss\Ast\Visitor  {
 
     const OPTION_EXPLICT_NAMESPACES = 1;
     const OPTION_USE_DOCUMENT_CONTEXT = 2;
+    const OPTION_LOWERCASE_ELEMENTS = 4;
 
     const STATUS_DEFAULT = 0;
     const STATUS_ELEMENT = 1;
@@ -252,22 +253,28 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitSelectorSimpleType(Ast\Selector\Simple\Type $type) {
+      if ($this->hasOption(self::OPTION_LOWERCASE_ELEMENTS)) {
+        $elementName = strtolower($type->elementName);
+      } else {
+        $elementName = $type->elementName;
+      }
       if ($this->hasOption(self::OPTION_EXPLICT_NAMESPACES)) {
-        $this->add($type->elementName);
-        $this->setElement($type->elementName);
+        $this->add($elementName);
+        $this->setElement($elementName);
         $this->status(self::STATUS_ELEMENT);
       } else {
         if (!empty($type->namespacePrefix) && $type->namespacePrefix != '*') {
-          $this->add($type->namespacePrefix.':'.$type->elementName);
-          $this->setElement($type->namespacePrefix.':'.$type->elementName);
+          $this->add($type->namespacePrefix.':'.$elementName);
+          $this->setElement($type->namespacePrefix.':'.$elementName);
           $this->status(self::STATUS_ELEMENT);
         } else {
+          $condition = 'local-name() = '.$this->quoteLiteral($elementName);
           if ($this->status() != self::STATUS_PSEUDOCLASS) {
-            $this->setElement('*[local-name() = "'.$type->elementName.'"]');
+            $this->setElement('*['.$condition.']');
             $this->add('*');
           }
           $this->status(self::STATUS_ELEMENT);
-          $this->addCondition('local-name() = "'.$type->elementName.'"');
+          $this->addCondition($condition);
         }
       }
       return TRUE;
