@@ -612,6 +612,15 @@ namespace PhpCss {
           )
         ),
         array(
+          ':nth-child(3n)',
+          array(
+            "TOKEN::PSEUDOCLASS @0 ':nth-child'",
+            "TOKEN::PARENTHESES_START @10 '('",
+            "TOKEN::PSEUDOCLASS_POSITION @11 '3n'",
+            "TOKEN::PARENTHESES_END @13 ')'"
+          )
+        ),
+        array(
           ':nth-child(10n-1)',
           array(
             "TOKEN::PSEUDOCLASS @0 ':nth-child'",

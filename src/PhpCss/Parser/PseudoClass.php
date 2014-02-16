@@ -176,11 +176,14 @@ namespace PhpCss\Parser {
         $position = new Ast\Selector\Simple\PseudoClass\Position(2, 0);
       } elseif (preg_match('(^[+-]?\d+$)D', $string)) {
         $position = new Ast\Selector\Simple\PseudoClass\Position(0, (int)$string);
-      } elseif (preg_match('(^(?P<repeat>[+-]?\d*)n(?P<add>[+-]\d+)$)D', $string, $matches)) {
+      } elseif (
+          preg_match('(^(?P<repeat>\d+)n$)D', $string, $matches) ||
+          preg_match('(^(?P<repeat>[+-]?\d*)n(?P<add>[+-]\d+)$)D', $string, $matches)
+        ) {
         $position = new Ast\Selector\Simple\PseudoClass\Position(
           isset($matches['repeat']) && $matches['repeat'] != ''
             ? (int)$matches['repeat'] : 1,
-          (int)$matches['add']
+          isset($matches['add']) ? (int)$matches['add'] : 0
         );
       } else {
         throw new \LogicException('Invalid pseudo class position - @todo implement exception');
