@@ -46,6 +46,12 @@ namespace PhpCss\Ast\Visitor  {
     private $_expressions = [];
 
     /**
+     * store an expression for the current element (type selector)
+     * @var string
+     */
+    private $_element = '*';
+
+    /**
      * Create visitor and store mode options
      *
      * @param integer $options
@@ -101,6 +107,15 @@ namespace PhpCss\Ast\Visitor  {
       return $this->_buffer;
     }
 
+    private function setElement($element) {
+      switch ($this->status()) {
+      case self::STATUS_DEFAULT :
+      case self::STATUS_COMBINATOR :
+        $this->_element = $element;
+        break;
+      }
+    }
+
     /**
      * prepare buffer to add a condition to the xpath expression
      */
@@ -109,6 +124,7 @@ namespace PhpCss\Ast\Visitor  {
         switch ($this->status()) {
         case self::STATUS_DEFAULT :
         case self::STATUS_COMBINATOR :
+          $this->setElement('*');
           $this->add('*[');
           break;
         case self::STATUS_PSEUDOCLASS :
@@ -221,10 +237,12 @@ namespace PhpCss\Ast\Visitor  {
      */
     public function visitSelectorSimpleUniversal(Ast\Selector\Simple\Universal $universal) {
       if ($universal->namespacePrefix != '*' && trim($universal->namespacePrefix) != '') {
-        $this->add($universal->namespacePrefix.':*');
+        $element = $universal->namespacePrefix.':*';
       } else {
-        $this->add('*');
+        $element = '*';
       }
+      $this->setElement($element);
+      $this->add($element);
     }
 
     /**
@@ -236,12 +254,19 @@ namespace PhpCss\Ast\Visitor  {
     public function visitSelectorSimpleType(Ast\Selector\Simple\Type $type) {
       if ($this->hasOption(self::OPTION_EXPLICT_NAMESPACES)) {
         $this->add($type->elementName);
+        $this->setElement($type->elementName);
         $this->status(self::STATUS_ELEMENT);
       } else {
         if (!empty($type->namespacePrefix) && $type->namespacePrefix != '*') {
           $this->add($type->namespacePrefix.':'.$type->elementName);
+          $this->setElement($type->namespacePrefix.':'.$type->elementName);
           $this->status(self::STATUS_ELEMENT);
         } else {
+          if ($this->status() != self::STATUS_PSEUDOCLASS) {
+            $this->setElement('*[local-name() = "'.$type->elementName.'"]');
+            $this->add('*');
+          }
+          $this->status(self::STATUS_ELEMENT);
           $this->addCondition('local-name() = "'.$type->elementName.'"');
         }
       }
@@ -379,6 +404,9 @@ namespace PhpCss\Ast\Visitor  {
       case 'only-child' :
         $condition = '(count(parent::*/*|parent::*/text()) = 1)';
         break;
+      case 'only-of-type' :
+        $condition = '(count(parent::*/'.$this->_element.') = 1)';
+        break;
       }
       $this->addCondition($condition);
     }
@@ -400,6 +428,7 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     public function visitLeaveSelectorSimplePseudoClass() {
+      $this->endConditions();
       $this->add(')');
       $this->status(self::STATUS_CONDITION);
     }

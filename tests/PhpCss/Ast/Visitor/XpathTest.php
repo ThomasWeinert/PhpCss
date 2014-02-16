@@ -330,7 +330,7 @@ namespace PhpCss\Ast\Visitor {
           )
         ),
         'E:not(s)' => array(
-          './/*[local-name() = "E" and not([local-name() = "s")]',
+          './/*[local-name() = "E" and not([local-name() = "s"])]',
           new Ast\Selector\Group(
             array(
               new Ast\Selector\Sequence(

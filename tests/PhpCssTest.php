@@ -142,6 +142,7 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//*[local-name() = "E" and position() = 1]', 'E:first-child'),
       array('.//*[local-name() = "E" and position() = last()]', 'E:last-child'),
       array('.//*[local-name() = "E" and (count(parent::*/*|parent::*/text()) = 1)]', 'E:only-child'),
+      array('.//*[local-name() = "E" and (count(parent::*/*[local-name() = "E"]) = 1)]', 'E:only-of-type'),
       array('.//*[local-name() = "E" and (count(*|text()) = 0)]', 'E:empty'),
       // CSS 3 specification - ui element states pseudo classes
       array('.//*[local-name() = "E" and not(@disabled)]', 'E:enabled'),
@@ -152,7 +153,7 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       // CSS 3 specification - id selector
       array('.//*[local-name() = "E" and @id = "myid"]', 'E#myid'),
       // CSS 3 specification - negation pseudo class
-      array('.//*[local-name() = "E" and not([local-name() = "s")]', 'E:not(s)'),
+      array('.//*[local-name() = "E" and not([local-name() = "s"])]', 'E:not(s)'),
       // CSS 3 specification - combinators
       array('.//*[local-name() = "E"]//*[local-name() = "F"]', 'E F'),
       array('.//*[local-name() = "E"]/*[local-name() = "F"]', 'E > F'),
