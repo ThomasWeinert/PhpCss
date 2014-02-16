@@ -144,6 +144,8 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//*[local-name() = "E" and ((count(following-sibling::*[local-name() = "E"]) + 1) = 42)]', 'E:nth-last-of-type(42)'),
       array('.//*[local-name() = "E" and position() = 1]', 'E:first-child'),
       array('.//*[local-name() = "E" and position() = last()]', 'E:last-child'),
+      array('.//*[local-name() = "E" and (count(preceding-sibling::*[local-name() = "E"]) = 0)]', 'E:first-of-type'),
+      array('.//*[local-name() = "E" and (count(following-sibling::*[local-name() = "E"]) = 0)]', 'E:last-of-type'),
       array('.//*[local-name() = "E" and (count(parent::*/*|parent::*/text()) = 1)]', 'E:only-child'),
       array('.//*[local-name() = "E" and (count(parent::*/*[local-name() = "E"]) = 1)]', 'E:only-of-type'),
       array('.//*[local-name() = "E" and (count(*|text()) = 0)]', 'E:empty'),

@@ -401,6 +401,12 @@ namespace PhpCss\Ast\Visitor  {
       case 'last-child' :
         $condition = 'position() = last()';
         break;
+      case 'first-of-type' :
+        $condition = '(count(preceding-sibling::'.$this->_element.') = 0)';
+        break;
+      case 'last-of-type' :
+        $condition = '(count(following-sibling::'.$this->_element.') = 0)';
+        break;
       case 'only-child' :
         $condition = '(count(parent::*/*|parent::*/text()) = 1)';
         break;
