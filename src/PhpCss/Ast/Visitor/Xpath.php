@@ -15,9 +15,22 @@ namespace PhpCss\Ast\Visitor  {
   */
   class Xpath extends Overload {
 
+    /**
+     * use explicit namespaces, no defined namespace means no namespaces, by default it means all namespaces
+     */
     const OPTION_EXPLICT_NAMESPACES = 1;
+    /**
+     * start expressions in document context
+     */
     const OPTION_USE_DOCUMENT_CONTEXT = 2;
+    /**
+     * lowercase the element names (not the namespace prefixes)
+     */
     const OPTION_LOWERCASE_ELEMENTS = 4;
+    /**
+     * use xml:id and xml:lang not just id or lang
+     */
+    const OPTION_XML_ATTRIBUTES = 8;
 
     const STATUS_DEFAULT = 0;
     const STATUS_ELEMENT = 1;
@@ -181,7 +194,7 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * Validate the buffer before vistiting a Ast\Selector\Group.
+    * Valate the buffer before vistiting a Ast\Selector\Group.
     * If the buffer already contains data, throw an exception.
     *
     * @throws \LogicException
@@ -288,7 +301,13 @@ namespace PhpCss\Ast\Visitor  {
     * @return boolean
     */
     public function visitSelectorSimpleId(Ast\Selector\Simple\Id $id) {
-      $this->addCondition('@id = "'.$id->id.'"');
+      $this->addCondition(
+        sprintf(
+          '@%1$s = %2$s',
+          $this->hasOption(self::OPTION_XML_ATTRIBUTES) ? 'xml:id' : 'id',
+          $this->quoteLiteral($id->id)
+        )
+      );
       return TRUE;
     }
 
@@ -510,9 +529,10 @@ namespace PhpCss\Ast\Visitor  {
     ) {
       $this->addCondition(
         sprintf(
-          '(ancestor-or-self::*[@lang][1]/@lang = %1$s or'.
-          ' substring-before(ancestor-or-self::*[@lang][1]/@lang, "-") = %1$s)',
-          $this->quoteLiteral($language->language)
+          '(ancestor-or-self::*[@%2$s][1]/@%2$s = %1$s or'.
+          ' substring-before(ancestor-or-self::*[@%2$s][1]/@%2$s, "-") = %1$s)',
+          $this->quoteLiteral($language->language),
+          $this->hasOption(self::OPTION_XML_ATTRIBUTES) ? 'xml:lang' : 'lang'
         )
       );
     }
