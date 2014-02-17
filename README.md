@@ -154,7 +154,7 @@ Get the AST
       <th colspan="3">Language Pseudo Class</th>
     </tr>
     <tr>
-      <td>E:lang(fr)</td><td>✓</td><td>not yet</td>
+      <td>E:lang(fr)</td><td>✓</td><td>✓</td>
     </tr>
     <tr>
       <th colspan="3">UI Element states Pseudo Class</th>
