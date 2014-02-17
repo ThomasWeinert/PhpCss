@@ -149,6 +149,8 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//*[local-name() = "E" and (count(parent::*/*|parent::*/text()) = 1)]', 'E:only-child'),
       array('.//*[local-name() = "E" and (count(parent::*/*[local-name() = "E"]) = 1)]', 'E:only-of-type'),
       array('.//*[local-name() = "E" and (count(*|text()) = 0)]', 'E:empty'),
+      // CSS 3 specification - language pseudo class
+      array('.//*[local-name() = "E" and (ancestor-or-self::*[@lang][1]/@lang = "fr" or substring-before(ancestor-or-self::*[@lang][1]/@lang, "-") = "fr")]', 'E:lang(fr)'),
       // CSS 3 specification - ui element states pseudo classes
       array('.//*[local-name() = "E" and not(@disabled)]', 'E:enabled'),
       array('.//*[local-name() = "E" and @disabled]', 'E:disabled'),

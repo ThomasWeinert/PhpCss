@@ -504,5 +504,17 @@ namespace PhpCss\Ast\Visitor  {
     public function visitSelectorSimplePseudoElement(Ast\Selector\Simple\PseudoElement $pseudoElement) {
       throw new Exception\NotConvertable('pseudoelement '.$pseudoElement->name, 'Xpath');
     }
+
+    public function visitSelectorSimplePseudoClassLanguage(
+      Ast\Selector\Simple\PseudoClass\Language $language
+    ) {
+      $this->addCondition(
+        sprintf(
+          '(ancestor-or-self::*[@lang][1]/@lang = %1$s or'.
+          ' substring-before(ancestor-or-self::*[@lang][1]/@lang, "-") = %1$s)',
+          $this->quoteLiteral($language->language)
+        )
+      );
+    }
   }
 }
