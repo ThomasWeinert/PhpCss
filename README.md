@@ -41,7 +41,7 @@ Get the AST
 
 ## Supported
 
-<table style="width:100%">
+<table width="100%">
   <thead>
     <tr>
       <th>Selector</th><th>to CSS</th><th>to Xpath</th>
