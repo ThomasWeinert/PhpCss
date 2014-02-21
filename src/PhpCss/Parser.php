@@ -82,7 +82,7 @@ namespace PhpCss {
       }
 
       // None of the given tokens matched
-      return $this->handleMismatch($expectedTokens);
+      throw $this->handleMismatch($expectedTokens);
     }
 
     /**
@@ -132,7 +132,7 @@ namespace PhpCss {
       }
 
       // None of the given tokens matched
-      return $this->handleMismatch($expectedTokens, $position);
+      throw $this->handleMismatch($expectedTokens, $position);
     }
 
     /**
@@ -248,21 +248,16 @@ namespace PhpCss {
      *
      * @param array() $expectedTokens
      * @param int $position
-     * @throws Exception\TokenMismatch
-     * @throws Exception\UnexpectedEndOfFile
-     * @return NULL
+     * @return Exception
      */
-    protected function handleMismatch($expectedTokens, $position = 0) {
+    private function handleMismatch($expectedTokens, $position = 0) {
       // If the tokenstream ended unexpectedly throw an appropriate exception
       if (!isset($this->_tokens[$position])) {
-        throw new Exception\UnexpectedEndOfFile($expectedTokens);
+        return new Exception\UnexpectedEndOfFile($expectedTokens);
       }
 
       // We found a token but none of the expected ones.
-      throw new Exception\TokenMismatch($this->_tokens[$position], $expectedTokens);
-
-      /** @noinspection PhpUnreachableStatementInspection */
-      return NULL;
+      return new Exception\TokenMismatch($this->_tokens[$position], $expectedTokens);
     }
   }
 }
