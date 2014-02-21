@@ -48,27 +48,28 @@ namespace PhpCss {
     abstract public function parse();
 
     /**
-    * Try to read any of the $expectedTokens from the token list and return
-    * the matching one.
-    *
-    * This method tries to match the current token list against all of the
-    * provided tokens. If a match is found it is removed from the token list
-    * and returned.
-    *
-    * If no match can be found a PhpCssParserException will thrown indicating what
-    * has been expected and what was found.
-    *
-    * The $expectedTokens parameter may be an array of tokens or a scalar
-    * value, which is handled the same way an array with only one entry would
-    * be.
-    *
-    * The special Token Scanner\Token::ANY may be used to indicate
-    * everything is valid and may be matched. However if it is used no other
-    * token may be specified, which does not make any sense, anyway.
-    *
-    * @param array|integer|string $expectedTokens
-    * @return Scanner\Token
-    */
+     * Try to read any of the $expectedTokens from the token list and return
+     * the matching one.
+     *
+     * This method tries to match the current token list against all of the
+     * provided tokens. If a match is found it is removed from the token list
+     * and returned.
+     *
+     * If no match can be found a PhpCssParserException will thrown indicating what
+     * has been expected and what was found.
+     *
+     * The $expectedTokens parameter may be an array of tokens or a scalar
+     * value, which is handled the same way an array with only one entry would
+     * be.
+     *
+     * The special Token Scanner\Token::ANY may be used to indicate
+     * everything is valid and may be matched. However if it is used no other
+     * token may be specified, which does not make any sense, anyway.
+     *
+     * @param array|integer|string $expectedTokens
+     * @throws Exception
+     * @return Scanner\Token
+     */
     protected function read($expectedTokens) {
       // Allow scalar token values for better readability
       if (!is_array($expectedTokens)) {
@@ -111,6 +112,7 @@ namespace PhpCss {
      * @param array|integer|string $expectedTokens
      * @param int $position
      * @param bool $allowEndOfTokens
+     * @throws Exception
      * @return Scanner\Token|NULL
      */
     protected function lookahead($expectedTokens, $position = 0, $allowEndOfTokens = FALSE) {
