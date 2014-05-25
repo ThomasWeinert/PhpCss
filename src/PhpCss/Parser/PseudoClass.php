@@ -138,7 +138,7 @@ namespace PhpCss\Parser {
         if (FALSE !== strpos($token->content, '|')) {
           list($prefix, $name) = explode('|', $token->content);
         } else {
-          $prefix = '*';
+          $prefix = '';
           $name = $token->content;
         }
         if ($name == '*') {

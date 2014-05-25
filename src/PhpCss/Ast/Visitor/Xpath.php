@@ -321,7 +321,7 @@ namespace PhpCss\Ast\Visitor  {
       } else {
         $elementName = $type->elementName;
       }
-      if ($this->hasOption(self::OPTION_EXPLICT_NAMESPACES)) {
+      if ($this->hasOption(self::OPTION_EXPLICT_NAMESPACES) && empty($type->namespacePrefix)) {
         $this->add($elementName);
         $this->setElement($elementName);
         $this->status(self::STATUS_ELEMENT);
