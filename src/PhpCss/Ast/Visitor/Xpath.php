@@ -192,6 +192,8 @@ namespace PhpCss\Ast\Visitor  {
           $this->add('*[');
           break;
         case self::STATUS_PSEUDOCLASS :
+          $this->add($condition);
+          return;
         case self::STATUS_ELEMENT :
           $this->add('[');
           break;
@@ -307,6 +309,7 @@ namespace PhpCss\Ast\Visitor  {
       }
       $this->setElement($element);
       $this->add($element);
+      $this->status(self::STATUS_ELEMENT);
     }
 
     /**
@@ -335,16 +338,16 @@ namespace PhpCss\Ast\Visitor  {
           if ($this->status() != self::STATUS_PSEUDOCLASS) {
             $this->setElement('*['.$condition.']');
             $this->add('*');
+            $this->status(self::STATUS_ELEMENT);
           }
-          $this->status(self::STATUS_ELEMENT);
           $this->addCondition($condition);
         } else {
           $condition = 'local-name() = '.$this->quoteLiteral($elementName);
           if ($this->status() != self::STATUS_PSEUDOCLASS) {
             $this->setElement('*['.$condition.']');
             $this->add('*');
+            $this->status(self::STATUS_ELEMENT);
           }
-          $this->status(self::STATUS_ELEMENT);
           $this->addCondition($condition);
         }
       }
