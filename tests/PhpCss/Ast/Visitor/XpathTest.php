@@ -81,8 +81,8 @@ namespace PhpCss\Ast\Visitor {
     * @covers PhpCss\Ast\Visitor\Xpath
     * @dataProvider provideExamples
     */
-    public function testIntegration($expected, Ast $ast) {
-      $visitor = new Xpath();
+    public function testIntegration($expected, Ast $ast, $options = 0) {
+      $visitor = new Xpath((int)$options);
       $ast->accept($visitor);
       $this->assertEquals(
         $expected, (string)$visitor
@@ -100,6 +100,17 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        'element, default xmlns' => array(
+          './/*[(self::element or self::html:element)]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(new Ast\Selector\Simple\Type('element'))
+              )
+            )
+          ),
+          Ast\Visitor\Xpath::OPTION_DEFAULT_NAMESPACE
         ),
         'element' => array(
           './/*[local-name() = "element"]',

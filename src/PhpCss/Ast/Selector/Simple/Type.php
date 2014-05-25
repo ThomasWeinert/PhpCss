@@ -6,10 +6,10 @@ namespace PhpCss\Ast\Selector\Simple {
 
   class Type extends Ast\Selector\Simple {
 
-    public $namespacePrefix = '*';
+    public $namespacePrefix = '';
     public $elementName = '';
 
-    public function __construct($name, $prefix = '*') {
+    public function __construct($name, $prefix = '') {
       $this->namespacePrefix = $prefix;
       $this->elementName = $name;
     }

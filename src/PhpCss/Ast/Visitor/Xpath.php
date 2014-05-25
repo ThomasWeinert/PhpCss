@@ -16,9 +16,22 @@ namespace PhpCss\Ast\Visitor  {
   class Xpath extends Overload {
 
     /**
-     * use explicit namespaces, no defined namespace means no namespaces, by default it means all namespaces
+     * use explicit namespaces only, no defined namespace means no namespaces. This option and
+     * OPTION_DEFAULT_NAMESPACE can not be used at the same time.
      */
     const OPTION_EXPLICT_NAMESPACES = 1;
+
+    /**
+     * use a default namespace, no defined namespace means both no and the default namespace.
+     * This option and OPTION_EXPLICT_NAMESPACES can not be used at the same time.
+     *
+     * If not changed 'html'is used as the additional prefix for elements.
+     *
+     * Example: foo -> *[(self::foo or self::html:foo)]
+     *
+     */
+    const OPTION_DEFAULT_NAMESPACE = 16;
+
     /**
      * start expressions in document context
      */
@@ -53,6 +66,17 @@ namespace PhpCss\Ast\Visitor  {
     private $_options = 0;
 
     /**
+     * The default namespace prefix used for elements with no namespace prefix if OPTION_DEFAULT_NAMESPACE is
+     * active.
+     */
+    const DEFAULT_NAMESPACE_PREFIX = 'html';
+
+    /**
+     * @var string
+     */
+    private $_defaultNamespacePrefix = self::DEFAULT_NAMESPACE_PREFIX;
+
+    /**
      * store expressions for use in visitor methods, the actual expression can depend on
      * the visitor methods called before.
      *
@@ -71,8 +95,33 @@ namespace PhpCss\Ast\Visitor  {
      *
      * @param integer $options
      */
-    public function __construct($options = 0) {
+    public function __construct($options = 0, $defaultPrefix = self::DEFAULT_NAMESPACE_PREFIX) {
+      $this->setOptions($options, $defaultPrefix);
+    }
+
+    /**
+     * Validate and store the options.
+     *
+     * @param int $options
+     * @param string $defaultPrefix
+     * @throws \InvalidArgumentException
+     */
+    public function setOptions($options = 0, $defaultPrefix = self::DEFAULT_NAMESPACE_PREFIX) {
+      if (
+        $this->hasOption(self::OPTION_EXPLICT_NAMESPACES) &&
+        $this->hasOption(self::OPTION_DEFAULT_NAMESPACE)
+      ) {
+        throw new \InvalidArgumentException(
+          'Options OPTION_EXPLICT_NAMESPACES and OPTION_DEFAULT_NAMESPACE can not be set at the same time.'
+        );
+      }
+      if (trim($defaultPrefix) == '') {
+        throw new \InvalidArgumentException(
+          'The default namespace prefix "'.$defaultPrefix.'" is not valid.'
+        );
+      }
       $this->_options = (int)$options;
+      $this->_defaultNamespacePrefix = trim($defaultPrefix);
     }
 
     /**
@@ -281,6 +330,14 @@ namespace PhpCss\Ast\Visitor  {
           $this->add($type->namespacePrefix.':'.$elementName);
           $this->setElement($type->namespacePrefix.':'.$elementName);
           $this->status(self::STATUS_ELEMENT);
+        } elseif ($this->hasOption(self::OPTION_DEFAULT_NAMESPACE) && empty($type->namespacePrefix)) {
+          $condition = '(self::'.$elementName.' or self::'.$this->_defaultNamespacePrefix.':'.$elementName.')';
+          if ($this->status() != self::STATUS_PSEUDOCLASS) {
+            $this->setElement('*['.$condition.']');
+            $this->add('*');
+          }
+          $this->status(self::STATUS_ELEMENT);
+          $this->addCondition($condition);
         } else {
           $condition = 'local-name() = '.$this->quoteLiteral($elementName);
           if ($this->status() != self::STATUS_PSEUDOCLASS) {
