@@ -2,7 +2,13 @@
 
 * License:   The MIT License
 * Copyright: 2010-2014 PhpCss Team
-* Author: Thomas Weinert <thomas@weinert.info>
+* Author: [Thomas Weinert](http://thomas.weinert.info) <thomas@weinert.info>
+
+[![License](https://poser.pugx.org/carica/phpcss/license.svg)](https://packagist.org/packages/carica/phpcss)
+[![Total Downloads](https://poser.pugx.org/carica/phpcss/downloads.svg)](https://packagist.org/packages/carica/phpcss)
+[![Build Status](https://travis-ci.org/ThomasWeinert/PhpCss.svg?branch=master)](https://travis-ci.org/ThomasWeinert/PhpCss)
+[![Latest Stable Version](https://poser.pugx.org/carica/phpcss/v/stable.svg)](https://packagist.org/packages/carica/phpcss)
+[![Latest Unstable Version](https://poser.pugx.org/carica/phpcss/v/unstable.svg)](https://packagist.org/packages/carica/phpcss)
 
 Thanks to Benjamin Eberlei, Bastian Feder and Jakob Westhoff for ideas and concepts.
 
