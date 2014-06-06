@@ -17,6 +17,10 @@ PhpCSS is a parser for CSS 3 selectors. It parses them into an AST and allows th
 
 The main target of this project is the possibilty to convert CSS selectors into Xpath expressions.
 
+## Demo
+
+A small demo application can be found at: http://xpath.thomas.weinert.info/
+
 ## Installation
 
 PhpCss is available on Packagist: [Carica/PhpCss](https://packagist.org/packages/carica/phpcss).
