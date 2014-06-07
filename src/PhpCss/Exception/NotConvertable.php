@@ -13,7 +13,9 @@ namespace PhpCss\Exception {
   /**
    * Exception thrown if a visitor finds something that it can not use.
    */
-  class NotConvertable extends PhpCss\Exception {
+  class NotConvertable
+    extends \Exception
+    implements PhpCss\Exception {
 
     public function __construct($token, $target) {
       parent::__construct(

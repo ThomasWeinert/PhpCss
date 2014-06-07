@@ -78,8 +78,28 @@ namespace PhpCss {
       );
       $scanner = new Scanner($status);
       $tokens = array();
-      $this->setExpectedException(\UnexpectedValueException::CLASS);
+      $this->setExpectedException(
+        Exception\InvalidCharacter::CLASS,
+        'Invalid char "S" for status "Mock_PhpCssScannerStatus" at offset #0 in "SAMPLE"'
+      );
       $scanner->scan($tokens, 'SAMPLE');
+    }
+
+    /**
+    * @covers PhpCss\Scanner::scan
+    * @covers PhpCss\Scanner::_next
+    */
+    public function testScanWithInvalidTokenUnicode() {
+      $status = $this->getStatusMockObjectFixture(
+        array(NULL) // getToken() returns this elements
+      );
+      $scanner = new Scanner($status);
+      $tokens = array();
+      $this->setExpectedException(
+        Exception\InvalidCharacter::CLASS,
+        'Invalid char "Ä" for status "Mock_PhpCssScannerStatus" at offset #0 in "ÄÖÜ"'
+      );
+      $scanner->scan($tokens, 'ÄÖÜ');
     }
 
     /**
@@ -139,6 +159,14 @@ namespace PhpCss {
 
     public static function selectorsDataProvider() {
       return array(
+        // Unicode
+        array(
+          'äää.ööö',
+          array(
+            "TOKEN::IDENTIFIER @0 'äää'",
+            "TOKEN::SIMPLESELECTOR_CLASS @6 '.ööö'"
+          )
+        ),
         // CSS 3 specification
         array(
           '*',
@@ -577,9 +605,9 @@ namespace PhpCss {
           "test'string'",
           array(
             "TOKEN::IDENTIFIER @0 'test'",
-            "TOKEN::STRING_SINGLE_QUOTE_START @4 '\''",
+            "TOKEN::STRING_SINGLE_QUOTE_START @4 '\\''",
             "TOKEN::STRING_CHARACTERS @5 'string'",
-            "TOKEN::STRING_SINGLE_QUOTE_END @11 '\''"
+            "TOKEN::STRING_SINGLE_QUOTE_END @11 '\\''"
           )
         ),
         array(
@@ -689,7 +717,10 @@ namespace PhpCss {
      * @return Scanner\Status|\PHPUnit_Framework_MockObject_MockObject
      */
     private function getStatusMockObjectFixture($tokens, $isEndToken = NULL) {
-      $status = $this->getMock(Scanner\Status::CLASS);
+      $status = $this
+        ->getMockBuilder(Scanner\Status::CLASS)
+        ->setMockClassName('Mock_PhpCssScannerStatus')
+        ->getMock();
       if (count($tokens) > 0) {
         $status
           ->expects($this->exactly(count($tokens)))

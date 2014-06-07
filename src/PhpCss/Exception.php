@@ -10,7 +10,7 @@ namespace PhpCss {
   /**
   * Abstract superclass for PhpCss exceptions
   */
-  abstract class Exception extends \Exception {
+  interface Exception {
 
   }
 }

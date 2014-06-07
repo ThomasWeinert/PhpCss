@@ -69,14 +69,10 @@ namespace PhpCss {
         /**
         * @todo a some substring logic for large strings
         */
-        throw new \UnexpectedValueException(
-          sprintf(
-            'Invalid char "%s" for status "%s" at offset #%d in "%s"',
-            substr($this->_buffer, $this->_offset, 1),
-            get_class($this->_status),
-            $this->_offset,
-            $this->_buffer
-          )
+        throw new Exception\InvalidCharacter(
+          $this->_buffer,
+          $this->_offset,
+          $this->_status
         );
       }
       return $this->_offset;
