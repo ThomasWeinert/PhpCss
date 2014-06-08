@@ -248,17 +248,15 @@ namespace PhpCss\Ast\Visitor  {
       Ast\Selector\Simple\PseudoClass $class
     ) {
       $this->start($this->appendElement('pseudoclass'));
-      $this->appendText(':');
-      $this->appendElement('name', $class->name);
-      $this->end();
+      $this->appendElement('name', ':'.$class->name);
+      return $this->end();
     }
 
     public function visitEnterSelectorSimplePseudoClass(
       Ast\Selector\Simple\PseudoClass $class
     ) {
       $this->start($this->appendElement('pseudoclass'));
-      $this->appendText(':');
-      $this->appendElement('name', $class->name);
+      $this->appendElement('name', ':'.$class->name);
       $this->appendText('(');
       $this->start($this->appendElement('parameter'));
       return TRUE;
@@ -267,7 +265,7 @@ namespace PhpCss\Ast\Visitor  {
     public function visitLeaveSelectorSimplePseudoClass() {
       $this->end();
       $this->appendText(')');
-      $this->end();
+      return $this->end();
     }
 
     public function visitSelectorSimplePseudoClassPosition(
@@ -293,6 +291,27 @@ namespace PhpCss\Ast\Visitor  {
         }
       }
       $this->appendText($css);
+      return TRUE;
+    }
+
+    public function visitSelectorSimplePseudoClassLanguage(
+      Ast\Selector\Simple\PseudoClass\Language $language
+    ) {
+      $this->start($this->appendElement('pseudoclass'));
+      $this->appendElement('name', ':lang');
+      $this->appendText('(');
+      $this->start($this->appendElement('parameter'));
+      $this->appendText($language->language);
+      $this->appendText(')');
+      return $this->end();
+    }
+
+    public function visitSelectorSimplePseudoElement(
+      Ast\Selector\Simple\PseudoElement $element
+    ) {
+      $this->start($this->appendElement('pseudoclass'));
+      $this->appendElement('name', '::'.$element->name);
+      return $this->end();
     }
   }
 }

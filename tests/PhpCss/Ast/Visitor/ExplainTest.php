@@ -158,9 +158,8 @@ namespace PhpCss\Ast\Visitor {
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
               <selector>
                 <pseudoclass>
-                  <text>:</text>
                   <name>
-                    <text>hover</text>
+                    <text>:hover</text>
                   </name>
                 </pseudoclass>
               </selector>
@@ -183,9 +182,8 @@ namespace PhpCss\Ast\Visitor {
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
               <selector>
                 <pseudoclass>
-                  <text>:</text>
                   <name>
-                    <text>nth-of-type</text>
+                    <text>:nth-of-type</text>
                   </name>
                   <text>(</text>
                   <parameter>
