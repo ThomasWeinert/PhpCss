@@ -243,5 +243,56 @@ namespace PhpCss\Ast\Visitor  {
       $this->end();
       return TRUE;
     }
+
+    public function visitSelectorSimplePseudoClass(
+      Ast\Selector\Simple\PseudoClass $class
+    ) {
+      $this->start($this->appendElement('pseudoclass'));
+      $this->appendText(':');
+      $this->appendElement('name', $class->name);
+      $this->end();
+    }
+
+    public function visitEnterSelectorSimplePseudoClass(
+      Ast\Selector\Simple\PseudoClass $class
+    ) {
+      $this->start($this->appendElement('pseudoclass'));
+      $this->appendText(':');
+      $this->appendElement('name', $class->name);
+      $this->appendText('(');
+      $this->start($this->appendElement('parameter'));
+      return TRUE;
+    }
+
+    public function visitLeaveSelectorSimplePseudoClass() {
+      $this->end();
+      $this->appendText(')');
+      $this->end();
+    }
+
+    public function visitSelectorSimplePseudoClassPosition(
+      Ast\Selector\Simple\PseudoClass\Position $position
+    ) {
+      if ($position->repeat == 2 && $position->add == 1) {
+        $css = 'odd';
+      } elseif ($position->repeat == 2 && $position->add == 0) {
+        $css = 'even';
+      } elseif ($position->repeat == 0) {
+        $css = $position->add;
+      } elseif ($position->repeat == 1) {
+        $css = 'n';
+        if ($position->add != 0) {
+          $css .= $position->add >= 0
+            ? '+'.$position->add : $position->add;
+        }
+      } else {
+        $css = $position->repeat.'n';
+        if ($position->add != 0) {
+          $css .= $position->add >= 0
+            ? '+'.$position->add : $position->add;
+        }
+      }
+      $this->appendText($css);
+    }
   }
 }

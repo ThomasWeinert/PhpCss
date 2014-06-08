@@ -151,6 +151,62 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        array(
+          ':hover',
+          '<?xml version="1.0"?>
+            <selector-group xmlns="urn:carica-phpcss-explain-2014">
+              <selector>
+                <pseudoclass>
+                  <text>:</text>
+                  <name>
+                    <text>hover</text>
+                  </name>
+                </pseudoclass>
+              </selector>
+            </selector-group>',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\PseudoClass(
+                    'hover'
+                  )
+                )
+              )
+            )
+          )
+        ),
+        array(
+          ':nth-of-type(odd)',
+          '<?xml version="1.0"?>
+            <selector-group xmlns="urn:carica-phpcss-explain-2014">
+              <selector>
+                <pseudoclass>
+                  <text>:</text>
+                  <name>
+                    <text>nth-of-type</text>
+                  </name>
+                  <text>(</text>
+                  <parameter>
+                    <text>odd</text>
+                  </parameter>
+                  <text>)</text>
+                </pseudoclass>
+              </selector>
+            </selector-group>',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\PseudoClass(
+                    'nth-of-type',
+                    new Ast\Selector\Simple\PseudoClass\Position(2, 1)
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }
