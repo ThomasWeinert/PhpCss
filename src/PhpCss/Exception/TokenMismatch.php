@@ -13,21 +13,11 @@ namespace PhpCss\Exception {
   /**
   * Exception thrown if a token is encountered which wasn't expected.
   */
-  class TokenMismatch extends Parser {
-
-    /**
-    * The token encountered during the scan.
-    *
-    * This is the token object which was not expected to be found at the given
-    * position.
-    *
-    * @var PhpCss\Scanner\Token
-    */
-    public $encounteredToken;
+  class TokenMismatch extends Token {
 
     public function __construct(PhpCss\Scanner\Token $encounteredToken, array $expectedTokens) {
-      $this->encounteredToken = $encounteredToken;
-      $this->expectedTokens = $expectedTokens;
+      $this->_encounteredToken = $encounteredToken;
+      $this->_expectedTokens = $expectedTokens;
 
       $expectedTokenStrings = array();
       foreach ($expectedTokens as $expectedToken) {

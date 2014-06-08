@@ -320,7 +320,7 @@ namespace PhpCss\Ast\Visitor  {
     */
     public function visitSelectorSimpleType(Ast\Selector\Simple\Type $type) {
       if ($this->hasOption(self::OPTION_LOWERCASE_ELEMENTS)) {
-        $elementName = strtolower($type->elementName);
+        $elementName = $this->strtolower($type->elementName);
       } else {
         $elementName = $type->elementName;
       }
@@ -595,6 +595,19 @@ namespace PhpCss\Ast\Visitor  {
           $this->hasOption(self::OPTION_XML_ATTRIBUTES) ? 'xml:lang' : 'lang'
         )
       );
+    }
+
+    /**
+     * Use unicode aware strtolower if avavilable
+     *
+     * @param $string
+     * @return string
+     */
+    private function strtolower($string) {
+      if (is_callable('mb_strtolower')) {
+        return mb_strtolower($string, 'utf-8');
+      }
+      return strtolower($string);
     }
   }
 }

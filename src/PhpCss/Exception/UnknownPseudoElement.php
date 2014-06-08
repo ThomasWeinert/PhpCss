@@ -12,7 +12,7 @@ namespace PhpCss\Exception {
   /**
   * Exception thrown if an a pseudo element is found and the name is not known.
   */
-  class UnknownPseudoElement extends Parser {
+  class UnknownPseudoElement extends Token {
 
     public function __construct(PhpCss\Scanner\Token $token) {
       parent::__construct(

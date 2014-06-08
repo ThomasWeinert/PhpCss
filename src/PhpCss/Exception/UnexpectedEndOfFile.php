@@ -19,7 +19,7 @@ namespace PhpCss\Exception {
      * @param array(PhpCss\Scanner\Token) $expectedTokens
      */
     public function __construct(array $expectedTokens) {
-      $this->expectedTokens = $expectedTokens;
+      $this->_expectedTokens = $expectedTokens;
 
       $expectedTokenStrings = array();
       foreach ($expectedTokens as $expectedToken) {

@@ -181,6 +181,10 @@ class PhpCssTest extends PHPUnit_Framework_TestCase {
       array('.//foo:bar', 'foo|bar'),
       array('.//foo:bar[@id = "ok"]', 'foo|bar#ok'),
       array('.//*[local-name() = "div" and @data-plugin = "feed"]', 'div[data-plugin=feed]'),
+
+      // utf-8
+      array('.//*[local-name() = "äöü"]', 'äöü'),
+      array('.//*[local-name() = "äöü"]', 'ÄÖÜ', PhpCss\Ast\Visitor\Xpath::OPTION_LOWERCASE_ELEMENTS)
     );
   }
 }

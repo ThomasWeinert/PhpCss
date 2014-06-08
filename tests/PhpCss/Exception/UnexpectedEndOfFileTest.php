@@ -14,8 +14,8 @@ namespace PhpCss\Exception {
       $e = new UnexpectedEndOfFile(
         array(Scanner\Token::STRING_CHARACTERS)
       );
-      $this->assertAttributeEquals(
-        array(Scanner\Token::STRING_CHARACTERS), 'expectedTokens', $e
+      $this->assertEquals(
+        array(Scanner\Token::STRING_CHARACTERS), $e->getExpected()
       );
       $this->assertEquals(
         'Parse error: Unexpected end of file was found while one of STRING_CHARACTERS was expected.',
