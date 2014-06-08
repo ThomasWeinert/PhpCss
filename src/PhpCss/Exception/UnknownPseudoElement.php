@@ -14,8 +14,13 @@ namespace PhpCss\Exception {
   */
   class UnknownPseudoElement extends Token {
 
+    /**
+     * @param PhpCss\Scanner\Token $token
+     */
     public function __construct(PhpCss\Scanner\Token $token) {
+      $this->_encounteredToken = $token;
       parent::__construct(
+        $token,
         sprintf(
           'Parse error: Unknown pseudo element "%s" at character "%d".',
           $token->content,

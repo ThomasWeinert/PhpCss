@@ -16,7 +16,7 @@ namespace PhpCss\Exception {
   * A parse error occurs if certain tokens are expected for further parsing, but
   * none of them are found on the token stream
   */
-  class Token extends Parser {
+  abstract class Token extends Parser {
 
     /**
     * The token encountered during the scan.
@@ -28,6 +28,16 @@ namespace PhpCss\Exception {
     */
     protected  $_encounteredToken;
 
+    public function __construct(PhpCss\Scanner\Token $token, $message) {
+      $this->_encounteredToken = $token;
+      parent::__construct($message);
+    }
+
+    /**
+     * Return the token that triggered the exception
+     *
+     * @return PhpCss\Scanner\Token
+     */
     public function getToken() {
       return $this->_encounteredToken;
     }

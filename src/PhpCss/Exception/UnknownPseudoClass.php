@@ -15,8 +15,12 @@ namespace PhpCss\Exception {
   */
   class UnknownPseudoClass extends Token {
 
+    /**
+     * @param PhpCss\Scanner\Token $token
+     */
     public function __construct(PhpCss\Scanner\Token $token) {
       parent::__construct(
+        $token,
         sprintf(
           'Parse error: Unknown pseudo class "%s" at character "%d".',
           $token->content,

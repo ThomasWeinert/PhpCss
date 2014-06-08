@@ -15,8 +15,11 @@ namespace PhpCss\Exception {
   */
   class TokenMismatch extends Token {
 
+    /**
+     * @param PhpCss\Scanner\Token $encounteredToken
+     * @param array $expectedTokens
+     */
     public function __construct(PhpCss\Scanner\Token $encounteredToken, array $expectedTokens) {
-      $this->_encounteredToken = $encounteredToken;
       $this->_expectedTokens = $expectedTokens;
 
       $expectedTokenStrings = array();
@@ -25,6 +28,7 @@ namespace PhpCss\Exception {
       }
 
       parent::__construct(
+        $encounteredToken,
        'Parse error: Found '.(string)$encounteredToken .
        ' while one of '.implode(", ", $expectedTokenStrings).' was expected.'
       );
