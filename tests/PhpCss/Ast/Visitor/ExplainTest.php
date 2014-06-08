@@ -115,6 +115,42 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        array(
+          '[foo~="42"]',
+          '<?xml version="1.0"?>
+            <selector-group xmlns="urn:carica-phpcss-explain-2014">
+              <selector>
+                <attribute operator="includes">
+                  <text>[</text>
+                  <name>
+                    <text>foo</text>
+                  </name>
+                  <operator>
+                    <text>~=</text>
+                  </operator>
+                  <text>"</text>
+                  <value>
+                    <text>42</text>
+                  </value>
+                  <text>"</text>
+                  <text>]</text>
+                </attribute>
+              </selector>
+            </selector-group>',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\Attribute(
+                    'foo',
+                    Ast\Selector\Simple\Attribute::MATCH_INCLUDES,
+                    42
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }

@@ -63,6 +63,16 @@ namespace PhpCss\Ast\Visitor  {
       return $result;
     }
 
+    private function appendText($content) {
+      return $this->_current
+        ->appendChild(
+          $this->_dom->createElementNs($this->_xmlns, 'text')
+        )
+        ->appendChild(
+          $this->_dom->createTextNode($content)
+        );
+    }
+
     private function start($node) {
       $this->_current = $node;
       return TRUE;
@@ -187,11 +197,51 @@ namespace PhpCss\Ast\Visitor  {
 
     public function visitEnterSelectorCombinatorNext() {
       return $this->start($this->appendElement('child', ' + '));
-      return TRUE;
     }
 
     public function visitLeaveSelectorCombinatorNext() {
       return $this->end();
+    }
+
+    public function visitSelectorSimpleAttribute(
+      Ast\Selector\Simple\Attribute $attribute
+    ) {
+      $operators = array(
+        Ast\Selector\Simple\Attribute::MATCH_EXISTS => 'exists',
+        Ast\Selector\Simple\Attribute::MATCH_PREFIX => 'prefix',
+        Ast\Selector\Simple\Attribute::MATCH_SUFFIX => 'suffix',
+        Ast\Selector\Simple\Attribute::MATCH_SUBSTRING => 'substring',
+        Ast\Selector\Simple\Attribute::MATCH_EQUALS => 'equals',
+        Ast\Selector\Simple\Attribute::MATCH_INCLUDES => 'includes',
+        Ast\Selector\Simple\Attribute::MATCH_DASHMATCH => 'dashmatch'
+      );
+      $this->start(
+        $this->appendElement(
+          'attribute', '', array('operator' => $operators[$attribute->match])
+        )
+      );
+      $this->appendText('[');
+      $this->appendElement('name', $attribute->name);
+      if ($attribute->match !== Ast\Selector\Simple\Attribute::MATCH_EXISTS) {
+        $operatorStrings = array(
+          Ast\Selector\Simple\Attribute::MATCH_PREFIX => '^=',
+          Ast\Selector\Simple\Attribute::MATCH_SUFFIX => '$=',
+          Ast\Selector\Simple\Attribute::MATCH_SUBSTRING => '*=',
+          Ast\Selector\Simple\Attribute::MATCH_EQUALS => '=',
+          Ast\Selector\Simple\Attribute::MATCH_INCLUDES => '~=',
+          Ast\Selector\Simple\Attribute::MATCH_DASHMATCH => '|='
+        );
+        $this->appendElement('operator', $operatorStrings[$attribute->match]);
+        $this->appendText('"');
+        $this->appendElement(
+          'value',
+          str_replace(array('\\', '"'), array('\\\\', '\\"'), $attribute->literal)
+        );
+        $this->appendText('"');
+      }
+      $this->appendText(']');
+      $this->end();
+      return TRUE;
     }
   }
 }
