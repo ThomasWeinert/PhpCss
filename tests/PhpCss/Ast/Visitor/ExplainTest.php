@@ -92,7 +92,7 @@ namespace PhpCss\Ast\Visitor {
                   <text>element</text>
                 </type>
                 <child>
-                  <text> &gt; </text>
+                  <text><![CDATA[ > ]]></text>
                   <selector>
                     <type>
                       <text>child</text>

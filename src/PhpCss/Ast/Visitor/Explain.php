@@ -49,13 +49,18 @@ namespace PhpCss\Ast\Visitor  {
         $this->_dom->createElementNs($this->_xmlns, $name)
       );
       if (!empty($content)) {
-        $result
-          ->appendChild(
-            $this->_dom->createElementNs($this->_xmlns, 'text')
-          )
-          ->appendChild(
+        $text = $result->appendChild(
+          $this->_dom->createElementNs($this->_xmlns, 'text')
+        );
+        if (trim($content) !== $content) {
+          $text->appendChild(
+            $this->_dom->createCDATASection($content)
+          );
+        } else {
+          $text->appendChild(
             $this->_dom->createTextNode($content)
           );
+        }
       }
       foreach ($attributes as $attribute => $value) {
         $result->setAttribute($attribute, $value);
@@ -112,7 +117,7 @@ namespace PhpCss\Ast\Visitor  {
             $this->_dom->createElementNs($this->_xmlns, 'text')
           )
           ->appendChild(
-            $this->_dom->createTextNode(', ')
+            $this->_dom->createCDATASection(', ')
           );
       }
       return $this->start($this->appendElement('selector'));
