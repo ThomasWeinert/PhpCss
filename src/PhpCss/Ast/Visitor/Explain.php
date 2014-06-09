@@ -68,21 +68,43 @@ namespace PhpCss\Ast\Visitor  {
       return $result;
     }
 
+    /**
+     * @param $content
+     * @return \DOMNode
+     */
     private function appendText($content) {
-      return $this->_current
-        ->appendChild(
-          $this->_dom->createElementNs($this->_xmlns, 'text')
-        )
-        ->appendChild(
+      $text = $this->_current->appendChild(
+        $this->_dom->createElementNs($this->_xmlns, 'text')
+      );
+      if (trim($content) !== $content) {
+        $text->appendChild(
+          $this->_dom->createCDATASection($content)
+        );
+      } else {
+        $text->appendChild(
           $this->_dom->createTextNode($content)
         );
+      }
+      return $text;
     }
 
+    /**
+     * Set the provided node as the current element, start a
+     * subgroup.
+     *
+     * @param $node
+     * @return bool
+     */
     private function start($node) {
       $this->_current = $node;
       return TRUE;
     }
 
+    /**
+     * Move the current element to its parent element
+     *
+     * @return bool
+     */
     private function end() {
       $this->_current = $this->_current->parentNode;
       return TRUE;
@@ -176,38 +198,66 @@ namespace PhpCss\Ast\Visitor  {
       return TRUE;
     }
 
+    /**
+     * @return bool
+     */
     public function visitEnterSelectorCombinatorDescendant() {
       return $this->start($this->appendElement('descendant', ' '));
     }
 
+    /**
+     * @return bool
+     */
     public function visitLeaveSelectorCombinatorDescendant() {
       return $this->end();
     }
 
+    /**
+     * @return bool
+     */
     public function visitEnterSelectorCombinatorChild() {
       return $this->start($this->appendElement('child', ' > '));
     }
 
+    /**
+     * @return bool
+     */
     public function visitLeaveSelectorCombinatorChild() {
       return $this->end();
     }
 
+    /**
+     * @return bool
+     */
     public function visitEnterSelectorCombinatorFollower() {
       return $this->start($this->appendElement('follower', ' ~ '));
     }
 
+    /**
+     * @return bool
+     */
     public function visitLeaveSelectorCombinatorFollower() {
       return $this->end();
     }
 
+    /**
+     * @return bool
+     */
     public function visitEnterSelectorCombinatorNext() {
       return $this->start($this->appendElement('child', ' + '));
     }
 
+    /**
+     * @return bool
+     */
     public function visitLeaveSelectorCombinatorNext() {
       return $this->end();
     }
 
+    /**
+     * @param Ast\Selector\Simple\Attribute $attribute
+     * @return bool
+     */
     public function visitSelectorSimpleAttribute(
       Ast\Selector\Simple\Attribute $attribute
     ) {
@@ -249,6 +299,10 @@ namespace PhpCss\Ast\Visitor  {
       return TRUE;
     }
 
+    /**
+     * @param Ast\Selector\Simple\PseudoClass $class
+     * @return bool
+     */
     public function visitSelectorSimplePseudoClass(
       Ast\Selector\Simple\PseudoClass $class
     ) {
@@ -257,6 +311,10 @@ namespace PhpCss\Ast\Visitor  {
       return $this->end();
     }
 
+    /**
+     * @param Ast\Selector\Simple\PseudoClass $class
+     * @return bool
+     */
     public function visitEnterSelectorSimplePseudoClass(
       Ast\Selector\Simple\PseudoClass $class
     ) {
@@ -267,12 +325,19 @@ namespace PhpCss\Ast\Visitor  {
       return TRUE;
     }
 
+    /**
+     * @return bool
+     */
     public function visitLeaveSelectorSimplePseudoClass() {
       $this->end();
       $this->appendText(')');
       return $this->end();
     }
 
+    /**
+     * @param Ast\Selector\Simple\PseudoClass\Position $position
+     * @return bool
+     */
     public function visitSelectorSimplePseudoClassPosition(
       Ast\Selector\Simple\PseudoClass\Position $position
     ) {
@@ -299,6 +364,10 @@ namespace PhpCss\Ast\Visitor  {
       return TRUE;
     }
 
+    /**
+     * @param Ast\Selector\Simple\PseudoClass\Language $language
+     * @return bool
+     */
     public function visitSelectorSimplePseudoClassLanguage(
       Ast\Selector\Simple\PseudoClass\Language $language
     ) {
@@ -311,6 +380,10 @@ namespace PhpCss\Ast\Visitor  {
       return $this->end();
     }
 
+    /**
+     * @param Ast\Selector\Simple\PseudoElement $element
+     * @return bool
+     */
     public function visitSelectorSimplePseudoElement(
       Ast\Selector\Simple\PseudoElement $element
     ) {
