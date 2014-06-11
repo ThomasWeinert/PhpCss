@@ -244,7 +244,7 @@ namespace PhpCss\Ast\Visitor  {
      * @return bool
      */
     public function visitEnterSelectorCombinatorNext() {
-      return $this->start($this->appendElement('child', ' + '));
+      return $this->start($this->appendElement('next', ' + '));
     }
 
     /**
