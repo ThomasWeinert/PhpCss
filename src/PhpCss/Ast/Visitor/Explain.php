@@ -376,8 +376,9 @@ namespace PhpCss\Ast\Visitor  {
       $this->appendText('(');
       $this->start($this->appendElement('parameter'));
       $this->appendText($language->language);
+      $this->end();
       $this->appendText(')');
-      return $this->end();
+      return TRUE;
     }
 
     /**
