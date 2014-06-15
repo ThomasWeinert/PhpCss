@@ -63,7 +63,7 @@ namespace PhpCss\Scanner\Status\String {
     /**
     * Get new (sub)status if needed.
     *
-    * Returns alway NULL, because a string never has a sub status
+    * Returns always NULL, because a string never has a sub status
     *
     * @param Scanner\Token $token
     * @return Scanner\Token

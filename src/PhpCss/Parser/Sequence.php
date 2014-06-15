@@ -14,7 +14,7 @@ namespace PhpCss\Parser {
   /**
   * The Sequence parser parses a list of simple selector tokens into the AST.
   *
-  * It delegates to separate parsers for pseude classes and attributes.
+  * It delegates to separate parsers for pseudo classes and attributes.
   *
   * A css combinator delegates to a new instance of this class.
   */

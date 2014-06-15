@@ -62,7 +62,7 @@ namespace PhpCss\Scanner {
       self::NUMBER => 'NUMBER',
       self::IDENTIFIER => 'IDENTIFIER',
       self::CLASS_SELECTOR => 'SIMPLESELECTOR_CLASS',
-      self::ID_SELECTOR => 'SIMPE_SELECTOR_ID',
+      self::ID_SELECTOR => 'SIMPLE_SELECTOR_ID',
       self::PSEUDO_CLASS => 'PSEUDOCLASS',
       self::PSEUDO_CLASS_POSITION => 'PSEUDOCLASS_POSITION',
       self::PSEUDO_ELEMENT => 'PSEUDOELEMENT',

@@ -97,7 +97,7 @@ namespace PhpCss {
     *
     * If the status returns a new status object, a new scanner is created to handle it.
     *
-    * @param array $target
+    * @param Scanner\Token[] $target
     * @param Scanner\Status $status
     * @return Scanner
     */

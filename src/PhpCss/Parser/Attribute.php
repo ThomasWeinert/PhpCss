@@ -14,7 +14,7 @@ namespace PhpCss\Parser {
   /**
   * The attribute parser parses a simple attribute selector.
   *
-  * The attribute value can be an string if a string start is found it delgates to a string
+  * The attribute value can be an string if a string start is found it delegates to a string
   * parser.
   */
   class Attribute extends PhpCss\Parser {

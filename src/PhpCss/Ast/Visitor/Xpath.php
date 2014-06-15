@@ -19,7 +19,7 @@ namespace PhpCss\Ast\Visitor  {
      * use explicit namespaces only, no defined namespace means no namespaces. This option and
      * OPTION_DEFAULT_NAMESPACE can not be used at the same time.
      */
-    const OPTION_EXPLICT_NAMESPACES = 1;
+    const OPTION_EXPLICIT_NAMESPACES = 1;
 
     /**
      * use a default namespace, no defined namespace means both no and the default namespace.
@@ -94,6 +94,7 @@ namespace PhpCss\Ast\Visitor  {
      * Create visitor and store mode options
      *
      * @param integer $options
+     * @param string $defaultPrefix
      */
     public function __construct($options = 0, $defaultPrefix = self::DEFAULT_NAMESPACE_PREFIX) {
       $this->setOptions($options, $defaultPrefix);
@@ -108,11 +109,11 @@ namespace PhpCss\Ast\Visitor  {
      */
     public function setOptions($options = 0, $defaultPrefix = self::DEFAULT_NAMESPACE_PREFIX) {
       if (
-        $this->hasOption(self::OPTION_EXPLICT_NAMESPACES) &&
+        $this->hasOption(self::OPTION_EXPLICIT_NAMESPACES) &&
         $this->hasOption(self::OPTION_DEFAULT_NAMESPACE)
       ) {
         throw new \InvalidArgumentException(
-          'Options OPTION_EXPLICT_NAMESPACES and OPTION_DEFAULT_NAMESPACE can not be set at the same time.'
+          'Options OPTION_EXPLICIT_NAMESPACES and OPTION_DEFAULT_NAMESPACE can not be set at the same time.'
         );
       }
       if (trim($defaultPrefix) == '') {
@@ -245,7 +246,7 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * Valate the buffer before vistiting a Ast\Selector\Group.
+    * Validate the buffer before visiting a Ast\Selector\Group.
     * If the buffer already contains data, throw an exception.
     *
     * @throws \LogicException
@@ -324,7 +325,7 @@ namespace PhpCss\Ast\Visitor  {
       } else {
         $elementName = $type->elementName;
       }
-      if ($this->hasOption(self::OPTION_EXPLICT_NAMESPACES) && empty($type->namespacePrefix)) {
+      if ($this->hasOption(self::OPTION_EXPLICIT_NAMESPACES) && empty($type->namespacePrefix)) {
         $this->add($elementName);
         $this->setElement($elementName);
         $this->status(self::STATUS_ELEMENT);
@@ -598,7 +599,7 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-     * Use unicode aware strtolower if avavilable
+     * Use unicode aware strtolower if available
      *
      * @param $string
      * @return string

@@ -27,6 +27,11 @@ namespace PhpCss\Exception {
     /** @var PhpCss\Scanner\Status $status scanner status */
     private $_status = '';
 
+    /**
+     * @param string $buffer
+     * @param int $offset
+     * @param \PhpCss\Scanner\Status $status
+     */
     public function __construct($buffer, $offset, $status) {
       $this->_buffer = $buffer;
       $this->_offset = $offset;

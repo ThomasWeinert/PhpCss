@@ -485,7 +485,7 @@ namespace PhpCss {
           'E#myid',
           array(
             "TOKEN::IDENTIFIER @0 'E'",
-            "TOKEN::SIMPE_SELECTOR_ID @1 '#myid'"
+            "TOKEN::SIMPLE_SELECTOR_ID @1 '#myid'"
           )
         ),
         // CSS 3 specification - negation pseudo class
@@ -614,7 +614,7 @@ namespace PhpCss {
           'div#id.class1.class2:not(.title)',
           array(
             "TOKEN::IDENTIFIER @0 'div'",
-            "TOKEN::SIMPE_SELECTOR_ID @3 '#id'",
+            "TOKEN::SIMPLE_SELECTOR_ID @3 '#id'",
             "TOKEN::SIMPLESELECTOR_CLASS @6 '.class1'",
             "TOKEN::SIMPLESELECTOR_CLASS @13 '.class2'",
             "TOKEN::PSEUDOCLASS @20 ':not'",

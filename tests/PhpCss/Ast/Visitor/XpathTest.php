@@ -20,15 +20,15 @@ namespace PhpCss\Ast\Visitor {
 
     public static function provideIncludedOptionsExamples() {
       return [
-        [Xpath::OPTION_EXPLICT_NAMESPACES, Xpath::OPTION_EXPLICT_NAMESPACES],
+        [Xpath::OPTION_EXPLICIT_NAMESPACES, Xpath::OPTION_EXPLICIT_NAMESPACES],
         [Xpath::OPTION_USE_DOCUMENT_CONTEXT, Xpath::OPTION_USE_DOCUMENT_CONTEXT],
         [
-          Xpath::OPTION_EXPLICT_NAMESPACES,
-          Xpath::OPTION_EXPLICT_NAMESPACES | Xpath::OPTION_USE_DOCUMENT_CONTEXT
+          Xpath::OPTION_EXPLICIT_NAMESPACES,
+          Xpath::OPTION_EXPLICIT_NAMESPACES | Xpath::OPTION_USE_DOCUMENT_CONTEXT
         ],
         [
           Xpath::OPTION_USE_DOCUMENT_CONTEXT,
-          Xpath::OPTION_EXPLICT_NAMESPACES | Xpath::OPTION_USE_DOCUMENT_CONTEXT
+          Xpath::OPTION_EXPLICIT_NAMESPACES | Xpath::OPTION_USE_DOCUMENT_CONTEXT
         ]
       ];
     }
@@ -45,10 +45,10 @@ namespace PhpCss\Ast\Visitor {
 
     public static function provideExcludedOptionsExamples() {
       return [
-        [Xpath::OPTION_EXPLICT_NAMESPACES, Xpath::OPTION_USE_DOCUMENT_CONTEXT],
-        [Xpath::OPTION_USE_DOCUMENT_CONTEXT, Xpath::OPTION_EXPLICT_NAMESPACES],
+        [Xpath::OPTION_EXPLICIT_NAMESPACES, Xpath::OPTION_USE_DOCUMENT_CONTEXT],
+        [Xpath::OPTION_USE_DOCUMENT_CONTEXT, Xpath::OPTION_EXPLICIT_NAMESPACES],
         [
-          Xpath::OPTION_EXPLICT_NAMESPACES,
+          Xpath::OPTION_EXPLICIT_NAMESPACES,
           0
         ],
         [

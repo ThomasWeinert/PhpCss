@@ -32,7 +32,7 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * Validate the buffer before vistiting a Ast\Selector\Group.
+    * Validate the buffer before visiting a Ast\Selector\Group.
     * If the buffer already contains data, throw an exception.
     *
     * @throws \LogicException

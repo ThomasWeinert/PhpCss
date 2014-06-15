@@ -44,10 +44,14 @@ namespace PhpCss\Ast\Visitor  {
       return $this->_dom->saveXml();
     }
 
+    /**
+     * @param $name
+     * @param string $content
+     * @param array $attributes
+     * @return \DOMNode
+     */
     private function appendElement($name, $content = '', array $attributes = array()) {
-      $result = $this->_current->appendChild(
-        $this->_dom->createElementNs($this->_xmlns, $name)
-      );
+      $result = $this->_dom->createElementNs($this->_xmlns, $name);
       if (!empty($content)) {
         $text = $result->appendChild(
           $this->_dom->createElementNs($this->_xmlns, 'text')
@@ -65,6 +69,7 @@ namespace PhpCss\Ast\Visitor  {
       foreach ($attributes as $attribute => $value) {
         $result->setAttribute($attribute, $value);
       }
+      $this->_current->appendChild($result);
       return $result;
     }
 
@@ -111,14 +116,13 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * Validate the buffer before vistiting a Ast\Selector\Group.
+    * Validate the buffer before visiting a Ast\Selector\Group.
     * If the buffer already contains data, throw an exception.
     *
     * @throws \LogicException
-    * @param Ast\Selector\Group $group
     * @return boolean
     */
-    public function visitEnterSelectorGroup(Ast\Selector\Group $group) {
+    public function visitEnterSelectorGroup() {
       $this->start($this->appendElement('selector-group'));
       return TRUE;
     }

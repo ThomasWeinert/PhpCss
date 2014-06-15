@@ -16,12 +16,13 @@ namespace PhpCss\Ast\Visitor  {
   abstract class Overload implements Ast\Visitor {
 
     /**
-    * Map the class name of the PhpCssAst instance to a method name, validate if it exists and return
-    * it as callback.
-    *
-    * @param Ast $object
-    * @param string $prefix
-    */
+     * Map the class name of the PhpCssAst instance to a method name, validate if it exists and return
+     * it as callback.
+     *
+     * @param Ast $object
+     * @param string $prefix
+     * @return array|null
+     */
     protected function getMethodByClass(Ast $object, $prefix = 'visit') {
       $method = $prefix.substr(str_replace('\\', '', get_class($object)), 9);
       if (method_exists($this, $method)) {
@@ -45,7 +46,7 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * Visting the $ast element
+    * Visiting the $ast element
     *
     * @param Ast $ast
     * @return boolean
@@ -58,7 +59,7 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * Entering an element in the ast, called after visting children
+    * Entering an element in the ast, called after visiting children
     *
     * @param Ast $ast
     * @return boolean
