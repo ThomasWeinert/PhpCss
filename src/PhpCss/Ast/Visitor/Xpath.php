@@ -36,6 +36,12 @@ namespace PhpCss\Ast\Visitor  {
      * start expressions in document context
      */
     const OPTION_USE_DOCUMENT_CONTEXT = 2;
+    const OPTION_USE_CONTEXT_DOCUMENT = 2;
+
+    /**
+     * start expressions in descendant-or-self context
+     */
+    const OPTION_USE_CONTEXT_SELF = 32;
     /**
      * lowercase the element names (not the namespace prefixes)
      */
@@ -276,7 +282,13 @@ namespace PhpCss\Ast\Visitor  {
         if (!empty($this->_buffer)) {
           $this->add('|');
         }
-        $this->add($this->hasOption(self::OPTION_USE_DOCUMENT_CONTEXT) ? '//' : './/');
+        if ($this->hasOption(self::OPTION_USE_CONTEXT_DOCUMENT)) {
+          $this->add('//');
+        } elseif ($this->hasOption(self::OPTION_USE_CONTEXT_SELF)) {
+          $this->add('descendant-or-self::');
+        } else {
+          $this->add('.//');
+        }
         break;
       case self::STATUS_CONDITION :
         $this->endConditions();

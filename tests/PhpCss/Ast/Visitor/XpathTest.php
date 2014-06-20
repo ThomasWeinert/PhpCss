@@ -122,6 +122,17 @@ namespace PhpCss\Ast\Visitor {
             )
           )
         ),
+        'element, self context' => array(
+          'descendant-or-self::*[local-name() = "element"]',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(new Ast\Selector\Simple\Type('element'))
+              )
+            )
+          ),
+          Ast\Visitor\Xpath::OPTION_USE_CONTEXT_SELF
+        ),
         'element, #id' => array(
           './/*[local-name() = "element"]|.//*[@id = "id"]',
           new Ast\Selector\Group(
