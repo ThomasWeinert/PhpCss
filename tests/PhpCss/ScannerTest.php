@@ -674,6 +674,20 @@ namespace PhpCss {
             "TOKEN::PSEUDOCLASS_POSITION @11 ' +3n - 2 '",
             "TOKEN::PARENTHESES_END @20 ')'"
           )
+        ),
+        array(
+          '> p',
+          array(
+            "TOKEN::SELECTOR_COMBINATOR @0 '> '",
+            "TOKEN::IDENTIFIER @2 'p'"
+          )
+        ),
+        array(
+          ' + p',
+          array(
+            "TOKEN::SELECTOR_COMBINATOR @0 ' + '",
+            "TOKEN::IDENTIFIER @3 'p'"
+          )
         )
       );
     }
