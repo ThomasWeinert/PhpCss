@@ -22,29 +22,29 @@ namespace PhpCss {
     protected $_tokens = array();
 
     /**
-    * Construct a parser object taking the token list to operate on as
-    * argument
-    */
+     * Construct a parser object taking the token list to operate on as
+     * argument
+     */
     public function __construct(array &$tokens) {
       $this->_tokens = &$tokens;
     }
 
     /**
-    * Execute the parsing process on the provided token stream
-    *
-    * This method is supposed to handle all the steps needed to parse the
-    * current subsegment of the token stream. It is supposed to return a valid
-    * PhpCssAst.
-    *
-    * If the parsing process can't be completed because of invalid input a
-    * PhpCssParserException needs to be thrown.
-    *
-    * The methods protected methods read and lookahead should be used to
-    * operate on the token stream. They will throw PhpCssParserExceptions
-    * automatically in case they do not succeed.
-    *
-    * @return Ast
-    */
+     * Execute the parsing process on the provided token stream
+     *
+     * This method is supposed to handle all the steps needed to parse the
+     * current subsegment of the token stream. It is supposed to return a valid
+     * PhpCssAst.
+     *
+     * If the parsing process can't be completed because of invalid input a
+     * PhpCssParserException needs to be thrown.
+     *
+     * The methods protected methods read and lookahead should be used to
+     * operate on the token stream. They will throw PhpCssParserExceptions
+     * automatically in case they do not succeed.
+     *
+     * @return Ast
+     */
     abstract public function parse();
 
     /**

@@ -34,7 +34,8 @@ namespace PhpCss\Parser {
           Scanner\Token::CLASS_SELECTOR,
           Scanner\Token::PSEUDO_CLASS,
           Scanner\Token::PSEUDO_ELEMENT,
-          Scanner\Token::ATTRIBUTE_SELECTOR_START
+          Scanner\Token::ATTRIBUTE_SELECTOR_START,
+          Scanner\Token::COMBINATOR
         )
       );
       while (isset($token)) {

@@ -14,7 +14,7 @@ namespace PhpCss\Parser {
     * @dataProvider provideParseData
     */
     public function testParse($expected, $tokens) {
-      $parser = new Standard($tokens);
+      $parser = new Standard($tokens, Standard::ALLOW_RELATIVE_SELECTORS);
       $this->assertEquals(
         $expected, $parser->parse()
       );
@@ -65,6 +65,35 @@ namespace PhpCss\Parser {
               Scanner\Token::IDENTIFIER,
               'element',
               5
+            )
+          )
+        ),
+        "combinator and element" => array(
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                ),
+                new PhpCss\Ast\Selector\Combinator\Next(
+                  new Ast\Selector\Sequence(
+                    array(
+                      new Ast\Selector\Simple\Type('p')
+                    )
+                  )
+                )
+              )
+            )
+          ),
+          array(
+            new Scanner\Token(
+              Scanner\Token::COMBINATOR,
+              ' + ',
+              0
+            ),
+            new Scanner\Token(
+              Scanner\Token::IDENTIFIER,
+              'p',
+              3
             )
           )
         )
