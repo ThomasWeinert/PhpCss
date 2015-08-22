@@ -117,25 +117,27 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     public function visitEnterSelectorCombinatorDescendant() {
-      $this->_buffer .= ' ';
+      if ($this->_buffer !== '') {
+        $this->_buffer .= ' ';
+      }
       $this->_inSelectorSequence = FALSE;
       return TRUE;
     }
 
     public function visitEnterSelectorCombinatorChild() {
-      $this->_buffer .= ' > ';
+      $this->_buffer .= ($this->_buffer !== '') ? ' > ' : '> ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
     }
 
     public function visitEnterSelectorCombinatorFollower() {
-      $this->_buffer .= ' ~ ';
+      $this->_buffer .= ($this->_buffer !== '') ? ' ~ ' : '~ ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
     }
 
     public function visitEnterSelectorCombinatorNext() {
-      $this->_buffer .= ' + ';
+      $this->_buffer .= ($this->_buffer !== '') ? ' + ' : '+ ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
     }

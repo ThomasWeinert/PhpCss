@@ -63,6 +63,24 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        array(
+          '+ p',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                ),
+                new Ast\Selector\Combinator\Next(
+                  new Ast\Selector\Sequence(
+                    array(
+                      new Ast\Selector\Simple\Type('p')
+                    )
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }
