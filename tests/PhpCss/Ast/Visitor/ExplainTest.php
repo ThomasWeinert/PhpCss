@@ -229,6 +229,37 @@ namespace PhpCss\Ast\Visitor {
               )
             )
           )
+        ),
+        array(
+          ' + p',
+          '<?xml version="1.0"?>
+           <selector-group xmlns="urn:carica-phpcss-explain-2014">
+            <selector>
+              <next>
+                <text><![CDATA[ + ]]></text>
+                <selector>
+                  <type>
+                    <text>p</text>
+                  </type>
+                </selector>
+              </next>
+            </selector>
+          </selector-group>',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                ),
+                new Ast\Selector\Combinator\Next(
+                  new Ast\Selector\Sequence(
+                    array(
+                      new Ast\Selector\Simple\Type('p')
+                    )
+                  )
+                )
+              )
+            )
+          )
         )
       );
     }
