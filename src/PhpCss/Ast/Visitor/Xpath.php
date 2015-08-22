@@ -9,6 +9,7 @@ namespace PhpCss\Ast\Visitor  {
 
   use PhpCss\Ast;
   use PhpCss\Exception;
+  use PhpCss\Parser\Sequence;
 
   /**
   * An visitor that compiles the AST into a xpath expression
@@ -276,11 +277,14 @@ namespace PhpCss\Ast\Visitor  {
     *
     * @return boolean
     */
-    public function visitEnterSelectorSequence() {
+    public function visitEnterSelectorSequence(Ast\Selector\Sequence $sequence) {
       switch ($this->status()) {
       case self::STATUS_DEFAULT :
         if (!empty($this->_buffer)) {
           $this->add('|');
+        }
+        if (empty($sequence->simples) && NULL !== $sequence->combinator) {
+          return TRUE;
         }
         if ($this->hasOption(self::OPTION_USE_CONTEXT_DOCUMENT)) {
           $this->add('//');
@@ -457,25 +461,37 @@ namespace PhpCss\Ast\Visitor  {
 
     public function visitSelectorCombinatorChild() {
       $this->endConditions();
-      $this->add('/');
+      if ($this->_buffer !== '') {
+        $this->add('/');
+      }
       $this->status(self::STATUS_COMBINATOR);
     }
 
     public function visitSelectorCombinatorDescendant() {
       $this->endConditions();
-      $this->add('//');
+      if ($this->_buffer !== '') {
+        $this->add('//');
+      } else {
+        $this->add('.//');
+      }
       $this->status(self::STATUS_COMBINATOR);
     }
 
     public function visitSelectorCombinatorFollower() {
       $this->endConditions();
-      $this->add('/following-sibling::');
+      if ($this->_buffer !== '') {
+        $this->add('/');
+      }
+      $this->add('following-sibling::');
       $this->status(self::STATUS_COMBINATOR);
     }
 
     public function visitSelectorCombinatorNext() {
       $this->endConditions();
-      $this->add('/following-sibling::*[1]/self::');
+      if ($this->_buffer !== '') {
+        $this->add('/');
+      }
+      $this->add('following-sibling::*[1]/self::');
       $this->status(self::STATUS_COMBINATOR);
     }
 
