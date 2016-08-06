@@ -14,7 +14,7 @@ namespace PhpCss\Parser {
     * @dataProvider provideParseData
     */
     public function testParse($expected, $tokens) {
-      $parser = new Standard($tokens, Standard::ALLOW_RELATIVE_SELECTORS);
+      $parser = new StandardParser($tokens, StandardParser::ALLOW_RELATIVE_SELECTORS);
       $this->assertEquals(
         $expected, $parser->parse()
       );

@@ -14,7 +14,7 @@ namespace PhpCss\Parser {
     * @dataProvider provideParseData
     */
     public function testParse($expected, $tokens) {
-      $parser = new Sequence($tokens);
+      $parser = new SequenceParser($tokens);
       $this->assertEquals(
         $expected, $parser->parse()
       );
@@ -25,7 +25,7 @@ namespace PhpCss\Parser {
     * @dataProvider provideInvalidParseData
     */
     public function testParseExpectingException($tokens) {
-      $parser = new Sequence($tokens);
+      $parser = new SequenceParser($tokens);
       $this->setExpectedException(PhpCss\Exception\TokenMismatch::CLASS);
       $parser->parse();
     }

@@ -16,7 +16,7 @@ namespace PhpCss\Parser {
   * The attribute value can be an string if a string start is found it delegates to a string
   * parser.
   */
-  class PseudoClass extends PhpCss\Parser {
+  class PseudoClassParser extends PhpCss\Parser {
 
     const PARAMETER_NONE = 1;
     const PARAMETER_IDENTIFIER = 2;
@@ -72,7 +72,7 @@ namespace PhpCss\Parser {
             if ($parameterToken->content == ':not') {
               throw new \LogicException('not not allowed in not - @todo implement exception');
             }
-            $parameter = $this->delegate(PseudoClass::CLASS);
+            $parameter = $this->delegate(PseudoClassParser::CLASS);
             break;
           case Scanner\Token::PSEUDO_ELEMENT :
             $this->read($parameterToken->type);
@@ -80,7 +80,7 @@ namespace PhpCss\Parser {
             break;
           case Scanner\Token::ATTRIBUTE_SELECTOR_START :
             $this->read($parameterToken->type);
-            $parameter = $this->delegate(Attribute::CLASS);
+            $parameter = $this->delegate(AttributeParser::CLASS);
             break;
           default :
             $parameter = NULL;

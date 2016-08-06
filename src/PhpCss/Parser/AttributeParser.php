@@ -17,7 +17,7 @@ namespace PhpCss\Parser {
   * The attribute value can be an string if a string start is found it delegates to a string
   * parser.
   */
-  class Attribute extends PhpCss\Parser {
+  class AttributeParser extends PhpCss\Parser {
 
     private $_operators = array(
       '^=' => Ast\Selector\Simple\Attribute::MATCH_PREFIX,
@@ -54,7 +54,7 @@ namespace PhpCss\Parser {
           break;
         case Scanner\Token::SINGLEQUOTE_STRING_START :
         case Scanner\Token::DOUBLEQUOTE_STRING_START :
-          $attribute->literal = $this->delegate(String::CLASS);
+          $attribute->literal = $this->delegate(StringParser::CLASS);
           break;
         }
         $this->read(Scanner\Token::ATTRIBUTE_SELECTOR_END);

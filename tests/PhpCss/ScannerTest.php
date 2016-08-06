@@ -9,7 +9,7 @@ namespace PhpCss {
     * @covers PhpCss\Scanner::__construct
     */
     public function testConstructor() {
-      $status = $this->getMock(Scanner\Status::CLASS);
+      $status = $this->createMock(Scanner\Status::CLASS);
       /**
        * @var Scanner\Status $status
        */
@@ -717,7 +717,7 @@ namespace PhpCss {
      * @return Scanner\Token|\PHPUnit_Framework_MockObject_MockObject
      */
     private function getTokenMockObjectFixture($length) {
-      $token = $this->getMock(Scanner\Token::CLASS);
+      $token = $this->createMock(Scanner\Token::CLASS);
       $token
         ->expects($this->any())
         ->method('__get')

@@ -10,7 +10,7 @@ namespace PhpCss {
     */
     public function testAccept() {
       $ast = $this->getMockForAbstractClass(Ast::CLASS);
-      $visitor = $this->getMock(Ast\Visitor::CLASS);
+      $visitor = $this->createMock(Ast\Visitor::CLASS);
       $visitor
         ->expects($this->once())
         ->method('visit')
