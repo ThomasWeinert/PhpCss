@@ -7,14 +7,14 @@ namespace PhpCss\Parser {
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class StandardTest extends \PHPUnit_Framework_TestCase {
+  class StandardParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
     * @covers PhpCss\Parser\Standard::parse
     * @dataProvider provideParseData
     */
     public function testParse($expected, $tokens) {
-      $parser = new Standard($tokens, Standard::ALLOW_RELATIVE_SELECTORS);
+      $parser = new StandardParser($tokens, StandardParser::ALLOW_RELATIVE_SELECTORS);
       $this->assertEquals(
         $expected, $parser->parse()
       );

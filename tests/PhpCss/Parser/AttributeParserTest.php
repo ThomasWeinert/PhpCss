@@ -7,14 +7,14 @@ namespace PhpCss\Parser {
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class AttributeTest extends \PHPUnit_Framework_TestCase {
+  class AttributeParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
     * @covers PhpCss\Parser\Attribute
     * @dataProvider provideParseData
     */
     public function testParse($expected, $tokens) {
-      $parser = new Attribute($tokens);
+      $parser = new AttributeParser($tokens);
       $this->assertEquals(
         $expected, $parser->parse()
       );
@@ -25,7 +25,7 @@ namespace PhpCss\Parser {
     * @dataProvider provideInvalidParseData
     */
     public function testParseExpectingException($tokens) {
-      $parser = new Attribute($tokens);
+      $parser = new AttributeParser($tokens);
       $this->setExpectedException(PhpCss\Exception\TokenMismatch::CLASS);
       $parser->parse();
     }

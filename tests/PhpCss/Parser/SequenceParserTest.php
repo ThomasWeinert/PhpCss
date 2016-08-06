@@ -7,14 +7,14 @@ namespace PhpCss\Parser {
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class SequenceTest extends \PHPUnit_Framework_TestCase {
+  class SequenceParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
     * @covers PhpCss\Parser\Sequence
     * @dataProvider provideParseData
     */
     public function testParse($expected, $tokens) {
-      $parser = new Sequence($tokens);
+      $parser = new SequenceParser($tokens);
       $this->assertEquals(
         $expected, $parser->parse()
       );
@@ -25,7 +25,7 @@ namespace PhpCss\Parser {
     * @dataProvider provideInvalidParseData
     */
     public function testParseExpectingException($tokens) {
-      $parser = new Sequence($tokens);
+      $parser = new SequenceParser($tokens);
       $this->setExpectedException(PhpCss\Exception\TokenMismatch::CLASS);
       $parser->parse();
     }

@@ -48,7 +48,7 @@ abstract class PhpCss {
     $tokens = array();
     $scanner = new PhpCss\Scanner(new PhpCss\Scanner\Status\Selector());
     $scanner->scan($tokens, $cssSelector);
-    $parser = new PhpCss\Parser\Standard($tokens);
+    $parser = new PhpCss\Parser\StandardParser($tokens);
     return $parser->parse();
   }
 }

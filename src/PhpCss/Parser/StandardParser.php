@@ -18,7 +18,7 @@ namespace PhpCss\Parser {
   * @package PhpCss
   * @subpackage Parser
   */
-  class Standard extends PhpCss\Parser {
+  class StandardParser extends PhpCss\Parser {
 
     const ALLOW_RELATIVE_SELECTORS = 1;
 
@@ -65,7 +65,7 @@ namespace PhpCss\Parser {
           $this->read(Scanner\Token::WHITESPACE);
           continue;
         }
-        $group[] = $this->delegate(Sequence::CLASS);
+        $group[] = $this->delegate(SequenceParser::CLASS);
       }
       return $group;
     }

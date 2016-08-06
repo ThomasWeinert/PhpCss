@@ -18,7 +18,7 @@ namespace PhpCss\Parser {
   *
   * A css combinator delegates to a new instance of this class.
   */
-  class Sequence extends PhpCss\Parser {
+  class SequenceParser extends PhpCss\Parser {
 
     /**
     * Parse the token stream for a simple selector sequence,
@@ -48,7 +48,7 @@ namespace PhpCss\Parser {
           $this->read(Scanner\Token::SEPARATOR);
           return $sequence;
         case Scanner\Token::PSEUDO_CLASS :
-          $sequence->simples[] = $this->delegate(PseudoClass::CLASS);
+          $sequence->simples[] = $this->delegate(PseudoClassParser::CLASS);
           break;
         case Scanner\Token::PSEUDO_ELEMENT :
           $sequence->simples[] = $this->createPseudoElement($token);
@@ -56,7 +56,7 @@ namespace PhpCss\Parser {
           break;
         case Scanner\Token::ATTRIBUTE_SELECTOR_START :
           $this->read($token->type);
-          $sequence->simples[] = $this->delegate(Attribute::CLASS);
+          $sequence->simples[] = $this->delegate(AttributeParser::CLASS);
           break;
         case Scanner\Token::COMBINATOR :
         case Scanner\Token::WHITESPACE :
