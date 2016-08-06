@@ -7,7 +7,7 @@ namespace PhpCss\Parser {
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class AttributeTest extends \PHPUnit_Framework_TestCase {
+  class AttributeParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
     * @covers PhpCss\Parser\Attribute

@@ -7,7 +7,7 @@ namespace PhpCss\Parser {
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class SequenceTest extends \PHPUnit_Framework_TestCase {
+  class SequenceParserTest extends \PHPUnit_Framework_TestCase {
 
     /**
     * @covers PhpCss\Parser\Sequence
