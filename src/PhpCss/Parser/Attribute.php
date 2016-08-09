@@ -54,7 +54,7 @@ namespace PhpCss\Parser {
           break;
         case Scanner\Token::SINGLEQUOTE_STRING_START :
         case Scanner\Token::DOUBLEQUOTE_STRING_START :
-          $attribute->literal = $this->delegate(String::CLASS);
+          $attribute->literal = $this->delegate(Text::CLASS);
           break;
         }
         $this->read(Scanner\Token::ATTRIBUTE_SELECTOR_END);

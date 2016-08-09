@@ -1,19 +1,19 @@
 <?php
 /**
-* Single quote string status for the scanner
+* Double quote string status for the scanner
 *
 * @license http://www.opensource.org/licenses/mit-license.php The MIT License
 * @copyright Copyright 2010-2014 PhpCss Team
 */
 
-namespace PhpCss\Scanner\Status\String {
+namespace PhpCss\Scanner\Status\Text {
 
   use PhpCss\Scanner;
 
   /**
-  * Single quote string status for the scanner
+  * Double quote string status for the scanner
   */
-  class Single extends Scanner\Status {
+  class Double extends Scanner\Status {
 
     /**
     * Try to get token in buffer at offset position.
@@ -23,20 +23,20 @@ namespace PhpCss\Scanner\Status\String {
     * @return Scanner\Token
     */
     public function getToken($buffer, $offset) {
-      if ("'" === substr($buffer, $offset, 1)) {
+      if ('"' === substr($buffer, $offset, 1)) {
         return new Scanner\Token(
-          Scanner\Token::SINGLEQUOTE_STRING_END, "'", $offset
+          Scanner\Token::DOUBLEQUOTE_STRING_END, '"', $offset
         );
       } else {
         $tokenString = substr($buffer, $offset, 2);
-        if ("\\'" == $tokenString ||
+        if ('\\"' == $tokenString ||
             '\\\\' == $tokenString) {
           return new Scanner\Token(
              Scanner\Token::STRING_ESCAPED_CHARACTER, $tokenString, $offset
           );
         } else {
           $tokenString = $this->matchPattern(
-            $buffer, $offset, '([^\\\\\']+)S'
+            $buffer, $offset, '([^\\\\"]+)S'
           );
           if (!empty($tokenString)) {
             return new Scanner\Token(
@@ -54,21 +54,19 @@ namespace PhpCss\Scanner\Status\String {
     * @param Scanner\Token $token
     * @return boolean
     */
-    public function isEndToken(Scanner\Token $token) {
+    public function isEndToken(Scanner\Token$token) {
       return (
-        $token->type == Scanner\Token::SINGLEQUOTE_STRING_END
+        $token->type == Scanner\Token::DOUBLEQUOTE_STRING_END
       );
     }
 
     /**
     * Get new (sub)status if needed.
     *
-    * Returns always NULL, because a string never has a sub status
-    *
     * @param Scanner\Token $token
-    * @return Scanner\Token
+    * @return NULL
     */
-    public function getNewStatus(Scanner\Token $token) {
+    public function getNewStatus(Scanner\Token$token) {
       return NULL;
     }
   }

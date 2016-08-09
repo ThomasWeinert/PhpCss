@@ -688,6 +688,16 @@ namespace PhpCss {
             "TOKEN::SELECTOR_COMBINATOR @0 ' + '",
             "TOKEN::IDENTIFIER @3 'p'"
           )
+        ),
+        array(
+          'p:not(:scope)',
+          array(
+            "TOKEN::IDENTIFIER @0 'p'",
+            "TOKEN::PSEUDOCLASS @1 ':not'",
+            "TOKEN::PARENTHESES_START @5 '('",
+            "TOKEN::PSEUDOCLASS @6 ':scope'",
+            "TOKEN::PARENTHESES_END @12 ')'"
+          )
         )
       );
     }

@@ -89,11 +89,11 @@ namespace PhpCss\Scanner\Status {
         ),
         'single quote string start' => array(
           new Scanner\Token(Scanner\Token::SINGLEQUOTE_STRING_START, "'", 0),
-          new Scanner\Status\String\Single()
+          new Scanner\Status\Text\Single()
         ),
         'double quote string start' => array(
           new Scanner\Token(Scanner\Token::DOUBLEQUOTE_STRING_START, "'", 0),
-          new Scanner\Status\String\Double()
+          new Scanner\Status\Text\Double()
         ),
         'attributes selector start' => array(
           new Scanner\Token(Scanner\Token::ATTRIBUTE_SELECTOR_START, "[", 0),

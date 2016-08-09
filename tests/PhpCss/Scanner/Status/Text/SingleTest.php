@@ -1,18 +1,18 @@
 <?php
-namespace PhpCss\Scanner\Status\String {
+namespace PhpCss\Scanner\Status\Text {
 
   use PhpCss\Scanner;
 
   require_once(__DIR__.'/../../../../bootstrap.php');
 
-  class DoubleTest extends \PHPUnit_Framework_TestCase {
+  class SingleTest extends \PHPUnit_Framework_TestCase {
 
     /**
-    * @covers PhpCss\Scanner\Status\String\Double::getToken
+    * @covers PhpCss\Scanner\Status\Text\Single::getToken
     * @dataProvider getTokenDataProvider
     */
     public function testGetToken($string, $expectedToken) {
-      $status = new Double();
+      $status = new Single();
       $this->assertEquals(
         $status->getToken($string, 0),
         $expectedToken
@@ -20,23 +20,23 @@ namespace PhpCss\Scanner\Status\String {
     }
 
     /**
-    * @covers PhpCss\Scanner\Status\String\Double::isEndToken
+    * @covers PhpCss\Scanner\Status\Text\Single::isEndToken
     */
     public function testIsEndToken() {
-      $status = new Double();
+      $status = new Single();
       $this->assertTrue(
         $status->isEndToken(
           new Scanner\Token(
-            Scanner\Token::DOUBLEQUOTE_STRING_END, '"', 0
+            Scanner\Token::SINGLEQUOTE_STRING_END, "'", 0
           )
         )
       );
     }
     /**
-    * @covers PhpCss\Scanner\Status\String\Double::getNewStatus
+    * @covers PhpCss\Scanner\Status\Text\Single::getNewStatus
     */
     public function testGetNewStatus() {
-      $status = new Double();
+      $status = new Single();
       $token = $this->getMock(Scanner\Token::CLASS);
       /**
        * @var Scanner\Token $token
@@ -55,10 +55,10 @@ namespace PhpCss\Scanner\Status\String {
           '',
           NULL
         ),
-        'double quote string end' => array(
-          '"',
+        'single quote string end' => array(
+          "'",
           new Scanner\Token(
-            Scanner\Token::DOUBLEQUOTE_STRING_END, '"', 0
+            Scanner\Token::SINGLEQUOTE_STRING_END, "'", 0
           )
         ),
         'escaped backslash' => array(

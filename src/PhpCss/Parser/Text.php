@@ -14,7 +14,7 @@ namespace PhpCss\Parser {
   /**
   * The string parser collects all string character tokens until a string end token is found.
   */
-  class String extends PhpCss\Parser {
+  class Text extends PhpCss\Parser {
 
     public function parse() {
       $string = '';

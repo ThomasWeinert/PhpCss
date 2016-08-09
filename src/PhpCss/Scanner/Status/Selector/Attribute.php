@@ -84,9 +84,9 @@ namespace PhpCss\Scanner\Status\Selector {
     public function getNewStatus(Scanner\Token $token) {
       switch ($token->type) {
       case Scanner\Token::SINGLEQUOTE_STRING_START :
-        return new Scanner\Status\String\Single();
+        return new Scanner\Status\Text\Single();
       case Scanner\Token::DOUBLEQUOTE_STRING_START :
-        return new Scanner\Status\String\Double();
+        return new Scanner\Status\Text\Double();
       }
       return NULL;
     }

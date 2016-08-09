@@ -635,6 +635,8 @@ namespace PhpCss\Ast\Visitor  {
     private function strtolower($string) {
       if (is_callable('mb_strtolower')) {
         return mb_strtolower($string, 'utf-8');
+      } elseif (class_exists('Transliterator', FALSE)) {
+        return \Transliterator::create('Any-Lower')->transliterate($string);
       }
       return strtolower($string);
     }
