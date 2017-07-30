@@ -1,19 +1,26 @@
 language: php
 
 php:
-  - 5.5
   - 5.6
   - 7.0
+  - 7.0snapshot
+  - 7.1
+  - 7.1snapshot
   - nightly
-  - hhvm
-  
+
 matrix:
   allow_failures:
     - php: nightly
 
+before_install:
+  - composer self-update
+  - composer clear-cache
+  - if [ $(phpenv version-name) = "5.6" ]; then wget https://phar.phpunit.de/phpunit-5.7.phar -O phpunit.phar; fi
+  - if [ $(phpenv version-name) != "5.6" ]; then wget https://phar.phpunit.de/phpunit.phar; fi
+
 install: composer install
 
-script: phpunit --configuration phpunit.xml.dist
+script: php phpunit.phar --configuration phpunit.xml.dist
 
 notifications:
   webhooks:
@@ -21,4 +28,4 @@ notifications:
       - https://webhooks.gitter.im/e/f0abd75c9ea61d414afa
     on_success: always
     on_failure: always
-on_start: false
+    on_start: false

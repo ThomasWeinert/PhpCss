@@ -5,10 +5,10 @@ namespace PhpCss\Scanner\Status\Text {
 
   require_once(__DIR__.'/../../../../bootstrap.php');
 
-  class SingleTest extends \PHPUnit_Framework_TestCase {
+  class SingleTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers PhpCss\Scanner\Status\Text\Single::getToken
+    * @covers \PhpCss\Scanner\Status\Text\Single::getToken
     * @dataProvider getTokenDataProvider
     */
     public function testGetToken($string, $expectedToken) {
@@ -20,7 +20,7 @@ namespace PhpCss\Scanner\Status\Text {
     }
 
     /**
-    * @covers PhpCss\Scanner\Status\Text\Single::isEndToken
+    * @covers \PhpCss\Scanner\Status\Text\Single::isEndToken
     */
     public function testIsEndToken() {
       $status = new Single();
@@ -33,11 +33,11 @@ namespace PhpCss\Scanner\Status\Text {
       );
     }
     /**
-    * @covers PhpCss\Scanner\Status\Text\Single::getNewStatus
+    * @covers \PhpCss\Scanner\Status\Text\Single::getNewStatus
     */
     public function testGetNewStatus() {
       $status = new Single();
-      $token = $this->getMock(Scanner\Token::CLASS);
+      $token = $this->createMock(Scanner\Token::CLASS);
       /**
        * @var Scanner\Token $token
        */

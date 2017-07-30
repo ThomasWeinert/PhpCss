@@ -5,10 +5,10 @@ namespace PhpCss\Scanner\Status {
 
   require_once(__DIR__.'/../../../bootstrap.php');
 
-  class SelectorTest extends \PHPUnit_Framework_TestCase {
+  class SelectorTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers PhpCss\Scanner\Status\Selector::getToken
+    * @covers \PhpCss\Scanner\Status\Selector::getToken
     * @dataProvider getTokenDataProvider
     */
     public function testGetToken($string, $expectedToken) {
@@ -20,7 +20,7 @@ namespace PhpCss\Scanner\Status {
     }
 
     /**
-    * @covers PhpCss\Scanner\Status\Selector::isEndToken
+    * @covers \PhpCss\Scanner\Status\Selector::isEndToken
     */
     public function testIsEndToken() {
       $status = new Selector();
@@ -32,7 +32,7 @@ namespace PhpCss\Scanner\Status {
     }
 
     /**
-    * @covers PhpCss\Scanner\Status\Selector::getNewStatus
+    * @covers \PhpCss\Scanner\Status\Selector::getNewStatus
     * @dataProvider getNewStatusDataProvider
     */
     public function testGetNewStatus($token, $expectedStatus) {

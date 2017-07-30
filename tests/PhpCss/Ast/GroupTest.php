@@ -5,10 +5,10 @@ namespace PhpCss\Ast {
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class GroupTest extends \PHPUnit_Framework_TestCase {
+  class GroupTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers PhpCss\Ast\Selector\Group::__construct
+    * @covers \PhpCss\Ast\Selector\Group::__construct
     */
     public function testConstructor() {
       $this->assertInstanceOf(
@@ -18,8 +18,8 @@ namespace PhpCss\Ast {
     }
 
     /**
-    * @covers PhpCss\Ast\Selector\Group::__construct
-    * @covers PhpCss\Ast\Selector\Group::getIterator
+    * @covers \PhpCss\Ast\Selector\Group::__construct
+    * @covers \PhpCss\Ast\Selector\Group::getIterator
     */
     public function testConstructorWithSequences() {
       $sequences = array(
@@ -34,7 +34,7 @@ namespace PhpCss\Ast {
     }
 
     /**
-    * @covers PhpCss\Ast\Selector\Group::offsetExists
+    * @covers \PhpCss\Ast\Selector\Group::offsetExists
     */
     public function testOffsetExistsExpectingTrue() {
       $list = new Selector\Group(
@@ -46,7 +46,7 @@ namespace PhpCss\Ast {
     }
 
     /**
-    * @covers PhpCss\Ast\Selector\Group::offsetExists
+    * @covers \PhpCss\Ast\Selector\Group::offsetExists
     */
     public function testOffsetExistsExpectingFalse() {
       $list = new Selector\Group();
@@ -54,7 +54,7 @@ namespace PhpCss\Ast {
     }
 
     /**
-    * @covers PhpCss\Ast\Selector\Group::offsetGet
+    * @covers \PhpCss\Ast\Selector\Group::offsetGet
     */
     public function testOffsetGet() {
       $list = new Selector\Group(
@@ -66,7 +66,7 @@ namespace PhpCss\Ast {
     }
 
     /**
-    * @covers PhpCss\Ast\Selector\Group::offsetSet
+    * @covers \PhpCss\Ast\Selector\Group::offsetSet
     */
     public function testOffsetSetAppendsElement() {
       $list = new Selector\Group();
@@ -75,7 +75,7 @@ namespace PhpCss\Ast {
     }
 
     /**
-    * @covers PhpCss\Ast\Selector\Group::offsetSet
+    * @covers \PhpCss\Ast\Selector\Group::offsetSet
     */
     public function testOffsetSetReplacesElement() {
       $list = new Selector\Group(
@@ -88,16 +88,16 @@ namespace PhpCss\Ast {
     }
 
     /**
-    * @covers PhpCss\Ast\Selector\Group::offsetSet
+    * @covers \PhpCss\Ast\Selector\Group::offsetSet
     */
     public function testOffsetSetValidatesElementExpectingException() {
       $list = new Selector\Group();
-      $this->setExpectedException(\InvalidArgumentException::CLASS);
+      $this->expectException(\InvalidArgumentException::CLASS);
       $list[] = 'INVALID TYPE';
     }
 
     /**
-    * @covers PhpCss\Ast\Selector\Group::offsetGet
+    * @covers \PhpCss\Ast\Selector\Group::offsetGet
     */
     public function testOffsetUnset() {
       $list = new Selector\Group(

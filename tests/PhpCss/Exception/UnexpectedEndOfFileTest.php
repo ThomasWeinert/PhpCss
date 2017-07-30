@@ -5,10 +5,10 @@ namespace PhpCss\Exception {
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class UnexpectedEndOfFileTest extends \PHPUnit_Framework_TestCase {
+  class UnexpectedEndOfFileTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers PhpCss\Exception\UnexpectedEndOfFile::__construct
+    * @covers \PhpCss\Exception\UnexpectedEndOfFile::__construct
     */
     public function testConstructor() {
       $e = new UnexpectedEndOfFile(

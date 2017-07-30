@@ -3,7 +3,7 @@ namespace PhpCss\Scanner {
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class PatternsTest extends \PHPUnit_Framework_TestCase {
+  class PatternsTest extends \PHPUnit\Framework\TestCase {
 
     /**
     * @dataProvider provideValidIdentifiers

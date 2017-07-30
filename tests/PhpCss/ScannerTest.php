@@ -3,13 +3,13 @@ namespace PhpCss {
 
   require_once(__DIR__.'/../bootstrap.php');
 
-  class ScannerTest extends \PHPUnit_Framework_TestCase {
+  class ScannerTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers PhpCss\Scanner::__construct
+    * @covers \PhpCss\Scanner::__construct
     */
     public function testConstructor() {
-      $status = $this->getMock(Scanner\Status::CLASS);
+      $status = $this->createMock(Scanner\Status::CLASS);
       /**
        * @var Scanner\Status $status
        */
@@ -20,8 +20,8 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Scanner::scan
-    * @covers PhpCss\Scanner::_next
+    * @covers \PhpCss\Scanner::scan
+    * @covers \PhpCss\Scanner::_next
     */
     public function testScanWithSingleValidToken() {
       $token = $this->getTokenMockObjectFixture(6);
@@ -47,8 +47,8 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Scanner::scan
-    * @covers PhpCss\Scanner::_next
+    * @covers \PhpCss\Scanner::scan
+    * @covers \PhpCss\Scanner::_next
     */
     public function testScanWithEndToken() {
       $token = $this->getTokenMockObjectFixture(6);
@@ -69,8 +69,8 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Scanner::scan
-    * @covers PhpCss\Scanner::_next
+    * @covers \PhpCss\Scanner::scan
+    * @covers \PhpCss\Scanner::_next
     */
     public function testScanWithInvalidToken() {
       $status = $this->getStatusMockObjectFixture(
@@ -78,7 +78,7 @@ namespace PhpCss {
       );
       $scanner = new Scanner($status);
       $tokens = array();
-      $this->setExpectedException(
+      $this->expectException(
         Exception\InvalidCharacter::CLASS,
         'Invalid char "S" for status "Mock_PhpCssScannerStatus" at offset #0 in "SAMPLE"'
       );
@@ -86,8 +86,8 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Scanner::scan
-    * @covers PhpCss\Scanner::_next
+    * @covers \PhpCss\Scanner::scan
+    * @covers \PhpCss\Scanner::_next
     */
     public function testScanWithInvalidTokenUnicode() {
       $status = $this->getStatusMockObjectFixture(
@@ -95,7 +95,7 @@ namespace PhpCss {
       );
       $scanner = new Scanner($status);
       $tokens = array();
-      $this->setExpectedException(
+      $this->expectException(
         Exception\InvalidCharacter::CLASS,
         'Invalid char "Ä" for status "Mock_PhpCssScannerStatus" at offset #0 in "ÄÖÜ"'
       );
@@ -103,9 +103,9 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Scanner::scan
-    * @covers PhpCss\Scanner::_next
-    * @covers PhpCss\Scanner::_delegate
+    * @covers \PhpCss\Scanner::scan
+    * @covers \PhpCss\Scanner::_next
+    * @covers \PhpCss\Scanner::_delegate
     */
     public function testScanWithSubStatus() {
       $tokenOne = $this->getTokenMockObjectFixture(6);
@@ -727,7 +727,7 @@ namespace PhpCss {
      * @return Scanner\Token|\PHPUnit_Framework_MockObject_MockObject
      */
     private function getTokenMockObjectFixture($length) {
-      $token = $this->getMock(Scanner\Token::CLASS);
+      $token = $this->createMock(Scanner\Token::CLASS);
       $token
         ->expects($this->any())
         ->method('__get')

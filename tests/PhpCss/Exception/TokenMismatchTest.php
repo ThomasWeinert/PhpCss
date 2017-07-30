@@ -5,10 +5,10 @@ namespace PhpCss\Exception {
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class TokenMismatchTest extends \PHPUnit_Framework_TestCase {
+  class TokenMismatchTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers PhpCss\Exception\TokenMismatch::__construct
+    * @covers \PhpCss\Exception\TokenMismatch::__construct
     */
     public function testConstructor() {
       $expectedToken = new Scanner\Token(

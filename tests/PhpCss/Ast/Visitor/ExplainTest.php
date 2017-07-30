@@ -5,10 +5,10 @@ namespace PhpCss\Ast\Visitor {
 
   require_once(__DIR__.'/../../../bootstrap.php');
 
-  class ExplainTest extends \PHPUnit_Framework_TestCase {
+  class ExplainTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers PhpCss\Ast\Visitor\Css
+    * @covers \PhpCss\Ast\Visitor\Css
     * @dataProvider provideExamples
     */
     public function testIntegration($selector, $xml, Ast $ast) {

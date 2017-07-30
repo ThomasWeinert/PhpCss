@@ -5,10 +5,10 @@ namespace PhpCss\Scanner\Status\Text {
 
   require_once(__DIR__.'/../../../../bootstrap.php');
 
-  class DoubleTest extends \PHPUnit_Framework_TestCase {
+  class DoubleTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers PhpCss\Scanner\Status\Text\Double::getToken
+    * @covers \PhpCss\Scanner\Status\Text\Double::getToken
     * @dataProvider getTokenDataProvider
     */
     public function testGetToken($string, $expectedToken) {
@@ -20,7 +20,7 @@ namespace PhpCss\Scanner\Status\Text {
     }
 
     /**
-    * @covers PhpCss\Scanner\Status\Text\Double::isEndToken
+    * @covers \PhpCss\Scanner\Status\Text\Double::isEndToken
     */
     public function testIsEndToken() {
       $status = new Double();
@@ -33,11 +33,11 @@ namespace PhpCss\Scanner\Status\Text {
       );
     }
     /**
-    * @covers PhpCss\Scanner\Status\Text\Double::getNewStatus
+    * @covers \PhpCss\Scanner\Status\Text\Double::getNewStatus
     */
     public function testGetNewStatus() {
       $status = new Double();
-      $token = $this->getMock(Scanner\Token::CLASS);
+      $token = $this->createMock(Scanner\Token::CLASS);
       /**
        * @var Scanner\Token $token
        */

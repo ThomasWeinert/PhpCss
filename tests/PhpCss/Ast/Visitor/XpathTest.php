@@ -6,7 +6,7 @@ namespace PhpCss\Ast\Visitor {
 
   require_once(__DIR__.'/../../../bootstrap.php');
 
-  class XpathTest extends \PHPUnit_Framework_TestCase {
+  class XpathTest extends \PHPUnit\Framework\TestCase {
 
     /**
      * @param $option
@@ -59,12 +59,12 @@ namespace PhpCss\Ast\Visitor {
     }
 
     /**
-     * @covers PhpCss\Ast\Visitor\Xpath
+     * @covers \PhpCss\Ast\Visitor\Xpath
      * @dataProvider provideNotConvertableExamples
      */
     public function testNotConvertableElements(Ast $ast) {
       $visitor = new Xpath();
-      $this->setExpectedException(Exception\NotConvertable::CLASS);
+      $this->expectException(Exception\NotConvertable::CLASS);
       $ast->accept($visitor);
     }
 
@@ -78,7 +78,7 @@ namespace PhpCss\Ast\Visitor {
     }
 
     /**
-    * @covers PhpCss\Ast\Visitor\Xpath
+    * @covers \PhpCss\Ast\Visitor\Xpath
     * @dataProvider provideExamples
     */
     public function testIntegration($expected, Ast $ast, $options = 0) {

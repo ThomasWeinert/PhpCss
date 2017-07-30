@@ -4,10 +4,10 @@ namespace PhpCss {
   require_once(__DIR__.'/../bootstrap.php');
   require_once(__DIR__.'/Parser/Mocks.php');
 
-  class ParserTest extends \PHPUnit_Framework_TestCase {
+  class ParserTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers PhpCss\Parser::__construct
+    * @covers \PhpCss\Parser::__construct
     */
     public function testConstructor() {
       $tokens = array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0));
@@ -18,8 +18,8 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::read
-    * @covers PhpCss\Parser::matchToken
+    * @covers \PhpCss\Parser::read
+    * @covers \PhpCss\Parser::matchToken
     * @dataProvider provideDirectMatchingTokens
     */
     public function testReadMatch($expectedResult, $tokens, $allowedTokens) {
@@ -36,19 +36,19 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::read
-    * @covers PhpCss\Parser::matchToken
-    * @covers PhpCss\Parser::handleMismatch
+    * @covers \PhpCss\Parser::read
+    * @covers \PhpCss\Parser::matchToken
+    * @covers \PhpCss\Parser::handleMismatch
     * @dataProvider provideDirectMismatchingTokens
     */
     public function testReadMismatch($tokens, $allowedTokens) {
       $parser = $this->getParserFixture($tokens);
-      $this->setExpectedException(Exception\Parser::CLASS);
+      $this->expectException(Exception\Parser::CLASS);
       $parser->read($allowedTokens);
     }
 
     /**
-    * @covers PhpCss\Parser::lookahead
+    * @covers \PhpCss\Parser::lookahead
     * @dataProvider provideDirectMatchingTokens
     */
     public function testDirectLookaheadMatch($expectedResult, $tokens, $allowedTokens) {
@@ -63,17 +63,17 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::lookahead
+    * @covers \PhpCss\Parser::lookahead
     * @dataProvider provideDirectMismatchingTokens
     */
     public function testDirectLookaheadMismatch($tokens, $allowedTokens) {
       $parser = $this->getParserFixture($tokens);
-      $this->setExpectedException(Exception\Parser::CLASS);
+      $this->expectException(Exception\Parser::CLASS);
       $parser->lookahead($allowedTokens);
     }
 
     /**
-    * @covers PhpCss\Parser::lookahead
+    * @covers \PhpCss\Parser::lookahead
     * @dataProvider provideLookaheadMatchingTokens
     */
     public function testLookaheadMatch($expectedResult, $tokens, $allowedTokens) {
@@ -88,17 +88,17 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::lookahead
+    * @covers \PhpCss\Parser::lookahead
     * @dataProvider provideLookaheadMismatchingTokens
     */
     public function testLookaheadMismatch($tokens, $allowedTokens) {
       $parser = $this->getParserFixture($tokens);
-      $this->setExpectedException(Exception\Parser::CLASS);
+      $this->expectException(Exception\Parser::CLASS);
       $parser->lookahead($allowedTokens, 1);
     }
 
     /**
-    * @covers PhpCss\Parser::endOfTokens
+    * @covers \PhpCss\Parser::endOfTokens
     */
     public function testEndOfTokensExpectingTrue() {
       $tokens = array();
@@ -107,7 +107,7 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::endOfTokens
+    * @covers \PhpCss\Parser::endOfTokens
     */
     public function testEndOfTokensExpectingFalse() {
       $tokens = array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0));
@@ -116,7 +116,7 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::endOfTokens
+    * @covers \PhpCss\Parser::endOfTokens
     */
     public function testEndOfTokensWithPositionExpectingTrue() {
       $tokens = array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0));
@@ -125,7 +125,7 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::endOfTokens
+    * @covers \PhpCss\Parser::endOfTokens
     */
     public function testEndOfTokensWithPositionExpectingFalse() {
       $tokens = array(
@@ -137,7 +137,7 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::lookahead
+    * @covers \PhpCss\Parser::lookahead
     */
     public function testLookAheadAllowingEndOfTokens() {
       $parser = $this->getParserFixture(array());
@@ -148,7 +148,7 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::lookahead
+    * @covers \PhpCss\Parser::lookahead
     */
     public function testLookAheadWithPositionAllowingEndOfTokens() {
       $tokens = array(
@@ -162,7 +162,7 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::ignore
+    * @covers \PhpCss\Parser::ignore
     */
     public function testIgnoreExpectingTrue() {
       $tokens = array(
@@ -177,7 +177,7 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::ignore
+    * @covers \PhpCss\Parser::ignore
     */
     public function testIgnoreMultipleTokensExpectingTrue() {
       $tokens = array(
@@ -195,7 +195,7 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::ignore
+    * @covers \PhpCss\Parser::ignore
     */
     public function testIgnoreExpectingFalse() {
       $tokens = array(
@@ -209,7 +209,7 @@ namespace PhpCss {
     }
 
     /**
-    * @covers PhpCss\Parser::delegate
+    * @covers \PhpCss\Parser::delegate
     */
     public function testDelegate() {
       $parser = $this->getParserFixture();

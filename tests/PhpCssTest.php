@@ -10,7 +10,7 @@ require_once(dirname(__FILE__).'/bootstrap.php');
 * @package PhpCss
 * @subpackage Tests
 */
-class PhpCssTest extends PHPUnit_Framework_TestCase {
+class PhpCssTest extends \PHPUnit\Framework\TestCase {
 
   /**
   * @covers \stdClass
