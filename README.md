@@ -1,7 +1,6 @@
 # PhpCss - PHP CSS Parser Library
 
 [![Build Status](https://travis-ci.org/ThomasWeinert/PhpCss.svg?branch=master)](https://travis-ci.org/ThomasWeinert/PhpCss)
-[![HHVM Status](http://hhvm.h4cc.de/badge/carica/phpcss.png)](http://hhvm.h4cc.de/package/carica/phpcss)
 [![License](https://poser.pugx.org/carica/phpcss/license.svg)](https://packagist.org/packages/carica/phpcss)
 [![Total Downloads](https://poser.pugx.org/carica/phpcss/downloads.svg)](https://packagist.org/packages/carica/phpcss)
 [![Latest Stable Version](https://poser.pugx.org/carica/phpcss/v/stable.svg)](https://packagist.org/packages/carica/phpcss)
