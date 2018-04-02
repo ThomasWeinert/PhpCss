@@ -2,7 +2,7 @@
   "name": "carica/phpcss",
   "description": "An css selector parser and converter",
   "minimum-stability": "stable",
-  "license": "MIT license",
+  "license": "MIT",
   "authors": [
     {
       "name": "Thomas Weinert",
