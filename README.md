@@ -7,7 +7,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/carica/phpcss/v/unstable.svg)](https://packagist.org/packages/carica/phpcss)
 
 * License: The MIT License
-* Copyright: 2010-2014 PhpCss Team
+* Copyright: 2010-2018 PhpCss Team
 * Author: [Thomas Weinert](http://thomas.weinert.info) <thomas@weinert.info>
 
 Thanks to Benjamin Eberlei, Bastian Feder and Jakob Westhoff for ideas and concepts.

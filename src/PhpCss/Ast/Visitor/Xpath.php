@@ -44,6 +44,11 @@ namespace PhpCss\Ast\Visitor  {
      */
     const OPTION_USE_CONTEXT_SELF = 32;
     /**
+     * limit expressions to self context
+     */
+    const OPTION_USE_CONTEXT_SELF_LIMIT = 64;
+
+    /**
      * lowercase the element names (not the namespace prefixes)
      */
     const OPTION_LOWERCASE_ELEMENTS = 4;
@@ -288,6 +293,8 @@ namespace PhpCss\Ast\Visitor  {
         }
         if ($this->hasOption(self::OPTION_USE_CONTEXT_DOCUMENT)) {
           $this->add('//');
+        } elseif ($this->hasOption(self::OPTION_USE_CONTEXT_SELF_LIMIT)) {
+          $this->add('self::');
         } elseif ($this->hasOption(self::OPTION_USE_CONTEXT_SELF)) {
           $this->add('descendant-or-self::');
         } else {
