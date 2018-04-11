@@ -698,6 +698,18 @@ namespace PhpCss {
             "TOKEN::PSEUDOCLASS @6 ':scope'",
             "TOKEN::PARENTHESES_END @12 ')'"
           )
+        ),
+        array(
+          'div:contains("text")',
+          array(
+            "TOKEN::IDENTIFIER @0 'div'",
+            "TOKEN::PSEUDOCLASS @3 ':contains'",
+            "TOKEN::PARENTHESES_START @12 '('",
+            "TOKEN::STRING_DOUBLE_QUOTE_START @13 '\"'",
+            "TOKEN::STRING_CHARACTERS @14 'text'",
+            "TOKEN::STRING_DOUBLE_QUOTE_END @18 '\"'",
+            "TOKEN::PARENTHESES_END @19 ')'"
+          )
         )
       );
     }

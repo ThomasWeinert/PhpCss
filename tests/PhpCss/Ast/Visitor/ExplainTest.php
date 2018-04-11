@@ -231,6 +231,40 @@ namespace PhpCss\Ast\Visitor {
           )
         ),
         array(
+          ':contains("some string")',
+          '<?xml version="1.0"?>
+            <selector-group xmlns="urn:carica-phpcss-explain-2014">
+              <selector>
+                <pseudoclass>
+                  <name>
+                    <text>:contains</text>
+                  </name>
+                  <text>(</text>
+                  <parameter>
+                    <text>"</text>
+                    <value>
+                      <text>some string</text>
+                    </value>
+                    <text>"</text>
+                  </parameter>
+                  <text>)</text>
+                </pseudoclass>
+              </selector>
+            </selector-group>',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\PseudoClass(
+                    'contains',
+                    new Ast\Selector\Literal('some string')
+                  )
+                )
+              )
+            )
+          )
+        ),
+        array(
           ' + p',
           '<?xml version="1.0"?>
            <selector-group xmlns="urn:carica-phpcss-explain-2014">

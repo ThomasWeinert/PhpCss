@@ -171,6 +171,17 @@ namespace PhpCss\Ast\Visitor  {
       Ast\Selector\Simple\PseudoClass $class
     ) {
       $this->_buffer .= ':'.$class->name;
+      if ($class->parameter) {
+        $this->_buffer .= '(';
+        $this->visit($class->parameter);
+        $this->_buffer .= ')';
+      }
+    }
+
+    public function visitSelectorLiteral(
+      Ast\Selector\Literal $literal
+    ) {
+      $this->_buffer .= $this->quoteString($literal->value);
     }
 
     public function visitEnterSelectorSimplePseudoClass(

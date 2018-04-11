@@ -337,6 +337,20 @@ namespace PhpCss\Ast\Visitor  {
       $this->appendText(')');
       return $this->end();
     }
+    /**
+     * @return bool
+     */
+    public function visitSelectorLiteral(
+      Ast\Selector\Literal $literal
+    ) {
+      $this->appendText('"');
+      $this->appendElement(
+        'value',
+        str_replace(array('\\', '"'), array('\\\\', '\\"'), $literal->value)
+      );
+      $this->appendText('"');
+      return TRUE;
+    }
 
     /**
      * @param Ast\Selector\Simple\PseudoClass\Position $position

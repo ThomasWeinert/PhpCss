@@ -118,7 +118,10 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
       // optimized
       array('*', '*|*'),
       array('element', '*|element'),
-      array('element', ' element')
+      array('element', ' element'),
+
+      // jQuery
+      array('div:contains("text")', 'div:contains("text")')
     );
   }
 
@@ -184,7 +187,10 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
 
       // utf-8
       array('.//*[local-name() = "äöü"]', 'äöü'),
-      array('.//*[local-name() = "äöü"]', 'ÄÖÜ', PhpCss\Ast\Visitor\Xpath::OPTION_LOWERCASE_ELEMENTS)
+      array('.//*[local-name() = "äöü"]', 'ÄÖÜ', PhpCss\Ast\Visitor\Xpath::OPTION_LOWERCASE_ELEMENTS),
+
+      // jQuery
+      array('.//*[., contains("text")]', '*:contains("text")')
     );
   }
 }

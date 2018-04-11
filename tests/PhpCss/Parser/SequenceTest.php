@@ -176,6 +176,7 @@ namespace PhpCss\Parser {
         )
       );
     }
+
     public static function provideInvalidParseData() {
       return array(
         'two elements' => array(

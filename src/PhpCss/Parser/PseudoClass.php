@@ -22,6 +22,7 @@ namespace PhpCss\Parser {
     const PARAMETER_IDENTIFIER = 2;
     const PARAMETER_POSITION = 4;
     const PARAMETER_SIMPLE_SELECTOR = 8;
+    const PARAMETER_STRING = 16;
 
 
     public function parse() {
@@ -48,6 +49,15 @@ namespace PhpCss\Parser {
           );
           $class = new Ast\Selector\Simple\PseudoClass(
             $name, $this->createPseudoClassPosition($parameterToken->content)
+          );
+          break;
+        case self::PARAMETER_STRING :
+          $this->read(
+            [Scanner\Token::SINGLEQUOTE_STRING_START, Scanner\Token::DOUBLEQUOTE_STRING_START]
+          );
+          $parameter = $this->delegate(Text::CLASS);
+          $class = new Ast\Selector\Simple\PseudoClass(
+            $name, new Ast\Selector\Literal($parameter)
           );
           break;
         case self::PARAMETER_SIMPLE_SELECTOR :
@@ -110,6 +120,8 @@ namespace PhpCss\Parser {
       case 'nth-of-type' :
       case 'nth-last-of-type' :
         return self::PARAMETER_POSITION;
+      case 'contains':
+        return self::PARAMETER_STRING;
       case 'root' :
       case 'first-child' :
       case 'last-child' :

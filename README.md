@@ -226,5 +226,11 @@ Get the AST
     <tr>
       <td>E ~ F</td><td>✓</td><td>✓</td>
     </tr>
+    <tr>
+      <th colspan="3">jQuery</th>
+    </tr>
+    <tr>
+      <td>:contains("text")</td><td>✓</td><td>✓</td>
+    </tr>
   </tbody>
 </table>
