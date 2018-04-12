@@ -241,5 +241,11 @@ Get the AST
     <tr>
       <td>:lt(42)</td><td>✓</td><td>✓</td>
     </tr>
+    <tr>
+      <td>:odd</td><td>✓</td><td>✓</td>
+    </tr>
+    <tr>
+      <td>:even</td><td>✓</td><td>✓</td>
+    </tr>
   </tbody>
 </table>
