@@ -204,7 +204,6 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
       array('.//*[position() > last() - 2]', '*:gt(-1)'),
       array('.//*[position() < last() - 2]', '*:lt(-1)'),
       array('.//*[local-name() = "bar"][position() > 2]', 'bar:gt(1)'),
-
     );
   }
 }

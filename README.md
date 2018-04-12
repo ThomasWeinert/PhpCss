@@ -232,5 +232,14 @@ Get the AST
     <tr>
       <td>:contains("text")</td><td>✓</td><td>✓</td>
     </tr>
+    <tr>
+      <td>:has(s)</td><td>✓</td><td>✓</td>
+    </tr>
+    <tr>
+      <td>:gt(42)</td><td>✓</td><td>✓</td>
+    </tr>
+    <tr>
+      <td>:lt(42)</td><td>✓</td><td>✓</td>
+    </tr>
   </tbody>
 </table>
