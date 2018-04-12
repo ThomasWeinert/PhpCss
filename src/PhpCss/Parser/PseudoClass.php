@@ -37,7 +37,7 @@ namespace PhpCss\Parser {
         switch ($mode) {
         case self::PARAMETER_IDENTIFIER :
           $parameterToken = $this->read(Scanner\Token::IDENTIFIER);
-          $class = new Ast\Selector\Simple\PseudoClass\Language($parameterToken->content);
+          $class = new Ast\Value\Language($parameterToken->content);
           break;
         case self::PARAMETER_POSITION :
           $parameterToken = $this->read(
@@ -57,7 +57,7 @@ namespace PhpCss\Parser {
           );
           $parameter = $this->delegate(Text::CLASS);
           $class = new Ast\Selector\Simple\PseudoClass(
-            $name, new Ast\Selector\Literal($parameter)
+            $name, new Ast\Value\Literal($parameter)
           );
           break;
         case self::PARAMETER_SIMPLE_SELECTOR :
@@ -181,18 +181,18 @@ namespace PhpCss\Parser {
     private function createPseudoClassPosition($string) {
       $string = str_replace(' ', '', $string);
       if ($string == 'n') {
-        $position = new Ast\Selector\Simple\PseudoClass\Position(1, 0);
+        $position = new Ast\Value\Position(1, 0);
       } elseif ($string == 'odd') {
-        $position = new Ast\Selector\Simple\PseudoClass\Position(2, 1);
+        $position = new Ast\Value\Position(2, 1);
       } elseif ($string == 'even') {
-        $position = new Ast\Selector\Simple\PseudoClass\Position(2, 0);
+        $position = new Ast\Value\Position(2, 0);
       } elseif (preg_match('(^[+-]?\d+$)D', $string)) {
-        $position = new Ast\Selector\Simple\PseudoClass\Position(0, (int)$string);
+        $position = new Ast\Value\Position(0, (int)$string);
       } elseif (
           preg_match('(^(?P<repeat>\d+)n$)D', $string, $matches) ||
           preg_match('(^(?P<repeat>[+-]?\d*)n(?P<add>[+-]\d+)$)D', $string, $matches)
         ) {
-        $position = new Ast\Selector\Simple\PseudoClass\Position(
+        $position = new Ast\Value\Position(
           isset($matches['repeat']) && $matches['repeat'] != ''
             ? (int)$matches['repeat'] : 1,
           isset($matches['add']) ? (int)$matches['add'] : 0

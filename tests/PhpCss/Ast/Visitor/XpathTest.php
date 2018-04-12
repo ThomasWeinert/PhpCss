@@ -406,7 +406,7 @@ namespace PhpCss\Ast\Visitor {
                 array(
                   new Ast\Selector\Simple\PseudoClass(
                     'nth-child',
-                    new Ast\Selector\Simple\PseudoClass\Position(3, 1)
+                    new Ast\Value\Position(3, 1)
                   )
                 )
               )
@@ -421,7 +421,7 @@ namespace PhpCss\Ast\Visitor {
                 array(
                   new Ast\Selector\Simple\PseudoClass(
                     'nth-child',
-                    new Ast\Selector\Simple\PseudoClass\Position(3, -1)
+                    new Ast\Value\Position(3, -1)
                   )
                 )
               )
@@ -436,7 +436,7 @@ namespace PhpCss\Ast\Visitor {
                 array(
                   new Ast\Selector\Simple\PseudoClass(
                     'nth-child',
-                    new Ast\Selector\Simple\PseudoClass\Position(0, 42)
+                    new Ast\Value\Position(0, 42)
                   )
                 )
               )

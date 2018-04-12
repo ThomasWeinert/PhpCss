@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpCss\Ast\Selector {
+namespace PhpCss\Ast\Value {
 
   use PhpCss;
 

@@ -337,11 +337,13 @@ namespace PhpCss\Ast\Visitor  {
       $this->appendText(')');
       return $this->end();
     }
+
     /**
+     * @param Ast\Value\Literal $literal
      * @return bool
      */
-    public function visitSelectorLiteral(
-      Ast\Selector\Literal $literal
+    public function visitValueLiteral(
+      Ast\Value\Literal $literal
     ) {
       $this->appendText('"');
       $this->appendElement(
@@ -353,11 +355,11 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-     * @param Ast\Selector\Simple\PseudoClass\Position $position
+     * @param Ast\Value\Position $position
      * @return bool
      */
-    public function visitSelectorSimplePseudoClassPosition(
-      Ast\Selector\Simple\PseudoClass\Position $position
+    public function visitValuePosition(
+      Ast\Value\Position $position
     ) {
       if ($position->repeat == 2 && $position->add == 1) {
         $css = 'odd';
@@ -383,11 +385,11 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-     * @param Ast\Selector\Simple\PseudoClass\Language $language
+     * @param Ast\Value\Language $language
      * @return bool
      */
-    public function visitSelectorSimplePseudoClassLanguage(
-      Ast\Selector\Simple\PseudoClass\Language $language
+    public function visitValueLanguage(
+      Ast\Value\Language $language
     ) {
       $this->start($this->appendElement('pseudoclass'));
       $this->appendElement('name', ':lang');

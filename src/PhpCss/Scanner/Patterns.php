@@ -13,7 +13,7 @@ namespace PhpCss\Scanner {
   abstract class Patterns {
 
     const WHITESPACE = '([\r\n\t ]+)S';
-    const NUMBER = '([\d]+)S';
+    const NUMBER = '(-?[\d]+)S';
     const IDENTIFIER = '(
       (
         ( # namespace ncname

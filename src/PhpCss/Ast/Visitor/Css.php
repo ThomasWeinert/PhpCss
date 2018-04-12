@@ -178,8 +178,8 @@ namespace PhpCss\Ast\Visitor  {
       }
     }
 
-    public function visitSelectorLiteral(
-      Ast\Selector\Literal $literal
+    public function visitValueLiteral(
+      Ast\Value\Literal $literal
     ) {
       $this->_buffer .= $this->quoteString($literal->value);
     }
@@ -195,8 +195,8 @@ namespace PhpCss\Ast\Visitor  {
       $this->_buffer .= ')';
     }
 
-    public function visitSelectorSimplePseudoClassPosition(
-      Ast\Selector\Simple\PseudoClass\Position $position
+    public function visitValuePosition(
+      Ast\Value\Position $position
     ) {
       if ($position->repeat == 2 && $position->add == 1) {
         $this->_buffer .= 'odd';
@@ -219,8 +219,8 @@ namespace PhpCss\Ast\Visitor  {
       }
     }
 
-    public function visitSelectorSimplePseudoClassLanguage(
-      Ast\Selector\Simple\PseudoClass\Language $language
+    public function visitValueLanguage(
+      Ast\Value\Language $language
     ) {
       $this->_buffer .= ':lang('.$language->language.')';
     }

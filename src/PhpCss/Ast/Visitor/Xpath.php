@@ -585,8 +585,8 @@ namespace PhpCss\Ast\Visitor  {
       $this->status(self::STATUS_CONDITION);
     }
 
-    public function visitSelectorSimplePseudoClassPosition(
-      Ast\Selector\Simple\PseudoClass\Position $position
+    public function visitValuePosition(
+      Ast\Value\Position $position
     ) {
       $repeat = $position->repeat;
       $add = $position->add;
@@ -624,8 +624,8 @@ namespace PhpCss\Ast\Visitor  {
       throw new Exception\NotConvertable('pseudoelement '.$pseudoElement->name, 'Xpath');
     }
 
-    public function visitSelectorSimplePseudoClassLanguage(
-      Ast\Selector\Simple\PseudoClass\Language $language
+    public function visitValueLanguage(
+      Ast\Value\Language $language
     ) {
       $this->addCondition(
         sprintf(

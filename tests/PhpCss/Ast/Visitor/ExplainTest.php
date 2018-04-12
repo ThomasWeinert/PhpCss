@@ -199,7 +199,7 @@ namespace PhpCss\Ast\Visitor {
                 array(
                   new Ast\Selector\Simple\PseudoClass(
                     'nth-of-type',
-                    new Ast\Selector\Simple\PseudoClass\Position(2, 1)
+                    new Ast\Value\Position(2, 1)
                   )
                 )
               )
@@ -257,7 +257,7 @@ namespace PhpCss\Ast\Visitor {
                 array(
                   new Ast\Selector\Simple\PseudoClass(
                     'contains',
-                    new Ast\Selector\Literal('some string')
+                    new Ast\Value\Literal('some string')
                   )
                 )
               )

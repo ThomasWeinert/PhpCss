@@ -1,10 +1,10 @@
 <?php
 
-namespace PhpCss\Ast\Selector\Simple\PseudoClass {
+namespace PhpCss\Ast\Value {
 
-  use PhpCss\Ast\Selector\Simple;
+  use PhpCss;
 
-  class Position extends Simple {
+  class Position extends PhpCss\Ast {
 
     public $repeat = 0;
     public $add = 0;

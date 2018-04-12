@@ -710,6 +710,16 @@ namespace PhpCss {
             "TOKEN::STRING_DOUBLE_QUOTE_END @18 '\"'",
             "TOKEN::PARENTHESES_END @19 ')'"
           )
+        ),
+        array(
+          'div:gt(-2)',
+          array(
+            "TOKEN::IDENTIFIER @0 'div'",
+            "TOKEN::PSEUDOCLASS @3 ':gt'",
+            "TOKEN::PARENTHESES_START @6 '('",
+            "TOKEN::NUMBER @7 '-2'",
+            "TOKEN::PARENTHESES_END @9 ')'"
+          )
         )
       );
     }

@@ -190,7 +190,7 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
       array('.//*[local-name() = "äöü"]', 'ÄÖÜ', PhpCss\Ast\Visitor\Xpath::OPTION_LOWERCASE_ELEMENTS),
 
       // jQuery
-      array('.//*[contains(., "text")]', '*:contains("text")')
+      array('.//*[contains(., "text")]', '*:contains("text")'),
     );
   }
 }
