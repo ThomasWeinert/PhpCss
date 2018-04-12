@@ -118,6 +118,7 @@ namespace PhpCss\Parser {
     private function getParameterMode($name) {
       switch ($name) {
       case 'not' :
+      case 'has' :
         return self::PARAMETER_SIMPLE_SELECTOR;
       case 'lang' :
         return self::PARAMETER_IDENTIFIER;

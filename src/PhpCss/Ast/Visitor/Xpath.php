@@ -547,6 +547,10 @@ namespace PhpCss\Ast\Visitor  {
         $this->addCondition('not(');
         $this->status(self::STATUS_PSEUDOCLASS);
         return TRUE;
+      case 'has' :
+        $this->addCondition('(');
+        $this->status(self::STATUS_DEFAULT);
+        return TRUE;
       case 'contains':
         $this->addCondition('contains(., '.$this->quoteLiteral($pseudoClass->parameter->value));
         $this->status(self::STATUS_PSEUDOCLASS);

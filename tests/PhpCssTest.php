@@ -122,6 +122,7 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
 
       // jQuery
       array('div:contains("text")', 'div:contains("text")'),
+      array('div:has(p)', 'div:has(p)'),
       array('*:gt(1)', '*:gt(1)'),
       array(':lt(1)', ':lt(1)'),
       array('*:gt(-1)', '*:gt(-1)'),
@@ -196,6 +197,8 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
 
       // jQuery
       array('.//*[contains(., "text")]', '*:contains("text")'),
+      array('.//*[local-name() = "div" and (*[local-name() = "p"])]', 'div:has(p)'),
+      array('.//h:div[(h:p)]', 'h|div:has(h|p)'),
       array('.//*[position() > 2]', '*:gt(1)'),
       array('.//*[position() < 2]', '*:lt(1)'),
       array('.//*[position() > last() - 2]', '*:gt(-1)'),
