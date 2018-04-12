@@ -149,6 +149,8 @@ namespace PhpCss\Parser {
       case 'enabled' :
       case 'disabled' :
       case 'checked' :
+      case 'odd' :
+      case 'even' :
         return self::PARAMETER_NONE;
       }
       return NULL;
