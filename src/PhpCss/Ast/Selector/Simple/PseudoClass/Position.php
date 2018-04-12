@@ -2,9 +2,9 @@
 
 namespace PhpCss\Ast\Selector\Simple\PseudoClass {
 
-  use PhpCss\Ast\Selector\Simple\PseudoClass;
+  use PhpCss\Ast\Selector\Simple;
 
-  class Position extends PseudoClass {
+  class Position extends Simple {
 
     public $repeat = 0;
     public $add = 0;

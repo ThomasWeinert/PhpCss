@@ -1,9 +1,9 @@
 <?php
 namespace PhpCss\Ast\Selector\Simple\PseudoClass {
 
-  use PhpCss\Ast\Selector\Simple\PseudoClass;
+  use PhpCss\Ast\Selector\Simple;
 
-  class Language extends PseudoClass {
+  class Language extends Simple {
 
     public $language = '';
 
