@@ -535,6 +535,20 @@ namespace PhpCss\Ast\Visitor  {
       case 'only-of-type' :
         $condition = '(count(parent::*/'.$this->_element.') = 1)';
         break;
+      case 'odd' :
+        if ($this->status() === self::STATUS_CONDITION) {
+          $this->add(']');
+          $this->status(self::STATUS_ELEMENT);
+        }
+        $condition = 'position() mod 2 = 0';
+        break;
+      case 'even' :
+        if ($this->status() === self::STATUS_CONDITION) {
+          $this->add(']');
+          $this->status(self::STATUS_ELEMENT);
+        }
+        $condition = 'position() mod 2 = 1';
+        break;
       default :
         throw new Exception\NotConvertable('pseudoclass '.$pseudoClass->name, 'Xpath');
       }

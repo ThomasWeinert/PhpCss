@@ -128,6 +128,8 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
       array('*:gt(-1)', '*:gt(-1)'),
       array('*:lt(-1)', '*:lt(-1)'),
       array('bar:gt(1)', 'bar:gt(1)'),
+      array('tr:odd', 'tr:odd'),
+      array('tr:even', 'tr:even')
     );
   }
 
@@ -204,6 +206,9 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
       array('.//*[position() > last() - 2]', '*:gt(-1)'),
       array('.//*[position() < last() - 2]', '*:lt(-1)'),
       array('.//*[local-name() = "bar"][position() > 2]', 'bar:gt(1)'),
+      array('.//*[position() mod 2 = 0]', ':odd'),
+      array('.//*[position() mod 2 = 1]', ':even'),
+      array('.//*[local-name() = "tr"][position() mod 2 = 0]', 'tr:odd')
     );
   }
 }
