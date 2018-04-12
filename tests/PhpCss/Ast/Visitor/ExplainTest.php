@@ -265,6 +265,38 @@ namespace PhpCss\Ast\Visitor {
           )
         ),
         array(
+          ':gt(5)',
+          '<?xml version="1.0"?>
+            <selector-group xmlns="urn:carica-phpcss-explain-2014">
+              <selector>
+                <pseudoclass>
+                  <name>
+                    <text>:gt</text>
+                  </name>
+                  <text>(</text>
+                  <parameter>
+                    <value>
+                      <number>5</number>
+                    </value>
+                  </parameter>
+                  <text>)</text>
+                </pseudoclass>
+              </selector>
+            </selector-group>',
+          new Ast\Selector\Group(
+            array(
+              new Ast\Selector\Sequence(
+                array(
+                  new Ast\Selector\Simple\PseudoClass(
+                    'gt',
+                    new Ast\Value\Number(5)
+                  )
+                )
+              )
+            )
+          )
+        ),
+        array(
           ' + p',
           '<?xml version="1.0"?>
            <selector-group xmlns="urn:carica-phpcss-explain-2014">

@@ -247,7 +247,7 @@ namespace PhpCss\Ast\Visitor  {
             if ("" !== $part) {
               $result .= ', "'.$part.'"';
             }
-          };
+          }
           return 'concat('.substr($result, 7).')';
         } else {
           return "'".$literal."'";
@@ -551,6 +551,20 @@ namespace PhpCss\Ast\Visitor  {
         $this->addCondition('contains(., '.$this->quoteLiteral($pseudoClass->parameter->value));
         $this->status(self::STATUS_PSEUDOCLASS);
         return TRUE;
+      case 'gt' :
+      case 'lt' :
+        if ($this->status() === self::STATUS_CONDITION) {
+          $this->add(']');
+        }
+        $this->status(self::STATUS_ELEMENT);
+        $operator = $pseudoClass->name === 'gt' ? '>' : '<';
+        $condition = $pseudoClass->parameter->value < 0
+          ? 'last() - '.\abs($pseudoClass->parameter->value - 1)
+          : $pseudoClass->parameter->value + 1;
+        $this->addCondition(
+          'position() '.$operator.' '.$condition
+        );
+        break;
       case 'nth-child' :
         $this->addCondition('(');
         $this->status(self::STATUS_PSEUDOCLASS);

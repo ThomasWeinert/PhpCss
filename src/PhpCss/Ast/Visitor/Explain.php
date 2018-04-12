@@ -50,11 +50,11 @@ namespace PhpCss\Ast\Visitor  {
      * @param array $attributes
      * @return \DOMNode
      */
-    private function appendElement($name, $content = '', array $attributes = array()) {
+    private function appendElement($name, $content = '', array $attributes = array(), $contentType = 'text') {
       $result = $this->_dom->createElementNs($this->_xmlns, $name);
       if (!empty($content)) {
         $text = $result->appendChild(
-          $this->_dom->createElementNs($this->_xmlns, 'text')
+          $this->_dom->createElementNs($this->_xmlns, $contentType)
         );
         if (trim($content) !== $content) {
           $text->appendChild(
@@ -351,6 +351,19 @@ namespace PhpCss\Ast\Visitor  {
         str_replace(array('\\', '"'), array('\\\\', '\\"'), $literal->value)
       );
       $this->appendText('"');
+      return TRUE;
+    }
+
+    /**
+     * @param Ast\Value\Number $number
+     * @return bool
+     */
+    public function visitValueNumber(
+      Ast\Value\Number $number
+    ) {
+      $this->appendElement(
+        'value', $number->value, [], 'number'
+      );
       return TRUE;
     }
 

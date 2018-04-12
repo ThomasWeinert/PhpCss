@@ -121,7 +121,12 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
       array('element', ' element'),
 
       // jQuery
-      array('div:contains("text")', 'div:contains("text")')
+      array('div:contains("text")', 'div:contains("text")'),
+      array('*:gt(1)', '*:gt(1)'),
+      array(':lt(1)', ':lt(1)'),
+      array('*:gt(-1)', '*:gt(-1)'),
+      array('*:lt(-1)', '*:lt(-1)'),
+      array('bar:gt(1)', 'bar:gt(1)'),
     );
   }
 
@@ -191,6 +196,12 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
 
       // jQuery
       array('.//*[contains(., "text")]', '*:contains("text")'),
+      array('.//*[position() > 2]', '*:gt(1)'),
+      array('.//*[position() < 2]', '*:lt(1)'),
+      array('.//*[position() > last() - 2]', '*:gt(-1)'),
+      array('.//*[position() < last() - 2]', '*:lt(-1)'),
+      array('.//*[local-name() = "bar"][position() > 2]', 'bar:gt(1)'),
+
     );
   }
 }

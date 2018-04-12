@@ -184,6 +184,12 @@ namespace PhpCss\Ast\Visitor  {
       $this->_buffer .= $this->quoteString($literal->value);
     }
 
+    public function visitValueNumber(
+      Ast\Value\Number $literal
+    ) {
+      $this->_buffer .= $literal->value;
+    }
+
     public function visitEnterSelectorSimplePseudoClass(
       Ast\Selector\Simple\PseudoClass $class
     ) {
