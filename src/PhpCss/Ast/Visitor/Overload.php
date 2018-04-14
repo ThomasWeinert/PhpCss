@@ -9,6 +9,7 @@
 namespace PhpCss\Ast\Visitor  {
 
   use PhpCss\Ast;
+
   /**
   * An abstract visitor class that includes a mapping between functions and classes,
   * simulating overloading.
@@ -16,44 +17,43 @@ namespace PhpCss\Ast\Visitor  {
   abstract class Overload implements Ast\Visitor {
 
     /**
-     * Map the class name of the PhpCssAst instance to a method name, validate if it exists and return
+     * Map the class name of the PhpCss\Ast\Node instance to a method name, validate if it exists and return
      * it as callback.
      *
-     * @param Ast $object
+     * @param Ast\Node $object
      * @param string $prefix
      * @return array|null
      */
-    protected function getMethodByClass(Ast $object, $prefix = 'visit') {
+    protected function getMethodByClass(Ast\Node $object, string $prefix = 'visit') {
       $method = $prefix.substr(str_replace('\\', '', get_class($object)), 9);
       if (method_exists($this, $method)) {
         return array($this, $method);
-      } else {
-        return NULL;
       }
+      return NULL;
     }
 
     /**
-    * Entering an element in the ast, called before visiting children
+    * Entering an node in the ast, called before visiting children
     *
-    * @param Ast $ast
+    * @param Ast\Node $node
     * @return boolean
     */
-    public function visitEnter(Ast $ast) {
-      if ($method = $this->getMethodByClass($ast, 'visitEnter')) {
-        return call_user_func($method, $ast);
+    public function visitEnter(Ast\Node $node) {
+      if ($method = $this->getMethodByClass($node, 'visitEnter')) {
+        return $method($node);
       }
       return TRUE;
     }
 
     /**
-    * Visiting the $ast element
+    * Visiting the $node element
     *
-    * @param Ast $ast
+    * @param Ast\Node $node
     * @return boolean
     */
-    public function visit(Ast $ast) {
-      if ($method = $this->getMethodByClass($ast)) {
-        return call_user_func($method, $ast);
+    public function visit(Ast\Node $node) {
+      if ($method = $this->getMethodByClass($node)) {
+        return $method($node);
       }
       return TRUE;
     }
@@ -61,12 +61,12 @@ namespace PhpCss\Ast\Visitor  {
     /**
     * Entering an element in the ast, called after visiting children
     *
-    * @param Ast $ast
+    * @param Ast\Node $node
     * @return boolean
     */
-    public function visitLeave(Ast $ast) {
-      if ($method = $this->getMethodByClass($ast, 'visitLeave')) {
-        return call_user_func($method, $ast);
+    public function visitLeave(Ast\Node $node) {
+      if ($method = $this->getMethodByClass($node, 'visitLeave')) {
+        return $method($node);
       }
       return TRUE;
     }

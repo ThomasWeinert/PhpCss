@@ -3,7 +3,7 @@ namespace PhpCss\Ast\Value {
 
   use PhpCss;
 
-  class Language extends PhpCss\Ast {
+  class Language extends PhpCss\Ast\Node {
 
     public $language = '';
 

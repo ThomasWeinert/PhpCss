@@ -18,22 +18,22 @@ namespace PhpCss\Ast {
     /**
     * Visit an ast object
     *
-    * @param PhpCss\Ast $ast
+    * @param Node $ast
     */
-    function visit(PhpCss\Ast $ast);
+    function visit(Node $ast);
 
     /**
     * Visit an ast object
     *
-    * @param PhpCss\Ast $ast
+    * @param Node $ast
     */
-    function visitEnter(PhpCss\Ast $ast);
+    function visitEnter(Node $ast);
 
     /**
     * Visit an ast object
     *
-    * @param PhpCss\Ast $ast
+    * @param Node $ast
     */
-    function visitLeave(PhpCss\Ast $ast);
+    function visitLeave(Node $ast);
   }
 }

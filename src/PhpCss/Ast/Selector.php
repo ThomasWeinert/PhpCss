@@ -8,12 +8,10 @@
 
 namespace PhpCss\Ast {
 
-  use PhpCss;
-
   /**
   * Abstract superclass of all selector elements in the abstract syntax tree.
   */
-  abstract class Selector extends PhpCss\Ast {
+  abstract class Selector extends Node {
 
   }
 }

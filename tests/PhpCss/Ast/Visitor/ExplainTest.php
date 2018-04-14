@@ -11,9 +11,9 @@ namespace PhpCss\Ast\Visitor {
     * @covers \PhpCss\Ast\Visitor\Css
     * @dataProvider provideExamples
     */
-    public function testIntegration($selector, $xml, Ast $ast) {
+    public function testIntegration($selector, $xml, Ast\Node $node) {
       $visitor = new Explain();
-      $ast->accept($visitor);
+      $node->accept($visitor);
       $actual = (string)$visitor;
       $this->assertXmlStringEqualsXmlString(
         $xml, $actual

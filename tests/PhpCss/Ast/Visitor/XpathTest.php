@@ -59,13 +59,14 @@ namespace PhpCss\Ast\Visitor {
     }
 
     /**
-     * @covers \PhpCss\Ast\Visitor\Xpath
+     * @covers       \PhpCss\Ast\Visitor\Xpath
      * @dataProvider provideNotConvertableExamples
+     * @param Ast\Node $node
      */
-    public function testNotConvertableElements(Ast $ast) {
+    public function testNotConvertableElements(Ast\Node $node) {
       $visitor = new Xpath();
       $this->expectException(Exception\NotConvertable::CLASS);
-      $ast->accept($visitor);
+      $node->accept($visitor);
     }
 
     public static function provideNotConvertableExamples() {
@@ -81,7 +82,7 @@ namespace PhpCss\Ast\Visitor {
     * @covers \PhpCss\Ast\Visitor\Xpath
     * @dataProvider provideExamples
     */
-    public function testIntegration($expected, Ast $ast, $options = 0) {
+    public function testIntegration($expected, Ast\Node $ast, $options = 0) {
       $visitor = new Xpath((int)$options);
       $ast->accept($visitor);
       $this->assertEquals(

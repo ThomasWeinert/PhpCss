@@ -3,7 +3,7 @@ namespace PhpCss\Ast\Value {
 
   use PhpCss;
 
-  class Number extends PhpCss\Ast {
+  class Number extends PhpCss\Ast\Node {
 
     public $value = '';
 

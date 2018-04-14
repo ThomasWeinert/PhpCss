@@ -4,7 +4,7 @@ namespace PhpCss\Ast\Value {
 
   use PhpCss;
 
-  class Position extends PhpCss\Ast {
+  class Position extends PhpCss\Ast\Node {
 
     public $repeat = 0;
     public $add = 0;

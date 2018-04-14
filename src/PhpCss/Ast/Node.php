@@ -6,11 +6,14 @@
 * @copyright Copyright 2010-2014 PhpCss Team
 */
 
-namespace PhpCss {
+namespace PhpCss\Ast {
+
+  use PhpCss\Ast;
+
   /**
   * Abstract superclass of all elements in the abstract syntax tree.
   */
-  abstract class Ast {
+  abstract class Node {
 
     /**
     * The visitors are used to extract information from an ast.

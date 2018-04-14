@@ -15,7 +15,7 @@ namespace PhpCss\Ast\Selector\Simple {
     }
 
     public function accept(Ast\Visitor $visitor) {
-      if ($this->parameter instanceOf Ast) {
+      if ($this->parameter instanceOf Ast\Node) {
         if ($visitor->visitEnter($this)) {
           $this->parameter->accept($visitor);
           $visitor->visitLeave($this);
