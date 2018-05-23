@@ -9,11 +9,6 @@
       "email": "thomas@weinert.info"
     }
   ],
-  "config": {
-    "platform": {
-      "php": "7.0"
-    }
-  },
   "require" : {
     "PHP" : ">=7.0"
   },

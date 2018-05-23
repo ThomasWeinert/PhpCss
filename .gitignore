@@ -1,6 +1,19 @@
-/.buildpath
-/.project
+# PHPStorm
+/.idea/
+
+# Eclipse
 /.settings
-/.idea
-/vendor
-/build
+/.project
+/.buildpath
+
+# Netbeans
+/nbproject/
+
+# Build Artifacts
+/build/
+
+# Composer
+/vendor/
+
+# Phive
+/tools/
