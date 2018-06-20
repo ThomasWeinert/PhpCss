@@ -108,6 +108,7 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
       array('tr:nth-child(even)', 'tr:nth-child(2n+0)'),
       array('tr:nth-child(even)', 'tr:nth-child(even)'),
       array('p:nth-child(4n+1)', 'p:nth-child(4n+1)'),
+      array(':nth-child(10n)', ':nth-child(10n)'),
       array(':nth-child(10n-1)', ':nth-child(10n-1)'),
       array(':nth-child(10n+9)', ':nth-child(10n+9)'),
       array('foo:nth-child(5)', 'foo:nth-child(0n+5)'),

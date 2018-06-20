@@ -40,6 +40,6 @@ namespace PhpCss\Scanner {
     const PSEUDO_ELEMENT = '(::[^\r\n\t .,#:()[\\]\\\'"]+)S';
 
     const ATTRIBUTE_OPERATOR = '([~^$*|]?=)S';
-    const PSEUDO_CLASS_POSITION = '(\s*(([-+]?(\\d+)?n\\s*[-+]\\s*\\d+)|\\dn)\s*)';
+    const PSEUDO_CLASS_POSITION = '(\s*(([-+]?(\\d+)?n\\s*[-+]\\s*\\d+)|\\d+n)\s*)';
   }
 }
