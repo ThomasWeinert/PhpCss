@@ -34,9 +34,9 @@ namespace PhpCss\Scanner {
 
     const COMBINATOR = '(\s*[>+~]\s*)S';
 
-    const CLASS_SELECTOR = '(\.[^\r\n\t .,#:()[\\]\\\'"]+)S';
-    const ID_SELECTOR = '(#[^\r\n\t .,#:()[\\]\\\'"]+)S';
-    const PSEUDO_CLASS = '(:[^\r\n\t .,#:()[\\]\\\'"]+)S';
+    const CLASS_SELECTOR = '(\.[^\r\n\t >+~.,#:()[\\]\\\'"]+)S';
+    const ID_SELECTOR = '(#[^\r\n\t >+~.,#:()[\\]\\\'"]+)S';
+    const PSEUDO_CLASS = '(:[^\r\n\t >+~.,#:()[\\]\\\'"]+)S';
     const PSEUDO_ELEMENT = '(::[^\r\n\t .,#:()[\\]\\\'"]+)S';
 
     const ATTRIBUTE_OPERATOR = '([~^$*|]?=)S';

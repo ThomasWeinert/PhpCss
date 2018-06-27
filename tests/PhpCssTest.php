@@ -101,6 +101,10 @@ class PhpCssTest extends \PHPUnit\Framework\TestCase {
       array('element > child', 'element > child'),
       array('element child', 'element child'),
       array('html|*:not(:link):not(:visited)', 'html|*:not(:link):not(:visited)'),
+      array('li + li', 'li+li'),
+      array('li.class > li', 'li.class>li'),
+      array('li#id ~ li', 'li#id~li'),
+      array('li:hover + li', 'li:hover+li'),
 
       // pseudo class positions
       array('tr:nth-child(odd)', 'tr:nth-child(2n+1)'),
