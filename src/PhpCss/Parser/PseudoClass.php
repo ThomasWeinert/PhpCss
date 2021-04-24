@@ -112,7 +112,7 @@ namespace PhpCss\Parser {
         $this->read(Scanner\Token::PARENTHESES_END);
         return $class;
       }
-      throw new PhpCss\Exception\UnknownPseudoClass($token);
+      throw new PhpCss\Exception\UnknownPseudoClassException($token);
     }
 
     private function getParameterMode($name) {
@@ -187,7 +187,7 @@ namespace PhpCss\Parser {
       case 'before' :
         return new Ast\Selector\Simple\PseudoElement($name);
       }
-      throw new PhpCss\Exception\UnknownPseudoElement($token);
+      throw new PhpCss\Exception\UnknownPseudoElementException($token);
     }
 
     private function createPseudoClassPosition($string) {

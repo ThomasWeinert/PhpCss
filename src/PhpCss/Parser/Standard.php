@@ -22,7 +22,7 @@ namespace PhpCss\Parser {
 
     const ALLOW_RELATIVE_SELECTORS = 1;
 
-    private $options = 0;
+    private $_options;
 
     public function __construct(array &$tokens, $options = 0) {
       parent::__construct($tokens);

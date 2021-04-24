@@ -16,7 +16,7 @@ namespace PhpCss\Exception {
   * A parse error occurs if certain tokens are expected for further parsing, but
   * none of them are found on the token stream
   */
-  abstract class Token extends Parser {
+  abstract class TokenException extends ParserException {
 
     /**
     * The token encountered during the scan.

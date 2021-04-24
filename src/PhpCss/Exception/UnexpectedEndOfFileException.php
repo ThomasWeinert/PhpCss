@@ -13,7 +13,7 @@ namespace PhpCss\Exception {
   /**
   * Exception thrown if an unexpected end of file is detected.
   */
-  class UnexpectedEndOfFile extends Parser {
+  class UnexpectedEndOfFileException extends ParserException {
 
     /**
      * @param array(PhpCss\Scanner\Token) $expectedTokens

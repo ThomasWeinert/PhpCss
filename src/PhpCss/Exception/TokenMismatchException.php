@@ -13,7 +13,7 @@ namespace PhpCss\Exception {
   /**
   * Exception thrown if a token is encountered which was not expected.
   */
-  class TokenMismatch extends Token {
+  class TokenMismatchException extends TokenException {
 
     /**
      * @param PhpCss\Scanner\Token $encounteredToken

@@ -8,10 +8,10 @@ namespace PhpCss\Exception {
   class UnexpectedEndOfFileTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers \PhpCss\Exception\UnexpectedEndOfFile::__construct
+    * @covers \PhpCss\Exception\UnexpectedEndOfFileException::__construct
     */
     public function testConstructor() {
-      $e = new UnexpectedEndOfFile(
+      $e = new UnexpectedEndOfFileException(
         array(Scanner\Token::STRING_CHARACTERS)
       );
       $this->assertEquals(

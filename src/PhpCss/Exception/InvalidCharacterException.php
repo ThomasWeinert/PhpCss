@@ -16,9 +16,9 @@ namespace PhpCss\Exception {
    * Exception thrown if a scanner status finds does not
    * find a valid character.
    */
-  class InvalidCharacter
+  class InvalidCharacterException
     extends \UnexpectedValueException
-    implements PhpCss\Exception {
+    implements PhpCssException {
 
     /** @var int $offset byte offset */
     private $_offset = 0;

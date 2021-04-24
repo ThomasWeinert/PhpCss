@@ -13,7 +13,7 @@ namespace PhpCss\Exception {
   /**
   * Exception thrown if an a pseudo class is found and the name is not known.
   */
-  class UnknownPseudoClass extends Token {
+  class UnknownPseudoClassException extends TokenException {
 
     /**
      * @param PhpCss\Scanner\Token $token

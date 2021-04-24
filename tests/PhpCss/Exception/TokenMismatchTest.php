@@ -8,13 +8,13 @@ namespace PhpCss\Exception {
   class TokenMismatchTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers \PhpCss\Exception\TokenMismatch::__construct
+    * @covers \PhpCss\Exception\TokenMismatchException::__construct
     */
     public function testConstructor() {
       $expectedToken = new Scanner\Token(
         Scanner\Token::IDENTIFIER, 'sample', 42
       );
-      $e = new TokenMismatch(
+      $e = new TokenMismatchException(
         $expectedToken, array(Scanner\Token::STRING_CHARACTERS)
       );
       $this->assertEquals(

@@ -255,11 +255,11 @@ namespace PhpCss {
     private function handleMismatch($expectedTokens, $position = 0) {
       // If the token stream ended unexpectedly throw an appropriate exception
       if (!isset($this->_tokens[$position])) {
-        return new Exception\UnexpectedEndOfFile($expectedTokens);
+        return new Exception\UnexpectedEndOfFileException($expectedTokens);
       }
 
       // We found a token but none of the expected ones.
-      return new Exception\TokenMismatch($this->_tokens[$position], $expectedTokens);
+      return new Exception\TokenMismatchException($this->_tokens[$position], $expectedTokens);
     }
   }
 }

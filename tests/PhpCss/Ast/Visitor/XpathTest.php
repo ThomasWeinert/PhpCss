@@ -65,7 +65,7 @@ namespace PhpCss\Ast\Visitor {
      */
     public function testNotConvertableElements(Ast\Node $node) {
       $visitor = new Xpath();
-      $this->expectException(Exception\NotConvertable::CLASS);
+      $this->expectException(Exception\NotConvertibleException::CLASS);
       $node->accept($visitor);
     }
 

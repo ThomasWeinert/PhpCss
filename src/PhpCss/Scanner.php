@@ -69,7 +69,7 @@ namespace PhpCss {
         /**
         * @todo a some substring logic for large strings
         */
-        throw new Exception\InvalidCharacter(
+        throw new Exception\InvalidCharacterException(
           $this->_buffer,
           $this->_offset,
           $this->_status

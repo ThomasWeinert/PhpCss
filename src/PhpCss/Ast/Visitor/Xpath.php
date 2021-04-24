@@ -550,7 +550,7 @@ namespace PhpCss\Ast\Visitor  {
         $condition = 'position() mod 2 = 1';
         break;
       default :
-        throw new Exception\NotConvertable('pseudoclass '.$pseudoClass->name, 'Xpath');
+        throw new Exception\NotConvertibleException('pseudoclass '.$pseudoClass->name, 'Xpath');
       }
       $this->addCondition($condition);
     }
@@ -653,7 +653,7 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     public function visitSelectorSimplePseudoElement(Ast\Selector\Simple\PseudoElement $pseudoElement) {
-      throw new Exception\NotConvertable('pseudoelement '.$pseudoElement->name, 'Xpath');
+      throw new Exception\NotConvertibleException('pseudoelement '.$pseudoElement->name, 'Xpath');
     }
 
     public function visitValueLanguage(

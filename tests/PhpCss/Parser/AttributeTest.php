@@ -26,7 +26,7 @@ namespace PhpCss\Parser {
     */
     public function testParseExpectingException($tokens) {
       $parser = new Attribute($tokens);
-      $this->expectException(PhpCss\Exception\TokenMismatch::CLASS);
+      $this->expectException(PhpCss\Exception\TokenMismatchException::CLASS);
       $parser->parse();
     }
 

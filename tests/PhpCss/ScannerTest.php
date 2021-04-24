@@ -79,7 +79,7 @@ namespace PhpCss {
       $scanner = new Scanner($status);
       $tokens = array();
       $this->expectException(
-        Exception\InvalidCharacter::CLASS,
+        Exception\InvalidCharacterException::CLASS,
         'Invalid char "S" for status "Mock_PhpCssScannerStatus" at offset #0 in "SAMPLE"'
       );
       $scanner->scan($tokens, 'SAMPLE');
@@ -96,7 +96,7 @@ namespace PhpCss {
       $scanner = new Scanner($status);
       $tokens = array();
       $this->expectException(
-        Exception\InvalidCharacter::CLASS,
+        Exception\InvalidCharacterException::CLASS,
         'Invalid char "Ä" for status "Mock_PhpCssScannerStatus" at offset #0 in "ÄÖÜ"'
       );
       $scanner->scan($tokens, 'ÄÖÜ');

@@ -137,7 +137,7 @@ namespace PhpCss\Parser {
       case 'before' :
         return new Ast\Selector\Simple\PseudoElement($name);
       }
-      throw new PhpCss\Exception\UnknownPseudoElement($token);
+      throw new PhpCss\Exception\UnknownPseudoElementException($token);
     }
   }
 }
