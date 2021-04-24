@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phive xmlns="https://phar.io/phive">
-  <phar name="phpunit" version="6" installed="6.5.7" location="./tools/phpunit"/>
-  <phar name="phing" version="^2.16.1" installed="2.16.1" location="./tools/phing"/>
+  <phar name="phpunit" version="8" installed="8.5.15" location="./tools/phpunit" copy="true"/>
+  <phar name="phing" version="^2.16.1" installed="2.16.1" location="./tools/phing" copy="true"/>
+  <phar name="composer" version="^2.0.12" installed="2.0.12" location="./tools/composer" copy="true"/>
 </phive>

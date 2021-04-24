@@ -16,4 +16,8 @@
 /vendor/
 
 # Phive
-/tools/
+/tools/*.bat
+
+#PHPUnit
+/.phpunit.result.cache
+/phpunit.xml
