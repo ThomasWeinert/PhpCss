@@ -1,17 +1,19 @@
 <?php
+
 namespace PhpCss\Scanner\Status\Text {
 
   use PhpCss\Scanner;
+  use PHPUnit\Framework\TestCase;
 
   require_once(__DIR__.'/../../../../bootstrap.php');
 
-  class SingleTest extends \PHPUnit\Framework\TestCase {
+  class SingleTest extends TestCase {
 
     /**
-    * @covers \PhpCss\Scanner\Status\Text\Single::getToken
-    * @dataProvider getTokenDataProvider
-    */
-    public function testGetToken($string, $expectedToken) {
+     * @covers       \PhpCss\Scanner\Status\Text\Single::getToken
+     * @dataProvider getTokenDataProvider
+     */
+    public function testGetToken($string, $expectedToken): void {
       $status = new Single();
       $this->assertEquals(
         $status->getToken($string, 0),
@@ -20,9 +22,9 @@ namespace PhpCss\Scanner\Status\Text {
     }
 
     /**
-    * @covers \PhpCss\Scanner\Status\Text\Single::isEndToken
-    */
-    public function testIsEndToken() {
+     * @covers \PhpCss\Scanner\Status\Text\Single::isEndToken
+     */
+    public function testIsEndToken(): void {
       $status = new Single();
       $this->assertTrue(
         $status->isEndToken(
@@ -32,10 +34,11 @@ namespace PhpCss\Scanner\Status\Text {
         )
       );
     }
+
     /**
-    * @covers \PhpCss\Scanner\Status\Text\Single::getNewStatus
-    */
-    public function testGetNewStatus() {
+     * @covers \PhpCss\Scanner\Status\Text\Single::getNewStatus
+     */
+    public function testGetNewStatus(): void {
       $status = new Single();
       $token = $this->createMock(Scanner\Token::CLASS);
       /**
@@ -46,34 +49,34 @@ namespace PhpCss\Scanner\Status\Text {
 
 
     /*****************************
-    * Data provider
-    *****************************/
+     * Data provider
+     *****************************/
 
-    public static function getTokenDataProvider() {
-      return array(
-        'empty' => array(
+    public static function getTokenDataProvider(): array {
+      return [
+        'empty' => [
           '',
-          NULL
-        ),
-        'single quote string end' => array(
+          NULL,
+        ],
+        'single quote string end' => [
           "'",
           new Scanner\Token(
             Scanner\Token::SINGLEQUOTE_STRING_END, "'", 0
-          )
-        ),
-        'escaped backslash' => array(
+          ),
+        ],
+        'escaped backslash' => [
           '\\\\',
           new Scanner\Token(
             Scanner\Token::STRING_ESCAPED_CHARACTER, '\\\\', 0
-          )
-        ),
-        'string chars' => array(
+          ),
+        ],
+        'string chars' => [
           'abcd',
           new Scanner\Token(
             Scanner\Token::STRING_CHARACTERS, 'abcd', 0
-          )
-        )
-      );
+          ),
+        ],
+      ];
     }
   }
 }

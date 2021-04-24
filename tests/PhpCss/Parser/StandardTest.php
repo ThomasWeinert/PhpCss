@@ -1,56 +1,58 @@
 <?php
+
 namespace PhpCss\Parser {
 
   use PhpCss;
   use PhpCss\Ast;
   use PhpCss\Scanner;
+  use PHPUnit\Framework\TestCase;
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class StandardTest extends \PHPUnit\Framework\TestCase {
+  class StandardTest extends TestCase {
 
     /**
-    * @covers \PhpCss\Parser\Standard::parse
-    * @dataProvider provideParseData
-    */
-    public function testParse($expected, $tokens) {
+     * @covers       \PhpCss\Parser\Standard::parse
+     * @dataProvider provideParseData
+     */
+    public function testParse($expected, $tokens): void {
       $parser = new Standard($tokens, Standard::ALLOW_RELATIVE_SELECTORS);
       $this->assertEquals(
         $expected, $parser->parse()
       );
     }
 
-    public static function provideParseData() {
-      return array(
-        'empty group' => array(
+    public static function provideParseData(): array {
+      return [
+        'empty group' => [
           new Ast\Selector\Group(),
-          array()
-        ),
-        'element' => array(
+          [],
+        ],
+        'element' => [
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\Type('element'))
-              )
-            )
+                [new Ast\Selector\Simple\Type('element')]
+              ),
+            ]
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'element',
               0
-            )
-          )
-        ),
-        'two whitespaces and an element' => array(
+            ),
+          ],
+        ],
+        'two whitespaces and an element' => [
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\Type('element'))
-              )
-            )
+                [new Ast\Selector\Simple\Type('element')]
+              ),
+            ]
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::WHITESPACE,
               '   ',
@@ -65,26 +67,26 @@ namespace PhpCss\Parser {
               Scanner\Token::IDENTIFIER,
               'element',
               5
-            )
-          )
-        ),
-        "combinator and element" => array(
+            ),
+          ],
+        ],
+        "combinator and element" => [
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
-                ),
+                [
+                ],
                 new PhpCss\Ast\Selector\Combinator\Next(
                   new Ast\Selector\Sequence(
-                    array(
-                      new Ast\Selector\Simple\Type('p')
-                    )
+                    [
+                      new Ast\Selector\Simple\Type('p'),
+                    ]
                   )
                 )
-              )
-            )
+              ),
+            ]
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::COMBINATOR,
               ' + ',
@@ -94,10 +96,10 @@ namespace PhpCss\Parser {
               Scanner\Token::IDENTIFIER,
               'p',
               3
-            )
-          )
-        )
-      );
+            ),
+          ],
+        ],
+      ];
     }
   }
 }

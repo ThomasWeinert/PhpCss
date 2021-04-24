@@ -1,14 +1,17 @@
 <?php
+
 namespace PhpCss\Scanner {
+
+  use PHPUnit\Framework\TestCase;
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class StatusTest extends \PHPUnit\Framework\TestCase {
+  class StatusTest extends TestCase {
 
     /**
-    * @covers \PhpCss\Scanner\Status::matchPattern
+     * @covers \PhpCss\Scanner\Status::matchPattern
      */
-    public function testMatchPatternExpectingString() {
+    public function testMatchPatternExpectingString(): void {
       $status = $this->getMockForAbstractClass(Status::CLASS);
       /**
        * @var Status $status
@@ -18,10 +21,11 @@ namespace PhpCss\Scanner {
         $status->matchPattern('xyz', 1, '(y)')
       );
     }
+
     /**
-    * @covers \PhpCss\Scanner\Status::matchPattern
+     * @covers \PhpCss\Scanner\Status::matchPattern
      */
-    public function testMatchPatternExpectingNull() {
+    public function testMatchPatternExpectingNull(): void {
       $status = $this->getMockForAbstractClass(Status::CLASS);
       /**
        * @var Status $status

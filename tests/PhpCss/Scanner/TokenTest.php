@@ -1,15 +1,18 @@
 <?php
+
 namespace PhpCss\Scanner {
+
+  use PHPUnit\Framework\TestCase;
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class TokenTest extends \PHPUnit\Framework\TestCase {
+  class TokenTest extends TestCase {
 
     /**
-    * @covers \PhpCss\Scanner\Token::__construct
-    * @covers \PhpCss\Scanner\Token::__get
-    */
-    public function testAttributeTypeRead() {
+     * @covers \PhpCss\Scanner\Token::__construct
+     * @covers \PhpCss\Scanner\Token::__get
+     */
+    public function testAttributeTypeRead(): void {
       $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
       $this->assertEquals(
         Token::STRING_CHARACTERS,
@@ -18,10 +21,10 @@ namespace PhpCss\Scanner {
     }
 
     /**
-    * @covers \PhpCss\Scanner\Token::__construct
-    * @covers \PhpCss\Scanner\Token::__get
-    */
-    public function testAttributeContentRead() {
+     * @covers \PhpCss\Scanner\Token::__construct
+     * @covers \PhpCss\Scanner\Token::__get
+     */
+    public function testAttributeContentRead(): void {
       $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
       $this->assertEquals(
         'hello',
@@ -30,10 +33,10 @@ namespace PhpCss\Scanner {
     }
 
     /**
-    * @covers \PhpCss\Scanner\Token::__construct
-    * @covers \PhpCss\Scanner\Token::__get
-    */
-    public function testAttributeLengthRead() {
+     * @covers \PhpCss\Scanner\Token::__construct
+     * @covers \PhpCss\Scanner\Token::__get
+     */
+    public function testAttributeLengthRead(): void {
       $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
       $this->assertEquals(
         5,
@@ -43,10 +46,10 @@ namespace PhpCss\Scanner {
 
 
     /**
-    * @covers \PhpCss\Scanner\Token::__construct
-    * @covers \PhpCss\Scanner\Token::__get
-    */
-    public function testAttributePositionRead() {
+     * @covers \PhpCss\Scanner\Token::__construct
+     * @covers \PhpCss\Scanner\Token::__get
+     */
+    public function testAttributePositionRead(): void {
       $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
       $this->assertEquals(
         42,
@@ -55,10 +58,10 @@ namespace PhpCss\Scanner {
     }
 
     /**
-    * @covers \PhpCss\Scanner\Token::__construct
-    * @covers \PhpCss\Scanner\Token::__get
-    */
-    public function testAttributeInvalidReadExpectingException() {
+     * @covers \PhpCss\Scanner\Token::__construct
+     * @covers \PhpCss\Scanner\Token::__get
+     */
+    public function testAttributeInvalidReadExpectingException(): void {
       $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
       $this->expectException(\InvalidArgumentException::CLASS);
       /** @noinspection PhpUndefinedFieldInspection */
@@ -66,9 +69,9 @@ namespace PhpCss\Scanner {
     }
 
     /**
-    * @covers \PhpCss\Scanner\Token::__set
-    */
-    public function testAttributeWriteExpectingException() {
+     * @covers \PhpCss\Scanner\Token::__set
+     */
+    public function testAttributeWriteExpectingException(): void {
       $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
       $this->expectException(\BadMethodCallException::CLASS);
       /** @noinspection PhpUndefinedFieldInspection */
@@ -76,10 +79,10 @@ namespace PhpCss\Scanner {
     }
 
     /**
-    * @covers \PhpCss\Scanner\Token::__toString
-    * @covers \PhpCss\Scanner\Token::quoteContent
-    */
-    public function testToString() {
+     * @covers \PhpCss\Scanner\Token::__toString
+     * @covers \PhpCss\Scanner\Token::quoteContent
+     */
+    public function testToString(): void {
       $token = new Token(Token::STRING_CHARACTERS, 'hello', 42);
       $this->assertEquals(
         "TOKEN::STRING_CHARACTERS @42 'hello'",
@@ -88,9 +91,9 @@ namespace PhpCss\Scanner {
     }
 
     /**
-    * @covers \PhpCss\Scanner\Token::typeToString
-    */
-    public function testTypeToString() {
+     * @covers \PhpCss\Scanner\Token::typeToString
+     */
+    public function testTypeToString(): void {
       $this->assertEquals(
         'STRING_CHARACTERS',
         Token::typeToString(Token::STRING_CHARACTERS)

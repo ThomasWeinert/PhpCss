@@ -16,7 +16,7 @@ namespace PhpCss\Parser {
     * be used by every subparser and we just expose it to be able to call it
     * during test without different mocks.
     */
-    public function read($expectedTokens) {
+    public function read($expectedTokens): PhpCss\Scanner\Token {
       return parent::read($expectedTokens);
     }
 
@@ -25,7 +25,7 @@ namespace PhpCss\Parser {
     * be used by every subparser and we just expose it to be able to call it
     * during test without different mocks.
     */
-    public function lookahead($expectedTokens, $position = 0, $allowEndOfTokens = false) {
+    public function lookahead($expectedTokens, $position = 0, $allowEndOfTokens = false): ?PhpCss\Scanner\Token {
       return parent::lookahead($expectedTokens, $position, $allowEndOfTokens);
     }
 
@@ -34,7 +34,7 @@ namespace PhpCss\Parser {
     * be used by every subparser and we just expose it to be able to call it
     * during test without different mocks.
     */
-    public function endOfTokens($position = 0) {
+    public function endOfTokens($position = 0): bool {
       return parent::endOfTokens($position);
     }
 
@@ -43,7 +43,7 @@ namespace PhpCss\Parser {
     * be used by every subparser and we just expose it to be able to call it
     * during test without different mocks.
     */
-    public function ignore($expectedTokens) {
+    public function ignore($expectedTokens): bool {
       return parent::ignore($expectedTokens);
     }
 
@@ -52,8 +52,8 @@ namespace PhpCss\Parser {
      * be used by every subparser and we just expose it to be able to call it
      * during test without different mocks.
      */
-    public function delegate($subparser) {
-      return parent::delegate($subparser);
+    public function delegate($parserClass) {
+      return parent::delegate($parserClass);
     }
   }
 

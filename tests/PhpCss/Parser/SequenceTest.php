@@ -1,19 +1,21 @@
 <?php
+
 namespace PhpCss\Parser {
 
   use PhpCss;
   use PhpCss\Ast;
   use PhpCss\Scanner;
+  use PHPUnit\Framework\TestCase;
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class SequenceTest extends \PHPUnit\Framework\TestCase {
+  class SequenceTest extends TestCase {
 
     /**
-    * @covers \PhpCss\Parser\Sequence
-    * @dataProvider provideParseData
-    */
-    public function testParse($expected, $tokens) {
+     * @covers       \PhpCss\Parser\Sequence
+     * @dataProvider provideParseData
+     */
+    public function testParse($expected, $tokens): void {
       $parser = new Sequence($tokens);
       $this->assertEquals(
         $expected, $parser->parse()
@@ -21,85 +23,85 @@ namespace PhpCss\Parser {
     }
 
     /**
-    * @covers \PhpCss\Parser\Sequence
-    * @dataProvider provideInvalidParseData
-    */
-    public function testParseExpectingException($tokens) {
+     * @covers       \PhpCss\Parser\Sequence
+     * @dataProvider provideInvalidParseData
+     */
+    public function testParseExpectingException($tokens): void {
       $parser = new Sequence($tokens);
       $this->expectException(PhpCss\Exception\TokenMismatchException::CLASS);
       $parser->parse();
     }
 
-    public static function provideParseData() {
-      return array(
-        'universal with namespace' => array(
+    public static function provideParseData(): array {
+      return [
+        'universal with namespace' => [
           new Ast\Selector\Sequence(
-            array(new Ast\Selector\Simple\Universal('ns'))
+            [new Ast\Selector\Simple\Universal('ns')]
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'ns|*',
               0
-            )
-          )
-        ),
-        'element' => array(
+            ),
+          ],
+        ],
+        'element' => [
           new Ast\Selector\Sequence(
-            array(new Ast\Selector\Simple\Type('element'))
+            [new Ast\Selector\Simple\Type('element')]
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'element',
               0
-            )
-          )
-        ),
-        'element with prefix' => array(
+            ),
+          ],
+        ],
+        'element with prefix' => [
           new Ast\Selector\Sequence(
-            array(new Ast\Selector\Simple\Type('element', 'prefix'))
+            [new Ast\Selector\Simple\Type('element', 'prefix')]
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'prefix|element',
               0
-            )
-          )
-        ),
-        'class' => array(
+            ),
+          ],
+        ],
+        'class' => [
           new Ast\Selector\Sequence(
-            array(new Ast\Selector\Simple\ClassName('classname'))
+            [new Ast\Selector\Simple\ClassName('classname')]
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::CLASS_SELECTOR,
               '.classname',
               0
-            )
-          )
-        ),
-        'id' => array(
+            ),
+          ],
+        ],
+        'id' => [
           new Ast\Selector\Sequence(
-            array(new Ast\Selector\Simple\Id('id'))
+            [new Ast\Selector\Simple\Id('id')]
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::ID_SELECTOR,
               '#id',
               0
-            )
-          )
-        ),
-        'element.class' => array(
+            ),
+          ],
+        ],
+        'element.class' => [
           new Ast\Selector\Sequence(
-            array(
+            [
               new Ast\Selector\Simple\Type('element'),
-              new Ast\Selector\Simple\ClassName('classname')
-            )
+              new Ast\Selector\Simple\ClassName('classname'),
+            ]
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'element',
@@ -109,23 +111,23 @@ namespace PhpCss\Parser {
               Scanner\Token::CLASS_SELECTOR,
               '.classname',
               7
-            )
-          )
-        ),
-        'element > child' => array(
-          new Ast\Selector\Sequence(
-            array(
-              new Ast\Selector\Simple\Type('element')
             ),
+          ],
+        ],
+        'element > child' => [
+          new Ast\Selector\Sequence(
+            [
+              new Ast\Selector\Simple\Type('element'),
+            ],
             new Ast\Selector\Combinator\Child(
               new Ast\Selector\Sequence(
-                array(
-                  new Ast\Selector\Simple\Type('child')
-                )
+                [
+                  new Ast\Selector\Simple\Type('child'),
+                ]
               )
             )
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'element',
@@ -140,23 +142,23 @@ namespace PhpCss\Parser {
               Scanner\Token::IDENTIFIER,
               'child',
               8
-            )
-          )
-        ),
-        'element child' => array(
-          new Ast\Selector\Sequence(
-            array(
-              new Ast\Selector\Simple\Type('element')
             ),
+          ],
+        ],
+        'element child' => [
+          new Ast\Selector\Sequence(
+            [
+              new Ast\Selector\Simple\Type('element'),
+            ],
             new Ast\Selector\Combinator\Descendant(
               new Ast\Selector\Sequence(
-                array(
-                  new Ast\Selector\Simple\Type('child')
-                )
+                [
+                  new Ast\Selector\Simple\Type('child'),
+                ]
               )
             )
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'element',
@@ -171,16 +173,16 @@ namespace PhpCss\Parser {
               Scanner\Token::IDENTIFIER,
               'child',
               8
-            )
-          )
-        )
-      );
+            ),
+          ],
+        ],
+      ];
     }
 
-    public static function provideInvalidParseData() {
-      return array(
-        'two elements' => array(
-          array(
+    public static function provideInvalidParseData(): array {
+      return [
+        'two elements' => [
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'element',
@@ -190,11 +192,11 @@ namespace PhpCss\Parser {
               Scanner\Token::IDENTIFIER,
               'element',
               7
-            )
-          )
-        ),
-        'element after class' => array(
-          array(
+            ),
+          ],
+        ],
+        'element after class' => [
+          [
             new Scanner\Token(
               Scanner\Token::CLASS_SELECTOR,
               '.classname',
@@ -204,10 +206,10 @@ namespace PhpCss\Parser {
               Scanner\Token::IDENTIFIER,
               'element',
               10
-            )
-          )
-        )
-      );
+            ),
+          ],
+        ],
+      ];
     }
   }
 }

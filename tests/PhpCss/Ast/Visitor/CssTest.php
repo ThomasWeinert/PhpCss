@@ -1,17 +1,19 @@
 <?php
+
 namespace PhpCss\Ast\Visitor {
 
   use PhpCss\Ast;
+  use PHPUnit\Framework\TestCase;
 
   require_once(__DIR__.'/../../../bootstrap.php');
 
-  class CssTest extends \PHPUnit\Framework\TestCase {
+  class CssTest extends TestCase {
 
     /**
-    * @covers \PhpCss\Ast\Visitor\Css
-    * @dataProvider provideExamples
-    */
-    public function testIntegration($expected, Ast\Node $node) {
+     * @covers       \PhpCss\Ast\Visitor\Css
+     * @dataProvider provideExamples
+     */
+    public function testIntegration($expected, Ast\Node $node): void {
       $visitor = new Css();
       $node->accept($visitor);
       $this->assertEquals(
@@ -19,70 +21,70 @@ namespace PhpCss\Ast\Visitor {
       );
     }
 
-    public static function provideExamples() {
-      return array(
-        array(
+    public static function provideExamples(): array {
+      return [
+        [
           'ns|*',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\Universal('ns'))
-              )
-            )
-          )
-        ),
-        array(
+                [new Ast\Selector\Simple\Universal('ns')]
+              ),
+            ]
+          ),
+        ],
+        [
           'element, #id, .class',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\Type('element'))
+                [new Ast\Selector\Simple\Type('element')]
               ),
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\Id('id'))
+                [new Ast\Selector\Simple\Id('id')]
               ),
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\ClassName('class'))
-              )
-            )
-          )
-        ),
-        array(
+                [new Ast\Selector\Simple\ClassName('class')]
+              ),
+            ]
+          ),
+        ],
+        [
           'element > child',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
+                [
                   new Ast\Selector\Simple\Type('element'),
                   new Ast\Selector\Combinator\Child(
                     new Ast\Selector\Sequence(
-                      array(new Ast\Selector\Simple\Type('child'))
+                      [new Ast\Selector\Simple\Type('child')]
                     )
-                  )
-                )
-              )
-            )
-          )
-        ),
-        array(
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ],
+        [
           '+ p',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
-                ),
+                [
+                ],
                 new Ast\Selector\Combinator\Next(
                   new Ast\Selector\Sequence(
-                    array(
-                      new Ast\Selector\Simple\Type('p')
-                    )
+                    [
+                      new Ast\Selector\Simple\Type('p'),
+                    ]
                   )
                 )
-              )
-            )
-          )
-        )
-      );
+              ),
+            ]
+          ),
+        ],
+      ];
     }
   }
 }

@@ -1,24 +1,27 @@
 <?php
+
 namespace PhpCss\Ast\Visitor {
 
+  use DOMDocument;
   use PhpCss\Ast;
+  use PHPUnit\Framework\TestCase;
 
   require_once(__DIR__.'/../../../bootstrap.php');
 
-  class ExplainTest extends \PHPUnit\Framework\TestCase {
+  class ExplainTest extends TestCase {
 
     /**
-    * @covers \PhpCss\Ast\Visitor\Css
-    * @dataProvider provideExamples
-    */
-    public function testIntegration($selector, $xml, Ast\Node $node) {
+     * @covers       \PhpCss\Ast\Visitor\Css
+     * @dataProvider provideExamples
+     */
+    public function testIntegration($selector, $xml, Ast\Node $node): void {
       $visitor = new Explain();
       $node->accept($visitor);
       $actual = (string)$visitor;
       $this->assertXmlStringEqualsXmlString(
         $xml, $actual
       );
-      $dom = new \DOMDocument();
+      $dom = new DOMDocument();
       $dom->preserveWhiteSpace = FALSE;
       $dom->loadXML($actual);
       $this->assertEquals(
@@ -27,9 +30,9 @@ namespace PhpCss\Ast\Visitor {
       );
     }
 
-    public static function provideExamples() {
-      return array(
-        array(
+    public static function provideExamples(): array {
+      return [
+        [
           'ns|*',
           '<?xml version="1.0"?>
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -40,14 +43,14 @@ namespace PhpCss\Ast\Visitor {
               </selector>
             </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\Universal('ns'))
-              )
-            )
-          )
-        ),
-        array(
+                [new Ast\Selector\Simple\Universal('ns')]
+              ),
+            ]
+          ),
+        ],
+        [
           'element, #id, .class',
           '<?xml version="1.0"?>
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -70,20 +73,20 @@ namespace PhpCss\Ast\Visitor {
               </selector>
             </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\Type('element'))
+                [new Ast\Selector\Simple\Type('element')]
               ),
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\Id('id'))
+                [new Ast\Selector\Simple\Id('id')]
               ),
               new Ast\Selector\Sequence(
-                array(new Ast\Selector\Simple\ClassName('class'))
-              )
-            )
-          )
-        ),
-        array(
+                [new Ast\Selector\Simple\ClassName('class')]
+              ),
+            ]
+          ),
+        ],
+        [
           'element > child',
           '<?xml version="1.0"?>
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -102,21 +105,21 @@ namespace PhpCss\Ast\Visitor {
               </selector>
             </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
+                [
                   new Ast\Selector\Simple\Type('element'),
                   new Ast\Selector\Combinator\Child(
                     new Ast\Selector\Sequence(
-                      array(new Ast\Selector\Simple\Type('child'))
+                      [new Ast\Selector\Simple\Type('child')]
                     )
-                  )
-                )
-              )
-            )
-          )
-        ),
-        array(
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ],
+        [
           '[foo~="42"]',
           '<?xml version="1.0"?>
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -139,20 +142,20 @@ namespace PhpCss\Ast\Visitor {
               </selector>
             </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
+                [
                   new Ast\Selector\Simple\Attribute(
                     'foo',
                     Ast\Selector\Simple\Attribute::MATCH_INCLUDES,
                     42
-                  )
-                )
-              )
-            )
-          )
-        ),
-        array(
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ],
+        [
           ':hover',
           '<?xml version="1.0"?>
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -165,18 +168,18 @@ namespace PhpCss\Ast\Visitor {
               </selector>
             </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
+                [
                   new Ast\Selector\Simple\PseudoClass(
                     'hover'
-                  )
-                )
-              )
-            )
-          )
-        ),
-        array(
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ],
+        [
           ':nth-of-type(odd)',
           '<?xml version="1.0"?>
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -194,19 +197,19 @@ namespace PhpCss\Ast\Visitor {
               </selector>
             </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
+                [
                   new Ast\Selector\Simple\PseudoClass(
                     'nth-of-type',
                     new Ast\Value\Position(2, 1)
-                  )
-                )
-              )
-            )
-          )
-        ),
-        array(
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ],
+        [
           '::first-line',
           '<?xml version="1.0"?>
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -219,18 +222,18 @@ namespace PhpCss\Ast\Visitor {
               </selector>
             </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
+                [
                   new Ast\Selector\Simple\PseudoElement(
                     'first-line'
-                  )
-                )
-              )
-            )
-          )
-        ),
-        array(
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ],
+        [
           ':contains("some string")',
           '<?xml version="1.0"?>
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -252,19 +255,19 @@ namespace PhpCss\Ast\Visitor {
               </selector>
             </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
+                [
                   new Ast\Selector\Simple\PseudoClass(
                     'contains',
                     new Ast\Value\Literal('some string')
-                  )
-                )
-              )
-            )
-          )
-        ),
-        array(
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ],
+        [
           ':gt(5)',
           '<?xml version="1.0"?>
             <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -284,19 +287,19 @@ namespace PhpCss\Ast\Visitor {
               </selector>
             </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
+                [
                   new Ast\Selector\Simple\PseudoClass(
                     'gt',
                     new Ast\Value\Number(5)
-                  )
-                )
-              )
-            )
-          )
-        ),
-        array(
+                  ),
+                ]
+              ),
+            ]
+          ),
+        ],
+        [
           ' + p',
           '<?xml version="1.0"?>
            <selector-group xmlns="urn:carica-phpcss-explain-2014">
@@ -312,22 +315,22 @@ namespace PhpCss\Ast\Visitor {
             </selector>
           </selector-group>',
           new Ast\Selector\Group(
-            array(
+            [
               new Ast\Selector\Sequence(
-                array(
-                ),
+                [
+                ],
                 new Ast\Selector\Combinator\Next(
                   new Ast\Selector\Sequence(
-                    array(
-                      new Ast\Selector\Simple\Type('p')
-                    )
+                    [
+                      new Ast\Selector\Simple\Type('p'),
+                    ]
                   )
                 )
-              )
-            )
-          )
-        )
-      );
+              ),
+            ]
+          ),
+        ],
+      ];
     }
   }
 }

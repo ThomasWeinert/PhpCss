@@ -1,16 +1,19 @@
 <?php
+
 namespace PhpCss\Ast {
 
+  use InvalidArgumentException;
   use PhpCss;
+  use PHPUnit\Framework\TestCase;
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class GroupTest extends \PHPUnit\Framework\TestCase {
+  class GroupTest extends TestCase {
 
     /**
-    * @covers \PhpCss\Ast\Selector\Group::__construct
-    */
-    public function testConstructor() {
+     * @covers \PhpCss\Ast\Selector\Group::__construct
+     */
+    public function testConstructor(): void {
       $this->assertInstanceOf(
         Selector\Group::CLASS,
         new Selector\Group()
@@ -18,13 +21,13 @@ namespace PhpCss\Ast {
     }
 
     /**
-    * @covers \PhpCss\Ast\Selector\Group::__construct
-    * @covers \PhpCss\Ast\Selector\Group::getIterator
-    */
-    public function testConstructorWithSequences() {
-      $sequences = array(
-        new Selector\Sequence()
-      );
+     * @covers \PhpCss\Ast\Selector\Group::__construct
+     * @covers \PhpCss\Ast\Selector\Group::getIterator
+     */
+    public function testConstructorWithSequences(): void {
+      $sequences = [
+        new Selector\Sequence(),
+      ];
       $list = new Selector\Group(
         $sequences
       );
@@ -34,76 +37,76 @@ namespace PhpCss\Ast {
     }
 
     /**
-    * @covers \PhpCss\Ast\Selector\Group::offsetExists
-    */
-    public function testOffsetExistsExpectingTrue() {
+     * @covers \PhpCss\Ast\Selector\Group::offsetExists
+     */
+    public function testOffsetExistsExpectingTrue(): void {
       $list = new Selector\Group(
-        array(
-          new Selector\Sequence()
-        )
+        [
+          new Selector\Sequence(),
+        ]
       );
       $this->assertTrue(isset($list[0]));
     }
 
     /**
-    * @covers \PhpCss\Ast\Selector\Group::offsetExists
-    */
-    public function testOffsetExistsExpectingFalse() {
+     * @covers \PhpCss\Ast\Selector\Group::offsetExists
+     */
+    public function testOffsetExistsExpectingFalse(): void {
       $list = new Selector\Group();
       $this->assertFalse(isset($list[0]));
     }
 
     /**
-    * @covers \PhpCss\Ast\Selector\Group::offsetGet
-    */
-    public function testOffsetGet() {
+     * @covers \PhpCss\Ast\Selector\Group::offsetGet
+     */
+    public function testOffsetGet(): void {
       $list = new Selector\Group(
-        array(
-          $sequence = new Selector\Sequence()
-        )
+        [
+          $sequence = new Selector\Sequence(),
+        ]
       );
       $this->assertSame($sequence, $list[0]);
     }
 
     /**
-    * @covers \PhpCss\Ast\Selector\Group::offsetSet
-    */
-    public function testOffsetSetAppendsElement() {
+     * @covers \PhpCss\Ast\Selector\Group::offsetSet
+     */
+    public function testOffsetSetAppendsElement(): void {
       $list = new Selector\Group();
       $list[] = $sequence = new Selector\Sequence();
       $this->assertSame($sequence, $list[0]);
     }
 
     /**
-    * @covers \PhpCss\Ast\Selector\Group::offsetSet
-    */
-    public function testOffsetSetReplacesElement() {
+     * @covers \PhpCss\Ast\Selector\Group::offsetSet
+     */
+    public function testOffsetSetReplacesElement(): void {
       $list = new Selector\Group(
-        array(
-          $sequence = new Selector\Sequence()
-        )
+        [
+          new Selector\Sequence(),
+        ]
       );
       $list[0] = $sequence = new Selector\Sequence();
       $this->assertSame($sequence, $list[0]);
     }
 
     /**
-    * @covers \PhpCss\Ast\Selector\Group::offsetSet
-    */
-    public function testOffsetSetValidatesElementExpectingException() {
+     * @covers \PhpCss\Ast\Selector\Group::offsetSet
+     */
+    public function testOffsetSetValidatesElementExpectingException(): void {
       $list = new Selector\Group();
-      $this->expectException(\InvalidArgumentException::CLASS);
+      $this->expectException(InvalidArgumentException::CLASS);
       $list[] = 'INVALID TYPE';
     }
 
     /**
-    * @covers \PhpCss\Ast\Selector\Group::offsetGet
-    */
-    public function testOffsetUnset() {
+     * @covers \PhpCss\Ast\Selector\Group::offsetGet
+     */
+    public function testOffsetUnset(): void {
       $list = new Selector\Group(
-        array(
-          new Selector\Sequence()
-        )
+        [
+          new Selector\Sequence(),
+        ]
       );
       unset($list[0]);
       $this->assertFalse(isset($list[0]));

@@ -1,14 +1,15 @@
 <?php
+
 namespace PhpCss {
 
-  require_once __DIR__ . '/../../bootstrap.php';
+  require_once __DIR__.'/../../bootstrap.php';
 
   class NodeTest extends \PHPUnit\Framework\TestCase {
 
     /**
-    * @covers \PhpCss\Ast\Node::accept
-    */
-    public function testAccept() {
+     * @covers \PhpCss\Ast\Node::accept
+     */
+    public function testAccept(): void {
       $node = $this->getMockForAbstractClass(Ast\Node::CLASS);
       $visitor = $this->createMock(Ast\Visitor::CLASS);
       $visitor

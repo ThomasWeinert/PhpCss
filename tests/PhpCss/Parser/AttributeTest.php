@@ -1,19 +1,21 @@
 <?php
+
 namespace PhpCss\Parser {
 
   use PhpCss;
   use PhpCss\Ast;
   use PhpCss\Scanner;
+  use PHPUnit\Framework\TestCase;
 
   require_once(__DIR__.'/../../bootstrap.php');
 
-  class AttributeTest extends \PHPUnit\Framework\TestCase {
+  class AttributeTest extends TestCase {
 
     /**
-    * @covers \PhpCss\Parser\Attribute
-    * @dataProvider provideParseData
-    */
-    public function testParse($expected, $tokens) {
+     * @covers       \PhpCss\Parser\Attribute
+     * @dataProvider provideParseData
+     */
+    public function testParse($expected, $tokens): void {
       $parser = new Attribute($tokens);
       $this->assertEquals(
         $expected, $parser->parse()
@@ -21,20 +23,20 @@ namespace PhpCss\Parser {
     }
 
     /**
-    * @covers \PhpCss\Parser\Attribute
-    * @dataProvider provideInvalidParseData
-    */
-    public function testParseExpectingException($tokens) {
+     * @covers       \PhpCss\Parser\Attribute
+     * @dataProvider provideInvalidParseData
+     */
+    public function testParseExpectingException($tokens): void {
       $parser = new Attribute($tokens);
       $this->expectException(PhpCss\Exception\TokenMismatchException::CLASS);
       $parser->parse();
     }
 
-    public static function provideParseData() {
-      return array(
-        'simple identifier' => array(
+    public static function provideParseData(): array {
+      return [
+        'simple identifier' => [
           new Ast\Selector\Simple\Attribute('attr'),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'attr',
@@ -44,16 +46,16 @@ namespace PhpCss\Parser {
               Scanner\Token::ATTRIBUTE_SELECTOR_END,
               ']',
               4
-            )
-          )
-        ),
-        'class attribute' => array(
+            ),
+          ],
+        ],
+        'class attribute' => [
           new Ast\Selector\Simple\Attribute(
             'class',
             Ast\Selector\Simple\Attribute::MATCH_INCLUDES,
             'warning'
           ),
-          array(
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'class',
@@ -73,15 +75,16 @@ namespace PhpCss\Parser {
               Scanner\Token::ATTRIBUTE_SELECTOR_END,
               ']',
               14
-            )
-          )
-        )
-      );
+            ),
+          ],
+        ],
+      ];
     }
-    public static function provideInvalidParseData() {
-      return array(
-        'identifer followed by string start' => array(
-          array(
+
+    public static function provideInvalidParseData(): array {
+      return [
+        'identifier followed by string start' => [
+          [
             new Scanner\Token(
               Scanner\Token::IDENTIFIER,
               'attr',
@@ -91,10 +94,10 @@ namespace PhpCss\Parser {
               Scanner\Token::SINGLEQUOTE_STRING_START,
               "'",
               4
-            )
-          )
-        )
-      );
+            ),
+          ],
+        ],
+      ];
     }
   }
 }
