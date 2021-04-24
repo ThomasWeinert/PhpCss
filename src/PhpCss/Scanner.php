@@ -105,5 +105,9 @@ namespace PhpCss {
       $scanner = new self($status);
       return $scanner->scan($target, $this->_buffer, $this->_offset);
     }
+
+    public function getStatus(): Scanner\Status {
+      return $this->_status;
+    }
   }
 }

@@ -14,8 +14,8 @@ namespace PhpCss {
        * @var Scanner\Status $status
        */
       $scanner = new Scanner($status);
-      $this->assertAttributeSame(
-        $status, '_status', $scanner
+      $this->assertSame(
+        $status, $scanner->getStatus()
       );
     }
 

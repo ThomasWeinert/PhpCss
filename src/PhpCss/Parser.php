@@ -30,6 +30,13 @@ namespace PhpCss {
     }
 
     /**
+     * Return parser tokens list
+     */
+    public function getTokens(): array {
+      return $this->_tokens;
+    }
+
+    /**
      * Execute the parsing process on the provided token stream
      *
      * This method is supposed to handle all the steps needed to parse the

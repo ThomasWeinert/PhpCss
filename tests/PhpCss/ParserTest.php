@@ -12,8 +12,8 @@ namespace PhpCss {
     public function testConstructor() {
       $tokens = array(new Scanner\Token(Scanner\Token::IDENTIFIER, 'foo', 0));
       $parser = $this->getParserFixture($tokens);
-      $this->assertAttributeSame(
-        $tokens, '_tokens', $parser
+      $this->assertSame(
+        $tokens, $parser->getTokens()
       );
     }
 
