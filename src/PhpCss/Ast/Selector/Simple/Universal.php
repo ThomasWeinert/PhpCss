@@ -8,7 +8,7 @@ namespace PhpCss\Ast\Selector\Simple {
 
     public $namespacePrefix = '*';
 
-    public function __construct($prefix) {
+    public function __construct(string $prefix) {
       $this->namespacePrefix = $prefix;
     }
   }

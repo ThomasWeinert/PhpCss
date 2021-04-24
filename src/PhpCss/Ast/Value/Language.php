@@ -7,7 +7,7 @@ namespace PhpCss\Ast\Value {
 
     public $language = '';
 
-    public function __construct($language) {
+    public function __construct(string $language) {
       $this->language = $language;
     }
   }

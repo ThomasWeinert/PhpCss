@@ -20,7 +20,7 @@ namespace PhpCss\Ast {
     *
     * @param Ast\Visitor $visitor
     */
-    public function accept(Ast\Visitor $visitor) {
+    public function accept(Ast\Visitor $visitor): void {
       $visitor->visit($this);
     }
   }

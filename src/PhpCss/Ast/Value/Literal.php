@@ -8,7 +8,7 @@ namespace PhpCss\Ast\Value {
 
     public $value;
 
-    public function __construct($value) {
+    public function __construct(string $value) {
       $this->value = $value;
     }
   }

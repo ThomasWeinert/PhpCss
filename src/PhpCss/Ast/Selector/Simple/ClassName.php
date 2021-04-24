@@ -8,7 +8,7 @@ namespace PhpCss\Ast\Selector\Simple {
 
     public $className = '';
 
-    public function __construct($className) {
+    public function __construct(string $className) {
       $this->className = $className;
     }
   }

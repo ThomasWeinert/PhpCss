@@ -1,5 +1,6 @@
 <?php
-namespace PhpCss\Ast\Selector  {
+
+namespace PhpCss\Ast\Selector {
 
   use PhpCss\Ast;
 
@@ -8,14 +9,14 @@ namespace PhpCss\Ast\Selector  {
     /**
      * @var array(Simple)
      */
-    public $simples = array();
+    public $simples = [];
     public $combinator = NULL;
 
     /**
-     * @param array(Simple) $simples
-     * @param Combinator $combinator
+     * @param Simple[] $simples
+     * @param Combinator|NULL $combinator
      */
-    public function __construct(array $simples = array(), Combinator $combinator = NULL) {
+    public function __construct(array $simples = [], Combinator $combinator = NULL) {
       $this->simples = $simples;
       $this->combinator = $combinator;
     }
@@ -26,7 +27,7 @@ namespace PhpCss\Ast\Selector  {
      * @param Ast\Visitor $visitor
      * @return null|void
      */
-    public function accept(Ast\Visitor $visitor) {
+    public function accept(Ast\Visitor $visitor): void {
       if ($visitor->visitEnter($this)) {
         foreach ($this->simples as $simple) {
           /**
@@ -37,9 +38,8 @@ namespace PhpCss\Ast\Selector  {
         if (isset($this->combinator)) {
           $this->combinator->accept($visitor);
         }
-        return $visitor->visitLeave($this);
+        $visitor->visitLeave($this);
       }
-      return NULL;
     }
   }
 }

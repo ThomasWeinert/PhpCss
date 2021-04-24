@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUnused */
+
 /**
 * An ast visitor that compiles a css selector string
 *
@@ -7,6 +8,7 @@
 */
 namespace PhpCss\Ast\Visitor  {
 
+  use LogicException;
   use PhpCss\Ast;
 
   /**
@@ -20,7 +22,7 @@ namespace PhpCss\Ast\Visitor  {
     /**
     * Clear the visitor object to visit another selector group
     */
-    public function clear() {
+    public function clear(): void {
       $this->_buffer = '';
     }
 
@@ -35,13 +37,13 @@ namespace PhpCss\Ast\Visitor  {
     * Validate the buffer before visiting a Ast\Selector\Group.
     * If the buffer already contains data, throw an exception.
     *
-    * @throws \LogicException
+    * @throws LogicException
     * @param Ast\Selector\Group $group
     * @return boolean
     */
-    public function visitEnterSelectorGroup(Ast\Selector\Group $group) {
+    public function visitEnterSelectorGroup(Ast\Selector\Group $group): bool {
       if (!empty($this->_buffer)) {
-        throw new \LogicException(
+        throw new LogicException(
           sprintf(
             'Visitor buffer already contains data, can not visit "%s"',
             get_class($group)
@@ -56,7 +58,7 @@ namespace PhpCss\Ast\Visitor  {
     *
     * @return boolean
     */
-    public function visitEnterSelectorSequence() {
+    public function visitEnterSelectorSequence(): bool {
       if ($this->_inSelectorSequence) {
         $this->_buffer .= ', ';
       }
@@ -70,8 +72,8 @@ namespace PhpCss\Ast\Visitor  {
     * @param Ast\Selector\Simple\Universal $universal
     * @return boolean
     */
-    public function visitSelectorSimpleUniversal(Ast\Selector\Simple\Universal $universal) {
-      if (!empty($universal->namespacePrefix) && $universal->namespacePrefix != '*') {
+    public function visitSelectorSimpleUniversal(Ast\Selector\Simple\Universal $universal): bool {
+      if (!empty($universal->namespacePrefix) && $universal->namespacePrefix !== '*') {
         $this->_buffer .= $universal->namespacePrefix.'|*';
       } else {
         $this->_buffer .= '*';
@@ -85,8 +87,8 @@ namespace PhpCss\Ast\Visitor  {
     * @param Ast\Selector\Simple\Type $type
     * @return boolean
     */
-    public function visitSelectorSimpleType(Ast\Selector\Simple\Type $type) {
-      if (!empty($type->namespacePrefix) && $type->namespacePrefix != '*') {
+    public function visitSelectorSimpleType(Ast\Selector\Simple\Type $type): bool {
+      if (!empty($type->namespacePrefix) && $type->namespacePrefix !== '*') {
         $this->_buffer .= $type->namespacePrefix.'|'.$type->elementName;
       } else {
         $this->_buffer .= $type->elementName;
@@ -100,7 +102,7 @@ namespace PhpCss\Ast\Visitor  {
     * @param Ast\Selector\Simple\Id $id
     * @return boolean
     */
-    public function visitSelectorSimpleId(Ast\Selector\Simple\Id $id) {
+    public function visitSelectorSimpleId(Ast\Selector\Simple\Id $id): bool {
       $this->_buffer .= '#'.$id->id;
       return TRUE;
     }
@@ -111,12 +113,12 @@ namespace PhpCss\Ast\Visitor  {
     * @param Ast\Selector\Simple\ClassName $class
     * @return boolean
     */
-    public function visitSelectorSimpleClassName(Ast\Selector\Simple\ClassName $class) {
+    public function visitSelectorSimpleClassName(Ast\Selector\Simple\ClassName $class): bool {
       $this->_buffer .= '.'.$class->className;
       return TRUE;
     }
 
-    public function visitEnterSelectorCombinatorDescendant() {
+    public function visitEnterSelectorCombinatorDescendant(): bool {
       if ($this->_buffer !== '') {
         $this->_buffer .= ' ';
       }
@@ -124,19 +126,19 @@ namespace PhpCss\Ast\Visitor  {
       return TRUE;
     }
 
-    public function visitEnterSelectorCombinatorChild() {
+    public function visitEnterSelectorCombinatorChild(): bool {
       $this->_buffer .= ($this->_buffer !== '') ? ' > ' : '> ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
     }
 
-    public function visitEnterSelectorCombinatorFollower() {
+    public function visitEnterSelectorCombinatorFollower(): bool {
       $this->_buffer .= ($this->_buffer !== '') ? ' ~ ' : '~ ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
     }
 
-    public function visitEnterSelectorCombinatorNext() {
+    public function visitEnterSelectorCombinatorNext(): bool {
       $this->_buffer .= ($this->_buffer !== '') ? ' + ' : '+ ';
       $this->_inSelectorSequence = FALSE;
       return TRUE;
@@ -144,32 +146,28 @@ namespace PhpCss\Ast\Visitor  {
 
     public function visitSelectorSimpleAttribute(
       Ast\Selector\Simple\Attribute $attribute
-    ) {
+    ): bool {
       $this->_buffer .= '[';
       $this->_buffer .= $attribute->name;
-      switch ($attribute->match) {
-      case Ast\Selector\Simple\Attribute::MATCH_EXISTS :
-        $this->_buffer .= ']';
-        break;
-      default :
-        $operatorStrings = array(
+      if ($attribute->match !== Ast\Selector\Simple\Attribute::MATCH_EXISTS) {
+        $operatorStrings = [
           Ast\Selector\Simple\Attribute::MATCH_PREFIX => '^=',
           Ast\Selector\Simple\Attribute::MATCH_SUFFIX => '$=',
           Ast\Selector\Simple\Attribute::MATCH_SUBSTRING => '*=',
           Ast\Selector\Simple\Attribute::MATCH_EQUALS => '=',
           Ast\Selector\Simple\Attribute::MATCH_INCLUDES => '~=',
           Ast\Selector\Simple\Attribute::MATCH_DASHMATCH => '|='
-        );
+        ];
         $this->_buffer .= $operatorStrings[$attribute->match];
         $this->_buffer .= $this->quoteString($attribute->literal);
-        $this->_buffer .= ']';
       }
+      $this->_buffer .= ']';
       return TRUE;
     }
 
     public function visitSelectorSimplePseudoClass(
       Ast\Selector\Simple\PseudoClass $class
-    ) {
+    ): void {
       $this->_buffer .= ':'.$class->name;
       if ($class->parameter) {
         $this->_buffer .= '(';
@@ -180,45 +178,46 @@ namespace PhpCss\Ast\Visitor  {
 
     public function visitValueLiteral(
       Ast\Value\Literal $literal
-    ) {
+    ): void {
       $this->_buffer .= $this->quoteString($literal->value);
     }
 
     public function visitValueNumber(
       Ast\Value\Number $literal
-    ) {
+    ): void {
       $this->_buffer .= $literal->value;
     }
 
     public function visitEnterSelectorSimplePseudoClass(
       Ast\Selector\Simple\PseudoClass $class
-    ) {
+    ): bool {
       $this->_buffer .= ':'.$class->name.'(';
       return TRUE;
     }
 
-    public function visitLeaveSelectorSimplePseudoClass() {
+    public function visitLeaveSelectorSimplePseudoClass(): void {
       $this->_buffer .= ')';
     }
 
     public function visitValuePosition(
       Ast\Value\Position $position
-    ) {
-      if ($position->repeat == 2 && $position->add == 1) {
+    ): void {
+      $repeatsOddEven = $position->repeat === 2;
+      if ($repeatsOddEven && $position->add === 1) {
         $this->_buffer .= 'odd';
-      } elseif ($position->repeat == 2 && $position->add == 0) {
+      } elseif ($repeatsOddEven && $position->add === 0) {
         $this->_buffer .= 'even';
-      } elseif ($position->repeat == 0) {
+      } elseif ($position->repeat === 0) {
         $this->_buffer .= $position->add;
-      } elseif ($position->repeat == 1) {
+      } elseif ($position->repeat === 1) {
         $this->_buffer .= 'n';
-        if ($position->add != 0) {
+        if ($position->add !== 0) {
           $this->_buffer .= $position->add >= 0
             ? '+'.$position->add : $position->add;
         }
       } else {
         $this->_buffer .= $position->repeat.'n';
-        if ($position->add != 0) {
+        if ($position->add !== 0) {
           $this->_buffer .= $position->add >= 0
             ? '+'.$position->add : $position->add;
         }
@@ -227,17 +226,17 @@ namespace PhpCss\Ast\Visitor  {
 
     public function visitValueLanguage(
       Ast\Value\Language $language
-    ) {
+    ): void {
       $this->_buffer .= ':lang('.$language->language.')';
     }
 
     public function visitSelectorSimplePseudoElement(
       Ast\Selector\Simple\PseudoElement $element
-    ) {
+    ): void {
       $this->_buffer .= '::'.$element->name;
     }
 
-    private function quoteString($string) {
+    private function quoteString($string): string {
       return '"'.str_replace(array('\\', '"'), array('\\\\', '\\"'), $string).'"';
     }
   }

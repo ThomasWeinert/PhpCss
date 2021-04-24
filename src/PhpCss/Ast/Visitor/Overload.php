@@ -1,19 +1,20 @@
 <?php
 /**
-* An abstract visitor class that includes a mapping between functions and classes,
-* simulating overloading.
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2014 PhpCss Team
-*/
-namespace PhpCss\Ast\Visitor  {
+ * An abstract visitor class that includes a mapping between functions and classes,
+ * simulating overloading.
+ *
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @copyright Copyright 2010-2014 PhpCss Team
+ */
+
+namespace PhpCss\Ast\Visitor {
 
   use PhpCss\Ast;
 
   /**
-  * An abstract visitor class that includes a mapping between functions and classes,
-  * simulating overloading.
-  */
+   * An abstract visitor class that includes a mapping between functions and classes,
+   * simulating overloading.
+   */
   abstract class Overload implements Ast\Visitor {
 
     /**
@@ -22,53 +23,50 @@ namespace PhpCss\Ast\Visitor  {
      *
      * @param Ast\Node $object
      * @param string $prefix
-     * @return array|null
+     * @return callable|null
      */
-    protected function getMethodByClass(Ast\Node $object, string $prefix = 'visit') {
+    protected function getMethodByClass(Ast\Node $object, string $prefix = 'visit'): ?callable {
       $method = $prefix.substr(str_replace('\\', '', get_class($object)), 9);
       if (method_exists($this, $method)) {
-        return array($this, $method);
+        return [$this, $method];
       }
       return NULL;
     }
 
     /**
-    * Entering an node in the ast, called before visiting children
-    *
-    * @param Ast\Node $node
-    * @return boolean
-    */
-    public function visitEnter(Ast\Node $node) {
-      if ($method = $this->getMethodByClass($node, 'visitEnter')) {
-        return $method($node);
+     * Entering an node in the ast, called before visiting children
+     *
+     * @param Ast\Node $astNode
+     * @return boolean
+     */
+    public function visitEnter(Ast\Node $astNode): bool {
+      if ($method = $this->getMethodByClass($astNode, 'visitEnter')) {
+        return $method($astNode);
       }
       return TRUE;
     }
 
     /**
-    * Visiting the $node element
-    *
-    * @param Ast\Node $node
-    * @return boolean
-    */
-    public function visit(Ast\Node $node) {
-      if ($method = $this->getMethodByClass($node)) {
-        return $method($node);
+     * Visiting the $node element
+     *
+     * @param Ast\Node $astNode
+     */
+    public function visit(Ast\Node $astNode): void {
+      if ($method = $this->getMethodByClass($astNode)) {
+        $method($astNode);
       }
-      return TRUE;
     }
 
     /**
-    * Entering an element in the ast, called after visiting children
-    *
-    * @param Ast\Node $node
-    * @return boolean
-    */
-    public function visitLeave(Ast\Node $node) {
-      if ($method = $this->getMethodByClass($node, 'visitLeave')) {
-        return $method($node);
+     * Entering an element in the ast, called after visiting children
+     *
+     * @param Ast\Node $astNode
+     * @return void
+     */
+    public function visitLeave(Ast\Node $astNode): void {
+      if ($method = $this->getMethodByClass($astNode, 'visitLeave')) {
+        $method($astNode);
       }
-      return TRUE;
     }
   }
 }

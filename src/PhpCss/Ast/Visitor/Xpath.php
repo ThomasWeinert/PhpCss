@@ -1,67 +1,71 @@
-<?php
-/**
-* An visitor that compiles the AST into a xpath expression
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2014 PhpCss Team
-*/
-namespace PhpCss\Ast\Visitor  {
+<?php /** @noinspection PhpUnused */
 
+/**
+ * An visitor that compiles the AST into a xpath expression
+ *
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @copyright Copyright 2010-2014 PhpCss Team
+ */
+
+namespace PhpCss\Ast\Visitor {
+
+  use InvalidArgumentException;
+  use LogicException;
   use PhpCss\Ast;
   use PhpCss\Exception;
-  use PhpCss\Parser\Sequence;
+  use Transliterator;
 
   /**
-  * An visitor that compiles the AST into a xpath expression
-  */
+   * An visitor that compiles the AST into a xpath expression
+   */
   class Xpath extends Overload {
 
     /**
      * use explicit namespaces only, no defined namespace means no namespaces. This option and
      * OPTION_DEFAULT_NAMESPACE can not be used at the same time.
      */
-    const OPTION_EXPLICIT_NAMESPACES = 1;
+    public const OPTION_EXPLICIT_NAMESPACES = 1;
 
     /**
      * use a default namespace, no defined namespace means both no and the default namespace.
-     * This option and OPTION_EXPLICT_NAMESPACES can not be used at the same time.
+     * This option and OPTION_EXPLICIT_NAMESPACES can not be used at the same time.
      *
-     * If not changed 'html'is used as the additional prefix for elements.
+     * If not changed 'html' is used as the additional prefix for elements.
      *
      * Example: foo -> *[(self::foo or self::html:foo)]
      *
      */
-    const OPTION_DEFAULT_NAMESPACE = 16;
+    public const OPTION_DEFAULT_NAMESPACE = 16;
 
     /**
      * start expressions in document context
      */
-    const OPTION_USE_DOCUMENT_CONTEXT = 2;
-    const OPTION_USE_CONTEXT_DOCUMENT = 2;
+    public const OPTION_USE_DOCUMENT_CONTEXT = 2;
+    public const OPTION_USE_CONTEXT_DOCUMENT = 2;
 
     /**
      * start expressions in descendant-or-self context
      */
-    const OPTION_USE_CONTEXT_SELF = 32;
+    public const OPTION_USE_CONTEXT_SELF = 32;
     /**
      * limit expressions to self context
      */
-    const OPTION_USE_CONTEXT_SELF_LIMIT = 64;
+    public const OPTION_USE_CONTEXT_SELF_LIMIT = 64;
 
     /**
      * lowercase the element names (not the namespace prefixes)
      */
-    const OPTION_LOWERCASE_ELEMENTS = 4;
+    public const OPTION_LOWERCASE_ELEMENTS = 4;
     /**
      * use xml:id and xml:lang not just id or lang
      */
-    const OPTION_XML_ATTRIBUTES = 8;
+    public const OPTION_XML_ATTRIBUTES = 8;
 
-    const STATUS_DEFAULT = 0;
-    const STATUS_ELEMENT = 1;
-    const STATUS_CONDITION = 2;
-    const STATUS_COMBINATOR = 3;
-    const STATUS_PSEUDOCLASS = 4;
+    private const STATUS_DEFAULT = 0;
+    private const STATUS_ELEMENT = 1;
+    private const STATUS_CONDITION = 2;
+    private const STATUS_COMBINATOR = 3;
+    private const STATUS_PSEUDOCLASS = 4;
 
     private $_buffer = '';
 
@@ -81,7 +85,7 @@ namespace PhpCss\Ast\Visitor  {
      * The default namespace prefix used for elements with no namespace prefix if OPTION_DEFAULT_NAMESPACE is
      * active.
      */
-    const DEFAULT_NAMESPACE_PREFIX = 'html';
+    private const DEFAULT_NAMESPACE_PREFIX = 'html';
 
     /**
      * @var string
@@ -117,30 +121,32 @@ namespace PhpCss\Ast\Visitor  {
      *
      * @param int $options
      * @param string $defaultPrefix
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function setOptions($options = 0, $defaultPrefix = self::DEFAULT_NAMESPACE_PREFIX) {
+    public function setOptions(
+      int $options = 0, string $defaultPrefix = self::DEFAULT_NAMESPACE_PREFIX
+    ): void {
       if (
         $this->hasOption(self::OPTION_EXPLICIT_NAMESPACES) &&
         $this->hasOption(self::OPTION_DEFAULT_NAMESPACE)
       ) {
-        throw new \InvalidArgumentException(
+        throw new InvalidArgumentException(
           'Options OPTION_EXPLICIT_NAMESPACES and OPTION_DEFAULT_NAMESPACE can not be set at the same time.'
         );
       }
-      if (trim($defaultPrefix) == '') {
-        throw new \InvalidArgumentException(
+      if (trim($defaultPrefix) === '') {
+        throw new InvalidArgumentException(
           'The default namespace prefix "'.$defaultPrefix.'" is not valid.'
         );
       }
-      $this->_options = (int)$options;
+      $this->_options = $options;
       $this->_defaultNamespacePrefix = trim($defaultPrefix);
     }
 
     /**
-    * Clear the visitor object to visit another selector group
-    */
-    public function clear() {
+     * Clear the visitor object to visit another selector group
+     */
+    public function clear(): void {
       $this->_buffer = '';
       $this->_status = self::STATUS_DEFAULT;
     }
@@ -150,8 +156,8 @@ namespace PhpCss\Ast\Visitor  {
      *
      * @param string $string
      */
-    private function add($string) {
-      $this->_buffer .= (string)$string;
+    private function add(string $string): void {
+      $this->_buffer .= $string;
     }
 
     /**
@@ -160,7 +166,7 @@ namespace PhpCss\Ast\Visitor  {
      * @param null|int $status
      * @return int
      */
-    private function status($status = NULL) {
+    private function status($status = NULL): int {
       if (isset($status)) {
         $this->_status = $status;
       }
@@ -171,20 +177,20 @@ namespace PhpCss\Ast\Visitor  {
      * Read the status of an option
      *
      * @param $option
-     * @return int
+     * @return bool
      */
-    public function hasOption($option) {
-      return ($this->_options & $option) == $option;
+    public function hasOption($option): bool {
+      return ($this->_options & $option) === $option;
     }
 
     /**
-    * Return the collected selector string
-    */
+     * Return the collected selector string
+     */
     public function __toString() {
       return $this->_buffer;
     }
 
-    private function setElement($element) {
+    private function setElement($element): void {
       switch ($this->status()) {
       case self::STATUS_DEFAULT :
       case self::STATUS_COMBINATOR :
@@ -196,7 +202,7 @@ namespace PhpCss\Ast\Visitor  {
     /**
      * prepare buffer to add a condition to the xpath expression
      */
-    private function addCondition($condition) {
+    private function addCondition($condition): void {
       if (!empty($condition)) {
         switch ($this->status()) {
         case self::STATUS_DEFAULT :
@@ -222,8 +228,8 @@ namespace PhpCss\Ast\Visitor  {
     /**
      * end condition if in condition status
      */
-    private function endConditions() {
-      if ($this->status() == self::STATUS_CONDITION) {
+    private function endConditions(): void {
+      if ($this->status() === self::STATUS_CONDITION) {
         $this->add(']');
       }
       $this->status(self::STATUS_DEFAULT);
@@ -235,7 +241,7 @@ namespace PhpCss\Ast\Visitor  {
      * @param string $literal
      * @return string
      */
-    private function quoteLiteral($literal) {
+    private function quoteLiteral(string $literal): string {
       $hasDoubleQuote = FALSE !== strpos($literal, '"');
       if ($hasDoubleQuote) {
         $hasSingleQuote = FALSE !== strpos($literal, "'");
@@ -249,25 +255,23 @@ namespace PhpCss\Ast\Visitor  {
             }
           }
           return 'concat('.substr($result, 7).')';
-        } else {
-          return "'".$literal."'";
         }
-      } else {
-        return '"'.$literal.'"';
+        return "'".$literal."'";
       }
+      return '"'.$literal.'"';
     }
 
     /**
-    * Validate the buffer before visiting a Ast\Selector\Group.
-    * If the buffer already contains data, throw an exception.
-    *
-    * @throws \LogicException
-    * @param Ast\Selector\Group $group
-    * @return boolean
-    */
-    public function visitEnterSelectorSequenceGroup(Ast\Selector\Group $group) {
+     * Validate the buffer before visiting a Ast\Selector\Group.
+     * If the buffer already contains data, throw an exception.
+     *
+     * @param Ast\Selector\Group $group
+     * @return boolean
+     * @throws LogicException
+     */
+    public function visitEnterSelectorSequenceGroup(Ast\Selector\Group $group): bool {
       if (!empty($this->_buffer)) {
-        throw new \LogicException(
+        throw new LogicException(
           sprintf(
             'Visitor buffer already contains data, can not visit "%s"',
             get_class($group)
@@ -278,11 +282,12 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * If here is already data in the buffer, add a separator before starting the next.
-    *
-    * @return boolean
-    */
-    public function visitEnterSelectorSequence(Ast\Selector\Sequence $sequence) {
+     * If here is already data in the buffer, add a separator before starting the next.
+     *
+     * @param Ast\Selector\Sequence $sequence
+     * @return boolean
+     */
+    public function visitEnterSelectorSequence(Ast\Selector\Sequence $sequence): bool {
       switch ($this->status()) {
       case self::STATUS_DEFAULT :
         if (!empty($this->_buffer)) {
@@ -310,11 +315,11 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * If the visitor is in the condition status, close it.
-    *
-    * @return boolean
-    */
-    public function visitLeaveSelectorSequence() {
+     * If the visitor is in the condition status, close it.
+     *
+     * @return boolean
+     */
+    public function visitLeaveSelectorSequence(): bool {
       $this->endConditions();
       return TRUE;
     }
@@ -322,11 +327,10 @@ namespace PhpCss\Ast\Visitor  {
     /**
      * Output the universal type (* or xmlns|*) selector to the buffer
      *
-     * @param \PhpCss\Ast\Selector\Simple\Universal $universal
-     * @return boolean
+     * @param Ast\Selector\Simple\Universal $universal
      */
-    public function visitSelectorSimpleUniversal(Ast\Selector\Simple\Universal $universal) {
-      if ($universal->namespacePrefix != '*' && trim($universal->namespacePrefix) != '') {
+    public function visitSelectorSimpleUniversal(Ast\Selector\Simple\Universal $universal): void {
+      if ($universal->namespacePrefix !== '*' && trim($universal->namespacePrefix) !== '') {
         $element = $universal->namespacePrefix.':*';
       } else {
         $element = '*';
@@ -337,29 +341,29 @@ namespace PhpCss\Ast\Visitor  {
     }
 
     /**
-    * Output the type (element name) selector to the buffer
-    *
-    * @param Ast\Selector\Simple\Type $type
-    * @return boolean
-    */
-    public function visitSelectorSimpleType(Ast\Selector\Simple\Type $type) {
+     * Output the type (element name) selector to the buffer
+     *
+     * @param Ast\Selector\Simple\Type $type
+     */
+    public function visitSelectorSimpleType(Ast\Selector\Simple\Type $type): void {
       if ($this->hasOption(self::OPTION_LOWERCASE_ELEMENTS)) {
-        $elementName = $this->strtolower($type->elementName);
+        $elementName = $this->strToLower($type->elementName);
       } else {
         $elementName = $type->elementName;
       }
-      if ($this->hasOption(self::OPTION_EXPLICIT_NAMESPACES) && empty($type->namespacePrefix)) {
+      if ('' === $type->namespacePrefix && $this->hasOption(self::OPTION_EXPLICIT_NAMESPACES)) {
         $this->add($elementName);
         $this->setElement($elementName);
         $this->status(self::STATUS_ELEMENT);
       } else {
-        if (!empty($type->namespacePrefix) && $type->namespacePrefix != '*') {
+        $isEmptyPrefix = !isset($type->namespacePrefix) || $type->namespacePrefix === '';
+        if (!$isEmptyPrefix && $type->namespacePrefix !== '*') {
           $this->add($type->namespacePrefix.':'.$elementName);
           $this->setElement($type->namespacePrefix.':'.$elementName);
           $this->status(self::STATUS_ELEMENT);
-        } elseif ($this->hasOption(self::OPTION_DEFAULT_NAMESPACE) && empty($type->namespacePrefix)) {
+        } elseif ($isEmptyPrefix && $this->hasOption(self::OPTION_DEFAULT_NAMESPACE)) {
           $condition = '(self::'.$elementName.' or self::'.$this->_defaultNamespacePrefix.':'.$elementName.')';
-          if ($this->status() != self::STATUS_PSEUDOCLASS) {
+          if ($this->status() !== self::STATUS_PSEUDOCLASS) {
             $this->setElement('*['.$condition.']');
             $this->add('*');
             $this->status(self::STATUS_ELEMENT);
@@ -367,7 +371,7 @@ namespace PhpCss\Ast\Visitor  {
           $this->addCondition($condition);
         } else {
           $condition = 'local-name() = '.$this->quoteLiteral($elementName);
-          if ($this->status() != self::STATUS_PSEUDOCLASS) {
+          if ($this->status() !== self::STATUS_PSEUDOCLASS) {
             $this->setElement('*['.$condition.']');
             $this->add('*');
             $this->status(self::STATUS_ELEMENT);
@@ -375,16 +379,14 @@ namespace PhpCss\Ast\Visitor  {
           $this->addCondition($condition);
         }
       }
-      return TRUE;
     }
 
     /**
-    * Output the class selector to the buffer
-    *
-    * @param Ast\Selector\Simple\Id $id
-    * @return boolean
-    */
-    public function visitSelectorSimpleId(Ast\Selector\Simple\Id $id) {
+     * Output the class selector to the buffer
+     *
+     * @param Ast\Selector\Simple\Id $id
+     */
+    public function visitSelectorSimpleId(Ast\Selector\Simple\Id $id): void {
       $this->addCondition(
         sprintf(
           '@%1$s = %2$s',
@@ -392,29 +394,26 @@ namespace PhpCss\Ast\Visitor  {
           $this->quoteLiteral($id->id)
         )
       );
-      return TRUE;
     }
 
 
     /**
-    * Output the class selector to the buffer
-    *
-    * @param Ast\Selector\Simple\ClassName $class
-    * @return boolean
-    */
-    public function visitSelectorSimpleClassName(Ast\Selector\Simple\ClassName $class) {
+     * Output the class selector to the buffer
+     *
+     * @param Ast\Selector\Simple\ClassName $class
+     */
+    public function visitSelectorSimpleClassName(Ast\Selector\Simple\ClassName $class): void {
       $this->addCondition(
         sprintf(
           'contains(concat(" ", normalize-space(@class), " "), " %s ")',
           $class->className
         )
       );
-      return TRUE;
     }
 
     public function visitSelectorSimpleAttribute(
       Ast\Selector\Simple\Attribute $attribute
-    ) {
+    ): void {
       switch ($attribute->match) {
       case Ast\Selector\Simple\Attribute::MATCH_PREFIX :
         $condition = sprintf(
@@ -463,10 +462,9 @@ namespace PhpCss\Ast\Visitor  {
       if (!empty($condition)) {
         $this->addCondition($condition);
       }
-      return TRUE;
     }
 
-    public function visitSelectorCombinatorChild() {
+    public function visitSelectorCombinatorChild(): void {
       $this->endConditions();
       if ($this->_buffer !== '') {
         $this->add('/');
@@ -474,7 +472,7 @@ namespace PhpCss\Ast\Visitor  {
       $this->status(self::STATUS_COMBINATOR);
     }
 
-    public function visitSelectorCombinatorDescendant() {
+    public function visitSelectorCombinatorDescendant(): void {
       $this->endConditions();
       if ($this->_buffer !== '') {
         $this->add('//');
@@ -484,7 +482,7 @@ namespace PhpCss\Ast\Visitor  {
       $this->status(self::STATUS_COMBINATOR);
     }
 
-    public function visitSelectorCombinatorFollower() {
+    public function visitSelectorCombinatorFollower(): void {
       $this->endConditions();
       if ($this->_buffer !== '') {
         $this->add('/');
@@ -493,7 +491,7 @@ namespace PhpCss\Ast\Visitor  {
       $this->status(self::STATUS_COMBINATOR);
     }
 
-    public function visitSelectorCombinatorNext() {
+    public function visitSelectorCombinatorNext(): void {
       $this->endConditions();
       if ($this->_buffer !== '') {
         $this->add('/');
@@ -502,7 +500,10 @@ namespace PhpCss\Ast\Visitor  {
       $this->status(self::STATUS_COMBINATOR);
     }
 
-    public function visitSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass) {
+    /**
+     * @throws Exception\NotConvertibleException
+     */
+    public function visitSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass): void {
       switch ($pseudoClass->name) {
       case 'root' :
         $condition = '(. = //*)';
@@ -555,7 +556,7 @@ namespace PhpCss\Ast\Visitor  {
       $this->addCondition($condition);
     }
 
-    public function visitEnterSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass) {
+    public function visitEnterSelectorSimplePseudoClass(Ast\Selector\Simple\PseudoClass $pseudoClass): bool {
       switch ($pseudoClass->name) {
       case 'not' :
         $this->addCondition('not(');
@@ -566,22 +567,32 @@ namespace PhpCss\Ast\Visitor  {
         $this->status(self::STATUS_DEFAULT);
         return TRUE;
       case 'contains':
-        $this->addCondition('contains(., '.$this->quoteLiteral($pseudoClass->parameter->value));
-        $this->status(self::STATUS_PSEUDOCLASS);
+        if (
+          ($parameter = $pseudoClass->parameter) &&
+          ($parameter instanceof Ast\Value\Number || $parameter instanceof Ast\Value\Literal)
+        ) {
+          $this->addCondition('contains(., '.$this->quoteLiteral($parameter->value));
+          $this->status(self::STATUS_PSEUDOCLASS);
+        }
         return TRUE;
       case 'gt' :
       case 'lt' :
-        if ($this->status() === self::STATUS_CONDITION) {
-          $this->add(']');
+        if (
+          ($parameter = $pseudoClass->parameter) &&
+          ($parameter instanceof Ast\Value\Number || $parameter instanceof Ast\Value\Literal)
+        ) {
+          if ($this->status() === self::STATUS_CONDITION) {
+            $this->add(']');
+          }
+          $this->status(self::STATUS_ELEMENT);
+          $operator = $pseudoClass->name === 'gt' ? '>' : '<';
+          $condition = $parameter->value < 0
+            ? 'last() - '.abs($parameter->value - 1)
+            : $parameter->value + 1;
+          $this->addCondition(
+            'position() '.$operator.' '.$condition
+          );
         }
-        $this->status(self::STATUS_ELEMENT);
-        $operator = $pseudoClass->name === 'gt' ? '>' : '<';
-        $condition = $pseudoClass->parameter->value < 0
-          ? 'last() - '.\abs($pseudoClass->parameter->value - 1)
-          : $pseudoClass->parameter->value + 1;
-        $this->addCondition(
-          'position() '.$operator.' '.$condition
-        );
         break;
       case 'nth-child' :
         $this->addCondition('(');
@@ -611,7 +622,7 @@ namespace PhpCss\Ast\Visitor  {
       return FALSE;
     }
 
-    public function visitLeaveSelectorSimplePseudoClass() {
+    public function visitLeaveSelectorSimplePseudoClass(): void {
       $this->endConditions();
       $this->add(')');
       $this->status(self::STATUS_CONDITION);
@@ -619,25 +630,27 @@ namespace PhpCss\Ast\Visitor  {
 
     public function visitValuePosition(
       Ast\Value\Position $position
-    ) {
+    ): void {
       $repeat = $position->repeat;
       $add = $position->add;
       $expressionPosition = empty($this->_expressions['position'])
         ? 'position()' : $this->_expressions['position'];
       $expressionCount = empty($this->_expressions['count'])
         ? 'last()' : $this->_expressions['count'];
-      if ($repeat == 0) {
-        $condition = $expressionPosition.' = '.(int)$add;
+      if ($repeat === 0) {
+        $condition = $expressionPosition.' = '.$add;
       } else {
         if ($add > $repeat) {
           $balance = $add - (floor($add / $repeat) * $repeat);
           $start = $add;
-        } elseif ($add < 0 and abs($add) > $repeat) {
-          $balance = $add - (floor($add / $repeat) * $repeat);
-          $start = $add;
         } elseif ($add < 0) {
-          $balance = $repeat + $add;
-          $start = 1;
+          if (abs($add) > $repeat) {
+            $balance = $add - (floor($add / $repeat) * $repeat);
+            $start = $add;
+          } else {
+            $balance = $repeat + $add;
+            $start = 1;
+          }
         } else {
           $balance = $add;
           $start = 1;
@@ -652,13 +665,16 @@ namespace PhpCss\Ast\Visitor  {
       $this->add($condition);
     }
 
-    public function visitSelectorSimplePseudoElement(Ast\Selector\Simple\PseudoElement $pseudoElement) {
+    /**
+     * @throws Exception\NotConvertibleException
+     */
+    public function visitSelectorSimplePseudoElement(Ast\Selector\Simple\PseudoElement $pseudoElement): void {
       throw new Exception\NotConvertibleException('pseudoelement '.$pseudoElement->name, 'Xpath');
     }
 
     public function visitValueLanguage(
       Ast\Value\Language $language
-    ) {
+    ): void {
       $this->addCondition(
         sprintf(
           '(ancestor-or-self::*[@%2$s][1]/@%2$s = %1$s or'.
@@ -672,14 +688,18 @@ namespace PhpCss\Ast\Visitor  {
     /**
      * Use unicode aware strtolower if available
      *
-     * @param $string
+     * @param string $string
      * @return string
      */
-    private function strtolower($string) {
+    private function strToLower(string $string): string {
       if (is_callable('mb_strtolower')) {
         return mb_strtolower($string, 'utf-8');
-      } elseif (class_exists('Transliterator', FALSE)) {
-        return \Transliterator::create('Any-Lower')->transliterate($string);
+      }
+      if (class_exists('Transliterator', FALSE)) {
+        $transliterator = Transliterator::create('Any-Lower');
+        if ($transliterator) {
+          return $transliterator->transliterate($string);
+        }
       }
       return strtolower($string);
     }

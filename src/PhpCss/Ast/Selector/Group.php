@@ -1,118 +1,121 @@
 <?php
 /**
-* List of Css Selector Sequences.
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2014 PhpCss Team
-*/
-namespace PhpCss\Ast\Selector  {
+ * List of Css Selector Sequences.
+ *
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @copyright Copyright 2010-2014 PhpCss Team
+ */
 
+namespace PhpCss\Ast\Selector {
+
+  use InvalidArgumentException;
   use PhpCss\Ast;
+
   /**
-  * List of Css Selector Sequences.
-  *
-  * This is the root element of a standard selector string like:
-  * "element, .class"
-  *
-  * Because it is a list the some standard interfaces are implemented for
-  * easier usage.
-  *
-  * @package PhpCss
-  * @subpackage Ast
-  */
+   * List of Css Selector Sequences.
+   *
+   * This is the root element of a standard selector string like:
+   * "element, .class"
+   *
+   * Because it is a list the some standard interfaces are implemented for
+   * easier usage.
+   *
+   * @package PhpCss
+   * @subpackage Ast
+   */
   class Group
     extends Ast\Selector
     implements \ArrayAccess, \Countable, \IteratorAggregate {
 
-    private $_sequences = array();
+    private $_sequences = [];
 
     /**
-    * Create the object and assign sequences if provided. They
-    * can be added later of course.
-    *
-    * @param array $sequences
-    */
-    public function __construct(array $sequences = array()) {
+     * Create the object and assign sequences if provided. They
+     * can be added later of course.
+     *
+     * @param array $sequences
+     */
+    public function __construct(array $sequences = []) {
       foreach ($sequences as $sequence) {
         $this->offsetSet(NULL, $sequence);
       }
     }
 
     /**
-    * Check if a sequence at the given position is available in the list.
-    *
-    * @see ArrayAccess::offsetExists()
-    * @param integer $offset
-    * @return boolean
-    */
-    public function offsetExists($offset) {
+     * Check if a sequence at the given position is available in the list.
+     *
+     * @param integer $offset
+     * @return boolean
+     * @see ArrayAccess::offsetExists()
+     */
+    public function offsetExists($offset): bool {
       return isset($this->_sequences[$offset]);
     }
 
     /**
-    * Return the sequence at the given position.
-    *
-    * @see ArrayAccess::offsetGet()
-    * @param integer $offset
-    * @return Sequence
-    */
-    public function offsetGet($offset) {
+     * Return the sequence at the given position.
+     *
+     * @param integer $offset
+     * @return Sequence
+     * @see ArrayAccess::offsetGet()
+     */
+    public function offsetGet($offset): Sequence {
       return $this->_sequences[$offset];
     }
 
     /**
      * Set/Add and sequence at the given position or top the end
      *
-     * @see \ArrayAccess::offsetSet()
      * @param integer|NULL $offset
-     * @param Sequence $sequence
-     * @throws \InvalidArgumentException
+     * @param Sequence $value
+     * @throws InvalidArgumentException
+     * @see \ArrayAccess::offsetSet()
      */
-    public function offsetSet($offset, $sequence) {
-      if (!$sequence instanceOf Sequence) {
-        throw new \InvalidArgumentException(
+    public function offsetSet($offset, $value): void {
+      if (!$value instanceof Sequence) {
+        throw new InvalidArgumentException(
           sprintf(
             '$sequence is not an instance of %s but %s.',
             Sequence::CLASS,
-            is_object($sequence) ? get_class($sequence) : gettype($sequence)
+            is_object($value) ? get_class($value) : gettype($value)
           )
         );
       }
       if (is_null($offset)) {
-        $this->_sequences[] = $sequence;
+        $this->_sequences[] = $value;
       } else {
-        $this->_sequences[(int)$offset] = $sequence;
+        $this->_sequences[(int)$offset] = $value;
         $this->_sequences = array_values($this->_sequences);
       }
     }
 
     /**
-    * Remove the sequence at the given position
-    *
-    * @see ArrayAccess::offsetUnset()
-    * @param integer $offset
-    */
-    public function offsetUnset($offset) {
+     * Remove the sequence at the given position
+     *
+     * @param integer $offset
+     * @see ArrayAccess::offsetUnset()
+     */
+    public function offsetUnset($offset): void {
       unset($this->_sequences[$offset]);
       $this->_sequences = array_values($this->_sequences);
     }
 
     /**
-    * Return the sequence list count.
-    *
-    * @see Countable::count()
-    * @return integer
-    */
-    public function count() {
+     * Return the sequence list count.
+     *
+     * @return integer
+     * @see Countable::count()
+     */
+    public function count(): int {
       return count($this->_sequences);
     }
 
     /**
-    * Return an iterator for the sequences
-    *
-    * @see IteratorAggregate::getIterator()
-    * @return \Traversable
-    */
+     * Return an iterator for the sequences
+     *
+     * @return \Traversable
+     * @see IteratorAggregate::getIterator()
+     */
     public function getIterator() {
       return new \ArrayIterator($this->_sequences);
     }
@@ -121,9 +124,9 @@ namespace PhpCss\Ast\Selector  {
      * Accept visitors, because this element has children, enter and leave are called.
      *
      * @param Ast\Visitor $visitor
-     * @return null|void
+     * @return void
      */
-    public function accept(Ast\Visitor $visitor) {
+    public function accept(Ast\Visitor $visitor): void {
       if ($visitor->visitEnter($this)) {
         /**
          * @var Sequence $sequence
@@ -131,9 +134,8 @@ namespace PhpCss\Ast\Selector  {
         foreach ($this as $sequence) {
           $sequence->accept($visitor);
         }
-        return $visitor->visitLeave($this);
+        $visitor->visitLeave($this);
       }
-      return NULL;
     }
   }
 }

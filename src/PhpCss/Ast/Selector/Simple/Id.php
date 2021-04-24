@@ -8,7 +8,7 @@ namespace PhpCss\Ast\Selector\Simple {
 
     public $id = '';
 
-    public function __construct($id = '') {
+    public function __construct(string $id = '') {
       $this->id = $id;
     }
   }

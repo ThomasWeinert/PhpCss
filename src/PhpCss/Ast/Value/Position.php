@@ -9,7 +9,7 @@ namespace PhpCss\Ast\Value {
     public $repeat = 0;
     public $add = 0;
 
-    public function __construct($repeat, $add) {
+    public function __construct(int $repeat, int $add) {
       $this->repeat = $repeat;
       $this->add = $add;
     }

@@ -11,7 +11,7 @@ namespace PhpCss\Ast\Selector  {
       $this->sequence = $sequence;
     }
 
-    public function accept(Ast\Visitor $visitor) {
+    public function accept(Ast\Visitor $visitor): void {
       $visitor->visitEnter($this);
       $visitor->visit($this);
       $this->sequence->accept($visitor);
