@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpdox xmlns="http://phpdox.net/config" silent="false">
+<phpdox xmlns="http://xml.phpdox.net/config" silent="false">
   <bootstrap />
   <project name="Carica PhpCss" source="${basedir}/src" workdir="${basedir}/build/phpdox/xml">
     <collector publiconly="false" backend="parser">

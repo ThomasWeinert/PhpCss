@@ -1,0 +1,58 @@
+# https://help.github.com/en/categories/automating-your-workflow-with-github-actions
+
+on:
+  - "pull_request"
+  - "push"
+
+name: "CI"
+
+jobs:
+  tests:
+    name: "Tests"
+
+    runs-on: "ubuntu-latest"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "7.2"
+          - "7.3"
+          - "7.4"
+          - "8.0"
+        dependencies:
+          - highest
+        experimental:
+          - false
+
+        include:
+          - php-version: "8.1"
+            dependencies: highest
+            experimental: true
+
+    continue-on-error: ${{ matrix.experimental }}
+    steps:
+      - name: "Configure git to avoid issues with line endings"
+        run: "git config --global core.autocrlf false"
+
+      - name: "Checkout"
+        uses: "actions/checkout@v2"
+
+      - name: "Install PHP with extensions"
+        uses: "shivammathur/setup-php@v2"
+        with:
+          php-version: "${{ matrix.php-version }}"
+          coverage: "pcov"
+
+      - name: "Cache dependencies"
+        uses: actions/cache@v2
+        with:
+          path: "~/.composer/cache"
+          key: "php${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "php${{ matrix.php-version }}-composer-${{ matrix.dependencies }}-"
+
+      - name: "Install dependencies"
+        run: "php tools/composer.phar install --prefer-dist"
+
+      - name: "Run tests with phpunit.phar"
+        run: "php tools/phpunit.phar --coverage-clover=coverage.xml"
