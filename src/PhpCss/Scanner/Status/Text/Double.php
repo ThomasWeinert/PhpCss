@@ -22,28 +22,25 @@ namespace PhpCss\Scanner\Status\Text {
     * @param integer $offset
     * @return Scanner\Token
     */
-    public function getToken($buffer, $offset) {
+    public function getToken($buffer, $offset): ?Scanner\Token {
       if ('"' === substr($buffer, $offset, 1)) {
         return new Scanner\Token(
           Scanner\Token::DOUBLEQUOTE_STRING_END, '"', $offset
         );
-      } else {
-        $tokenString = substr($buffer, $offset, 2);
-        if ('\\"' == $tokenString ||
-            '\\\\' == $tokenString) {
-          return new Scanner\Token(
-             Scanner\Token::STRING_ESCAPED_CHARACTER, $tokenString, $offset
-          );
-        } else {
-          $tokenString = $this->matchPattern(
-            $buffer, $offset, '([^\\\\"]+)S'
-          );
-          if (!empty($tokenString)) {
-            return new Scanner\Token(
-              Scanner\Token::STRING_CHARACTERS, $tokenString, $offset
-            );
-          }
-        }
+      }
+      $tokenString = substr($buffer, $offset, 2);
+      if ('\\"' === $tokenString || '\\\\' === $tokenString) {
+        return new Scanner\Token(
+           Scanner\Token::STRING_ESCAPED_CHARACTER, $tokenString, $offset
+        );
+      }
+      $tokenString = $this->matchPattern(
+        $buffer, $offset, '([^\\\\"]+)S'
+      );
+      if (!empty($tokenString)) {
+        return new Scanner\Token(
+          Scanner\Token::STRING_CHARACTERS, $tokenString, $offset
+        );
       }
       return NULL;
     }
@@ -52,11 +49,11 @@ namespace PhpCss\Scanner\Status\Text {
     * Check if token ends status
     *
     * @param Scanner\Token $token
-    * @return boolean
+    * @return bool
     */
-    public function isEndToken(Scanner\Token$token) {
+    public function isEndToken(Scanner\Token$token): bool {
       return (
-        $token->type == Scanner\Token::DOUBLEQUOTE_STRING_END
+        $token->type === Scanner\Token::DOUBLEQUOTE_STRING_END
       );
     }
 
@@ -64,9 +61,9 @@ namespace PhpCss\Scanner\Status\Text {
     * Get new (sub)status if needed.
     *
     * @param Scanner\Token $token
-    * @return NULL
+    * @return Scanner\Status|NULL
     */
-    public function getNewStatus(Scanner\Token$token) {
+    public function getNewStatus(Scanner\Token $token): ?Scanner\Status {
       return NULL;
     }
   }

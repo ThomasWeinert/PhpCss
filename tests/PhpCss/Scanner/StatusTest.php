@@ -12,10 +12,8 @@ namespace PhpCss\Scanner {
      * @covers \PhpCss\Scanner\Status::matchPattern
      */
     public function testMatchPatternExpectingString(): void {
-      $status = $this->getMockForAbstractClass(Status::CLASS);
-      /**
-       * @var Status $status
-       */
+      /** @var Status_TestProxy $status */
+      $status = $this->getMockForAbstractClass(Status_TestProxy::CLASS);
       $this->assertEquals(
         'y',
         $status->matchPattern('xyz', 1, '(y)')
@@ -26,13 +24,18 @@ namespace PhpCss\Scanner {
      * @covers \PhpCss\Scanner\Status::matchPattern
      */
     public function testMatchPatternExpectingNull(): void {
-      $status = $this->getMockForAbstractClass(Status::CLASS);
-      /**
-       * @var Status $status
-       */
+      /** @var Status_TestProxy $status */
+      $status = $this->getMockForAbstractClass(Status_TestProxy::CLASS);
       $this->assertNull(
         $status->matchPattern('xyz', 1, '(=)')
       );
+    }
+  }
+
+  abstract class Status_TestProxy extends Status {
+
+    public function matchPattern(string $buffer, int $offset, string $pattern): ?string {
+      return parent::matchPattern($buffer, $offset, $pattern);
     }
   }
 }

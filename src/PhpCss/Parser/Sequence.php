@@ -1,10 +1,11 @@
 <?php
 /**
-* The Sequence parser parses a list of simple selector tokens into the AST.
-*
-* @license http://www.opensource.org/licenses/mit-license.php The MIT License
-* @copyright Copyright 2010-2012 PhpCss Team
-*/
+ * The Sequence parser parses a list of simple selector tokens into the AST.
+ *
+ * @license http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @copyright Copyright 2010-2012 PhpCss Team
+ */
+
 namespace PhpCss\Parser {
 
   use PhpCss;
@@ -12,31 +13,33 @@ namespace PhpCss\Parser {
   use PhpCss\Scanner;
 
   /**
-  * The Sequence parser parses a list of simple selector tokens into the AST.
-  *
-  * It delegates to separate parsers for pseudo classes and attributes.
-  *
-  * A css combinator delegates to a new instance of this class.
-  */
+   * The Sequence parser parses a list of simple selector tokens into the AST.
+   *
+   * It delegates to separate parsers for pseudo classes and attributes.
+   *
+   * A css combinator delegates to a new instance of this class.
+   */
   class Sequence extends PhpCss\Parser {
 
     /**
-    * Parse the token stream for a simple selector sequence,
-    * after the first element the typeselector is not allowed any more,
-    * but a combinator is possible.
-    */
-    public function parse() {
+     * Parse the token stream for a simple selector sequence,
+     * after the first element the type selector is not allowed any more,
+     * but a combinator is possible.
+     *
+     * @throws PhpCss\Exception\ParserException
+     */
+    public function parse(): Ast\Node {
       $sequence = new Ast\Selector\Sequence();
       $token = $this->lookahead(
-        array(
+        [
           Scanner\Token::IDENTIFIER,
           Scanner\Token::ID_SELECTOR,
           Scanner\Token::CLASS_SELECTOR,
           Scanner\Token::PSEUDO_CLASS,
           Scanner\Token::PSEUDO_ELEMENT,
           Scanner\Token::ATTRIBUTE_SELECTOR_START,
-          Scanner\Token::COMBINATOR
-        )
+          Scanner\Token::COMBINATOR,
+        ]
       );
       while (isset($token)) {
         if ($selector = $this->createSelector($token)) {
@@ -75,7 +78,7 @@ namespace PhpCss\Parser {
           continue;
         }
         $token = $this->lookahead(
-          array(
+          [
             Scanner\Token::ID_SELECTOR,
             Scanner\Token::CLASS_SELECTOR,
             Scanner\Token::PSEUDO_CLASS,
@@ -83,8 +86,8 @@ namespace PhpCss\Parser {
             Scanner\Token::ATTRIBUTE_SELECTOR_START,
             Scanner\Token::COMBINATOR,
             Scanner\Token::WHITESPACE,
-            Scanner\Token::SEPARATOR
-          )
+            Scanner\Token::SEPARATOR,
+          ]
         );
       }
       return $sequence;
@@ -94,16 +97,15 @@ namespace PhpCss\Parser {
       switch ($token->type) {
       case Scanner\Token::IDENTIFIER :
         if (FALSE !== strpos($token->content, '|')) {
-          list($prefix, $name) = explode('|', $token->content);
+          [$prefix, $name] = explode('|', $token->content);
         } else {
           $prefix = '';
           $name = $token->content;
         }
-        if ($name == '*') {
+        if ($name === '*') {
           return new Ast\Selector\Simple\Universal($prefix);
-        } else {
-          return new Ast\Selector\Simple\Type($name, $prefix);
         }
+        return new Ast\Selector\Simple\Type($name, $prefix);
       case Scanner\Token::ID_SELECTOR :
         return new Ast\Selector\Simple\Id(substr($token->content, 1));
       case Scanner\Token::CLASS_SELECTOR :
@@ -128,7 +130,10 @@ namespace PhpCss\Parser {
       }
     }
 
-    private function createPseudoElement($token) {
+    /**
+     * @throws PhpCss\Exception\UnknownPseudoElementException
+     */
+    private function createPseudoElement($token): Ast\Selector\Simple\PseudoElement {
       $name = substr($token->content, 2);
       switch ($name) {
       case 'first-line' :

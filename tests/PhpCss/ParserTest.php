@@ -216,10 +216,8 @@ namespace PhpCss {
      */
     public function testDelegate(): void {
       $parser = $this->getParserFixture();
-      $this->assertEquals(
-        'Delegated!',
-        $parser->delegate(Parser\MockDelegate::CLASS)
-      );
+      $node = $parser->delegate(Parser\MockDelegate::CLASS);
+      $this->assertEquals('Delegated!', $node->value);
     }
 
     /*****************************

@@ -7,6 +7,8 @@
 */
 namespace PhpCss {
 
+  use UnexpectedValueException;
+
   /**
   * Scans a string and creates list of tokens.
   *
@@ -20,7 +22,7 @@ namespace PhpCss {
     * Scanner status object
     * @var Scanner\Status
     */
-    private $_status = NULL;
+    private $_status;
     /**
     * string to parse
     * @var string
@@ -47,10 +49,10 @@ namespace PhpCss {
      * @param array &$target token target
      * @param string $string content string
      * @param integer $offset start offset
-     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
      * @return integer new offset
      */
-    public function scan(&$target, $string, $offset = 0) {
+    public function scan(array &$target, string $string, int $offset = 0): int {
       $this->_buffer = $string;
       $this->_offset = $offset;
       while ($token = $this->_next()) {
@@ -83,7 +85,7 @@ namespace PhpCss {
     *
     * @return Scanner\Token|NULL
     */
-    private function _next() {
+    private function _next(): ?Scanner\Token {
       if (($token = $this->_status->getToken($this->_buffer, $this->_offset)) &&
           $token->length > 0) {
         $this->_offset += $token->length;
@@ -99,9 +101,9 @@ namespace PhpCss {
     *
     * @param Scanner\Token[] $target
     * @param Scanner\Status $status
-    * @return Scanner
+    * @return int
     */
-    private function _delegate(&$target, $status) {
+    private function _delegate(array &$target, Scanner\Status $status): int {
       $scanner = new self($status);
       return $scanner->scan($target, $this->_buffer, $this->_offset);
     }

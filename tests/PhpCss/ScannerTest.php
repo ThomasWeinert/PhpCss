@@ -39,7 +39,7 @@ namespace PhpCss {
         ->expects($this->once())
         ->method('getNewStatus')
         ->with($this->equalTo($token))
-        ->willReturn(FALSE);
+        ->willReturn(NULL);
 
       $scanner = new Scanner($status);
       $tokens = [];

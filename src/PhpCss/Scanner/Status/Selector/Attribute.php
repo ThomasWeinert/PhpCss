@@ -19,7 +19,7 @@ namespace PhpCss\Scanner\Status\Selector {
     * single char tokens
     * @var array
     */
-    protected $_tokenChars = array(
+    private $_tokenChars = array(
       Scanner\Token::ATTRIBUTE_SELECTOR_END => ']',
       Scanner\Token::SINGLEQUOTE_STRING_START => "'",
       Scanner\Token::DOUBLEQUOTE_STRING_START => '"'
@@ -29,7 +29,7 @@ namespace PhpCss\Scanner\Status\Selector {
     * patterns for more complex tokens
     * @var array
     */
-    protected $_tokenPatterns = array(
+    private $_tokenPatterns = array(
       Scanner\Token::ATTRIBUTE_OPERATOR => Scanner\Patterns::ATTRIBUTE_OPERATOR,
       Scanner\Token::WHITESPACE => Scanner\Patterns::WHITESPACE,
       Scanner\Token::NUMBER => Scanner\Patterns::NUMBER,
@@ -43,24 +43,12 @@ namespace PhpCss\Scanner\Status\Selector {
     * @param integer $offset
     * @return Scanner\Token
     */
-    public function getToken($buffer, $offset) {
-      $char = substr($buffer, $offset, 1);
-      foreach ($this->_tokenChars as $type => $expectedChar) {
-        if ($char === $expectedChar) {
-          return new Scanner\Token(
-            $type, $char, $offset
-          );
-        }
+    public function getToken($buffer, $offset): ?Scanner\Token {
+      if ($token = $this->matchCharacters($buffer, $offset, $this->_tokenChars)) {
+        return $token;
       }
-      foreach ($this->_tokenPatterns as $type => $pattern) {
-        $tokenString = $this->matchPattern(
-          $buffer, $offset, $pattern
-        );
-        if (!empty($tokenString)) {
-          return new Scanner\Token(
-            $type, $tokenString, $offset
-          );
-        }
+      if ($token = $this->matchPatterns($buffer, $offset, $this->_tokenPatterns)) {
+        return $token;
       }
       return NULL;
     }
@@ -71,8 +59,8 @@ namespace PhpCss\Scanner\Status\Selector {
     * @param Scanner\Token $token
     * @return boolean
     */
-    public function isEndToken(Scanner\Token $token) {
-      return $token->type == Scanner\Token::ATTRIBUTE_SELECTOR_END;
+    public function isEndToken(Scanner\Token $token): bool {
+      return $token->type === Scanner\Token::ATTRIBUTE_SELECTOR_END;
     }
 
     /**
@@ -81,7 +69,7 @@ namespace PhpCss\Scanner\Status\Selector {
     * @param Scanner\Token $token
     * @return Scanner\Status|NULL
     */
-    public function getNewStatus(Scanner\Token $token) {
+    public function getNewStatus(Scanner\Token $token): ?Scanner\Status {
       switch ($token->type) {
       case Scanner\Token::SINGLEQUOTE_STRING_START :
         return new Scanner\Status\Text\Single();

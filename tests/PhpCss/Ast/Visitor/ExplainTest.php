@@ -148,7 +148,7 @@ namespace PhpCss\Ast\Visitor {
                   new Ast\Selector\Simple\Attribute(
                     'foo',
                     Ast\Selector\Simple\Attribute::MATCH_INCLUDES,
-                    42
+                    new Ast\Value\Literal('42')
                   ),
                 ]
               ),

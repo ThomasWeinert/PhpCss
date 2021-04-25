@@ -6,6 +6,8 @@
 * @copyright Copyright 2010-2014 PhpCss Team
 */
 
+use PhpCss\Exception\ParserException;
+
 /**
 * PhpCss provides several integrative functions to use this library
 */
@@ -39,12 +41,13 @@ abstract class PhpCss {
   }
 
   /**
-  * Parses a css selector and returns the AST
-  *
-  * @param string $cssSelector
-  * @return PhpCss\Ast
-  */
-  public static function getAst($cssSelector) {
+   * Parses a css selector and returns the AST
+   *
+   * @param string $cssSelector
+   * @return PhpCss\Ast\Node
+   * @throws ParserException
+   */
+  public static function getAst(string $cssSelector): PhpCss\Ast\Node {
     $tokens = array();
     $scanner = new PhpCss\Scanner(new PhpCss\Scanner\Status\Selector());
     $scanner->scan($tokens, $cssSelector);

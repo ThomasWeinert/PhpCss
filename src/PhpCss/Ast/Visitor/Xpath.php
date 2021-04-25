@@ -419,39 +419,39 @@ namespace PhpCss\Ast\Visitor {
         $condition = sprintf(
           'starts-with(@%s, %s)',
           $attribute->name,
-          $this->quoteLiteral($attribute->literal)
+          $this->quoteLiteral($attribute->literal->value)
         );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_SUFFIX :
         $condition = sprintf(
           'substring(@%1$s, string-length(@%1$s) - %2$s) = %3$s',
           $attribute->name,
-          strlen($attribute->literal),
-          $this->quoteLiteral($attribute->literal)
+          strlen($attribute->literal->value),
+          $this->quoteLiteral($attribute->literal->value)
         );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_SUBSTRING :
         $condition = sprintf(
           'contains(@%s, %s)',
           $attribute->name,
-          $this->quoteLiteral($attribute->literal)
+          $this->quoteLiteral($attribute->literal->value)
         );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_EQUALS :
-        $condition = '@'.$attribute->name.' = '.$this->quoteLiteral($attribute->literal);
+        $condition = '@'.$attribute->name.' = '.$this->quoteLiteral($attribute->literal->value);
         break;
       case Ast\Selector\Simple\Attribute::MATCH_INCLUDES :
         $condition = sprintf(
           'contains(concat(" ", normalize-space(@%s), " "), %s)',
           $attribute->name,
-          $this->quoteLiteral(' '.trim($attribute->literal).' ')
+          $this->quoteLiteral(' '.trim($attribute->literal->value).' ')
         );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_DASHMATCH :
         $condition = sprintf(
           '(@%1$s = %2$s or substring-before(@%1$s, "-") = %2$s)',
           $attribute->name,
-          $this->quoteLiteral($attribute->literal)
+          $this->quoteLiteral($attribute->literal->value)
         );
         break;
       case Ast\Selector\Simple\Attribute::MATCH_EXISTS :

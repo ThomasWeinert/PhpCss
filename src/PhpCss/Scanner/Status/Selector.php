@@ -19,7 +19,7 @@ namespace PhpCss\Scanner\Status {
     * single char tokens
     * @var array
     */
-    protected $_tokenChars = array(
+    private $_tokenChars = array(
       Scanner\Token::SEPARATOR => ',',
       Scanner\Token::ATTRIBUTE_SELECTOR_START => '[',
       Scanner\Token::PARENTHESES_START => '(',
@@ -32,7 +32,7 @@ namespace PhpCss\Scanner\Status {
     * patterns for more complex tokens
     * @var array
     */
-    protected $_tokenPatterns = array(
+    private $_tokenPatterns = array(
       Scanner\Token::CLASS_SELECTOR => Scanner\Patterns::CLASS_SELECTOR,
       Scanner\Token::ID_SELECTOR => Scanner\Patterns::ID_SELECTOR,
       Scanner\Token::PSEUDO_CLASS => Scanner\Patterns::PSEUDO_CLASS,
@@ -51,24 +51,12 @@ namespace PhpCss\Scanner\Status {
     * @param integer $offset
     * @return Scanner\Token
     */
-    public function getToken($buffer, $offset) {
-      $char = substr($buffer, $offset, 1);
-      foreach ($this->_tokenChars as $type => $expectedChar) {
-        if ($char === $expectedChar) {
-          return new Scanner\Token(
-            $type, $char, $offset
-          );
-        }
+    public function getToken($buffer, $offset): ?Scanner\Token {
+      if ($token = $this->matchCharacters($buffer, $offset, $this->_tokenChars)) {
+        return $token;
       }
-      foreach ($this->_tokenPatterns as $type => $pattern) {
-        $tokenString = $this->matchPattern(
-          $buffer, $offset, $pattern
-        );
-        if (!empty($tokenString)) {
-          return new Scanner\Token(
-            $type, $tokenString, $offset
-          );
-        }
+      if ($token = $this->matchPatterns($buffer, $offset, $this->_tokenPatterns)) {
+        return $token;
       }
       return NULL;
     }
@@ -79,7 +67,7 @@ namespace PhpCss\Scanner\Status {
     * @param Scanner\Token $token
     * @return boolean
     */
-    public function isEndToken(Scanner\Token $token) {
+    public function isEndToken(Scanner\Token $token): bool {
       return FALSE;
     }
 
@@ -87,9 +75,9 @@ namespace PhpCss\Scanner\Status {
     * Get new (sub)status if needed.
     *
     * @param Scanner\Token $token
-    * @return Scanner\Status
+    * @return Scanner\Status|NULL
     */
-    public function getNewStatus(Scanner\Token $token) {
+    public function getNewStatus(Scanner\Token $token): ?Scanner\Status {
       switch ($token->type) {
       case Scanner\Token::SINGLEQUOTE_STRING_START :
         return new Scanner\Status\Text\Single();

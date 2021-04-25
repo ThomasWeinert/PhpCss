@@ -8,6 +8,10 @@
 */
 
 namespace PhpCss {
+
+  use PhpCss\Exception\ParserException;
+  use PhpCss\Exception\PhpCssException;
+
   /**
   * Abstract class implementing functionality to ease parsing in extending
   * subparsers.
@@ -50,9 +54,9 @@ namespace PhpCss {
      * operate on the token stream. They will throw PhpCssParserExceptions
      * automatically in case they do not succeed.
      *
-     * @return Ast
+     * @return Ast\Node
      */
-    abstract public function parse();
+    abstract public function parse(): Ast\Node;
 
     /**
      * Try to read any of the $expectedTokens from the token list and return
@@ -74,10 +78,10 @@ namespace PhpCss {
      * token may be specified, which does not make any sense, anyway.
      *
      * @param array|integer|string $expectedTokens
-     * @throws Exception
+     * @throws ParserException
      * @return Scanner\Token
      */
-    protected function read($expectedTokens) {
+    protected function read($expectedTokens): Scanner\Token {
       // Allow scalar token values for better readability
       if (!is_array($expectedTokens)) {
         return $this->read(array($expectedTokens));
@@ -119,10 +123,12 @@ namespace PhpCss {
      * @param array|integer|string $expectedTokens
      * @param int $position
      * @param bool $allowEndOfTokens
-     * @throws Exception
+     * @throws ParserException
      * @return Scanner\Token|NULL
      */
-    protected function lookahead($expectedTokens, $position = 0, $allowEndOfTokens = FALSE) {
+    protected function lookahead(
+      $expectedTokens, int $position = 0, bool $allowEndOfTokens = FALSE
+    ): ?Scanner\Token {
       // Allow scalar token values for better readability
       if (!is_array($expectedTokens)) {
         return $this->lookahead(array($expectedTokens), $position, $allowEndOfTokens);
@@ -149,9 +155,9 @@ namespace PhpCss {
      * may be provided to look forward.
      *
      * @param int $position
-     * @return boolean
+     * @return bool
      */
-    protected function endOfTokens($position = 0) {
+    protected function endOfTokens(int $position = 0): bool {
       return (count($this->_tokens) <= $position);
     }
 
@@ -175,7 +181,7 @@ namespace PhpCss {
      * @param boolean
      * @return bool
      */
-    protected function ignore($expectedTokens) {
+    protected function ignore($expectedTokens): bool {
       // Allow scalar token values for better readability
       if (!is_array($expectedTokens)) {
         return $this->ignore(array($expectedTokens));
@@ -194,9 +200,8 @@ namespace PhpCss {
         }
         if ($found) {
           continue;
-        } else {
-          break;
         }
+        break;
       }
 
       // remove the tokens from the stream
@@ -218,13 +223,11 @@ namespace PhpCss {
      * subparser.
      *
      * @param string $parserClass
-     * @return Ast
+     * @return Ast\Node
      */
-    protected function delegate($parserClass) {
+    protected function delegate(string $parserClass): Ast\Node {
+      /** @var Parser $parser */
       $parser = new $parserClass($this->_tokens);
-      /**
-       * @var Parser $parser
-       */
       return $parser->parse();
     }
 
@@ -236,10 +239,9 @@ namespace PhpCss {
      *
      * @param int $position
      * @param int $type
-     * @internal param Scanner\Token $token
      * @return bool
      */
-    protected function matchToken($position, $type) {
+    protected function matchToken(int $position, int $type): bool {
       if (!isset($this->_tokens[$position])) {
         return false;
       }
@@ -257,7 +259,7 @@ namespace PhpCss {
      *
      * @param array() $expectedTokens
      * @param int $position
-     * @return Exception
+     * @return ParserException
      */
     private function handleMismatch($expectedTokens, $position = 0) {
       // If the token stream ended unexpectedly throw an appropriate exception

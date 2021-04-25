@@ -218,7 +218,9 @@ namespace PhpCss\Ast\Visitor {
               new Ast\Selector\Sequence(
                 [
                   new Ast\Selector\Simple\Attribute(
-                    'attr', Ast\Selector\Simple\Attribute::MATCH_EQUALS, 'value'
+                    'attr',
+                    Ast\Selector\Simple\Attribute::MATCH_EQUALS,
+                    new Ast\Value\Literal('value')
                   ),
                 ]
               ),
@@ -232,7 +234,9 @@ namespace PhpCss\Ast\Visitor {
               new Ast\Selector\Sequence(
                 [
                   new Ast\Selector\Simple\Attribute(
-                    'attr', Ast\Selector\Simple\Attribute::MATCH_EQUALS, 'some value'
+                    'attr',
+                    Ast\Selector\Simple\Attribute::MATCH_EQUALS,
+                    new Ast\Value\Literal('some value')
                   ),
                 ]
               ),
@@ -246,7 +250,9 @@ namespace PhpCss\Ast\Visitor {
               new Ast\Selector\Sequence(
                 [
                   new Ast\Selector\Simple\Attribute(
-                    'attr', Ast\Selector\Simple\Attribute::MATCH_PREFIX, 'value'
+                    'attr',
+                    Ast\Selector\Simple\Attribute::MATCH_PREFIX,
+                    new Ast\Value\Literal('value')
                   ),
                 ]
               ),
@@ -260,7 +266,9 @@ namespace PhpCss\Ast\Visitor {
               new Ast\Selector\Sequence(
                 [
                   new Ast\Selector\Simple\Attribute(
-                    'attr', Ast\Selector\Simple\Attribute::MATCH_INCLUDES, 'value'
+                    'attr',
+                    Ast\Selector\Simple\Attribute::MATCH_INCLUDES,
+                    new Ast\Value\Literal('value')
                   ),
                 ]
               ),
@@ -274,7 +282,9 @@ namespace PhpCss\Ast\Visitor {
               new Ast\Selector\Sequence(
                 [
                   new Ast\Selector\Simple\Attribute(
-                    'attr', Ast\Selector\Simple\Attribute::MATCH_SUFFIX, 'value'
+                    'attr',
+                    Ast\Selector\Simple\Attribute::MATCH_SUFFIX,
+                    new Ast\Value\Literal('value')
                   ),
                 ]
               ),
@@ -288,7 +298,9 @@ namespace PhpCss\Ast\Visitor {
               new Ast\Selector\Sequence(
                 [
                   new Ast\Selector\Simple\Attribute(
-                    'attr', Ast\Selector\Simple\Attribute::MATCH_SUBSTRING, 'value'
+                    'attr',
+                    Ast\Selector\Simple\Attribute::MATCH_SUBSTRING,
+                    new Ast\Value\Literal('value')
                   ),
                 ]
               ),
@@ -302,7 +314,9 @@ namespace PhpCss\Ast\Visitor {
               new Ast\Selector\Sequence(
                 [
                   new Ast\Selector\Simple\Attribute(
-                    'attr', Ast\Selector\Simple\Attribute::MATCH_DASHMATCH, 'value'
+                    'attr',
+                    Ast\Selector\Simple\Attribute::MATCH_DASHMATCH,
+                    new Ast\Value\Literal('value')
                   ),
                 ]
               ),

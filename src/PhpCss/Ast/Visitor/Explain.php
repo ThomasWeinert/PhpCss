@@ -302,7 +302,7 @@ namespace PhpCss\Ast\Visitor {
         $this->appendText('"');
         $this->appendElement(
           'value',
-          str_replace(['\\', '"'], ['\\\\', '\\"'], $attribute->literal)
+          str_replace(['\\', '"'], ['\\\\', '\\"'], $attribute->literal->value)
         );
         $this->appendText('"');
       }

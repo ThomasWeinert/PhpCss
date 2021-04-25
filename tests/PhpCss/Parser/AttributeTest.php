@@ -53,7 +53,7 @@ namespace PhpCss\Parser {
           new Ast\Selector\Simple\Attribute(
             'class',
             Ast\Selector\Simple\Attribute::MATCH_INCLUDES,
-            'warning'
+            new Ast\Value\Literal('warning')
           ),
           [
             new Scanner\Token(

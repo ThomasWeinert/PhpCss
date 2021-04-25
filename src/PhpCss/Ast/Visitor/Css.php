@@ -159,7 +159,7 @@ namespace PhpCss\Ast\Visitor  {
           Ast\Selector\Simple\Attribute::MATCH_DASHMATCH => '|='
         ];
         $this->_buffer .= $operatorStrings[$attribute->match];
-        $this->_buffer .= $this->quoteString($attribute->literal);
+        $this->_buffer .= $this->quoteString($attribute->literal->value);
       }
       $this->_buffer .= ']';
       return TRUE;
@@ -236,7 +236,7 @@ namespace PhpCss\Ast\Visitor  {
       $this->_buffer .= '::'.$element->name;
     }
 
-    private function quoteString($string): string {
+    private function quoteString(string $string): string {
       return '"'.str_replace(array('\\', '"'), array('\\\\', '\\"'), $string).'"';
     }
   }

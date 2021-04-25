@@ -12,9 +12,9 @@ namespace PhpCss\Scanner {
   */
   abstract class Patterns {
 
-    const WHITESPACE = '([\r\n\t ]+)S';
-    const NUMBER = '(-?[\d]+)S';
-    const IDENTIFIER = '(
+    public const WHITESPACE = '([\r\n\t ]+)S';
+    public const NUMBER = '(-?[\d]+)S';
+    public const IDENTIFIER = '(
       (
         ( # namespace ncname
           [A-Z_a-z\\x{C0}-\\x{D6}\\x{D8}-\\x{F6}\\x{F8}-\\x{2FF}\\x{370}-\\x{37D}\\x{37F}-\\x{1FFF}\\x{200C}-\\x{200D}\\x{2070}-\\x{218F}\\x{2C00}-\\x{2FEF}\\x{3001}-\\x{D7FF}\\x{F900}-\\x{FDCF}\\x{FDF0}-\\x{FFFD}\\x{10000}-\\x{EFFFF}]
@@ -32,14 +32,14 @@ namespace PhpCss\Scanner {
       )
     )uxS';
 
-    const COMBINATOR = '(\s*[>+~]\s*)S';
+    public const COMBINATOR = '(\s*[>+~]\s*)S';
 
-    const CLASS_SELECTOR = '(\.[^\r\n\t >+~.,#:()[\\]\\\'"]+)S';
-    const ID_SELECTOR = '(#[^\r\n\t >+~.,#:()[\\]\\\'"]+)S';
-    const PSEUDO_CLASS = '(:[^\r\n\t >+~.,#:()[\\]\\\'"]+)S';
-    const PSEUDO_ELEMENT = '(::[^\r\n\t .,#:()[\\]\\\'"]+)S';
+    public const CLASS_SELECTOR = '(\.[^\r\n\t >+~.,#:()[\\]\\\'"]+)S';
+    public const ID_SELECTOR = '(#[^\r\n\t >+~.,#:()[\\]\\\'"]+)S';
+    public const PSEUDO_CLASS = '(:[^\r\n\t >+~.,#:()[\\]\\\'"]+)S';
+    public const PSEUDO_ELEMENT = '(::[^\r\n\t .,#:()[\\]\\\'"]+)S';
 
-    const ATTRIBUTE_OPERATOR = '([~^$*|]?=)S';
-    const PSEUDO_CLASS_POSITION = '(\s*(([-+]?(\\d+)?n\\s*[-+]\\s*\\d+)|\\d+n)\s*)';
+    public const ATTRIBUTE_OPERATOR = '([~^$*|]?=)S';
+    public const PSEUDO_CLASS_POSITION = '(\s*(([-+]?(\\d+)?n\\s*[-+]\\s*\\d+)|\\d+n)\s*)';
   }
 }

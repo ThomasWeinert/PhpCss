@@ -20,7 +20,7 @@ namespace PhpCss\Parser {
   */
   class Standard extends PhpCss\Parser {
 
-    const ALLOW_RELATIVE_SELECTORS = 1;
+    public const ALLOW_RELATIVE_SELECTORS = 1;
 
     private $_options;
 
@@ -46,13 +46,14 @@ namespace PhpCss\Parser {
     );
 
     /**
-    * Start parsing looking for anything valid except whitespaces, add
-    * returned sequences to the group
-    *
-    * @see PhpCss\Parser::parse()
-    * @return Ast\Selector\Group
-    */
-    public function parse() {
+     * Start parsing looking for anything valid except whitespaces, add
+     * returned sequences to the group
+     *
+     * @return Ast\Selector\Group
+     * @throws PhpCss\Exception\ParserException
+     * @see PhpCss\Parser::parse()
+     */
+    public function parse(): Ast\Node {
       $expectedTokens = $this->_expectedTokens;
       if (($this->_options & self::ALLOW_RELATIVE_SELECTORS) === self::ALLOW_RELATIVE_SELECTORS) {
         $expectedTokens[] = Scanner\Token::COMBINATOR;
@@ -60,12 +61,13 @@ namespace PhpCss\Parser {
       $group = new Ast\Selector\Group();
       $this->ignore(Scanner\Token::WHITESPACE);
       while (!$this->endOfTokens()) {
-        $currentToken = $this->lookahead($expectedTokens);
-        if ($currentToken->type == Scanner\Token::WHITESPACE) {
-          $this->read(Scanner\Token::WHITESPACE);
-          continue;
+        if ($currentToken = $this->lookahead($expectedTokens)) {
+          if ($currentToken->type === Scanner\Token::WHITESPACE) {
+            $this->read(Scanner\Token::WHITESPACE);
+            continue;
+          }
+          $group[] = $this->delegate(Sequence::CLASS);
         }
-        $group[] = $this->delegate(Sequence::CLASS);
       }
       return $group;
     }
