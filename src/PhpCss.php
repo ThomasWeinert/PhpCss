@@ -14,12 +14,13 @@ use PhpCss\Exception\ParserException;
 abstract class PhpCss {
 
   /**
-  * Parses a css selector and compiles it into an css selector again
-  *
-  * @param string $cssSelector
-  * @return string
-  */
-  public static function reformat($cssSelector) {
+   * Parses a css selector and compiles it into an css selector again
+   *
+   * @param string $cssSelector
+   * @return string
+   * @throws ParserException
+   */
+  public static function reformat(string $cssSelector): string {
     $ast = self::getAst($cssSelector);
     $visitor = new PhpCss\Ast\Visitor\Css();
     $ast->accept($visitor);
@@ -27,13 +28,14 @@ abstract class PhpCss {
   }
 
   /**
-  * Parses a css selector and transforms it into an xpath expression
-  *
-  * @param string $cssSelector
-  * @param int $options
-  * @return string
-  */
-  public static function toXpath($cssSelector, $options = 0) {
+   * Parses a css selector and transforms it into an xpath expression
+   *
+   * @param string $cssSelector
+   * @param int $options
+   * @return string
+   * @throws ParserException
+   */
+  public static function toXpath(string $cssSelector, int $options = 0): string {
     $ast = self::getAst($cssSelector);
     $visitor = new PhpCss\Ast\Visitor\Xpath($options);
     $ast->accept($visitor);

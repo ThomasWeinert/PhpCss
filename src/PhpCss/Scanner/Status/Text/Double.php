@@ -22,7 +22,7 @@ namespace PhpCss\Scanner\Status\Text {
     * @param integer $offset
     * @return Scanner\Token
     */
-    public function getToken($buffer, $offset): ?Scanner\Token {
+    public function getToken(string $buffer, int $offset): ?Scanner\Token {
       if ('"' === substr($buffer, $offset, 1)) {
         return new Scanner\Token(
           Scanner\Token::DOUBLEQUOTE_STRING_END, '"', $offset

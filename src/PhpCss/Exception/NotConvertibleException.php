@@ -8,19 +8,20 @@
 
 namespace PhpCss\Exception {
 
+  use Exception;
   use PhpCss;
 
   /**
    * Exception thrown if a visitor finds something that it can not use.
    */
   class NotConvertibleException
-    extends \Exception
+    extends Exception
     implements PhpCssException {
 
-    public function __construct($token, $target) {
+    public function __construct(string $source, string $target) {
       parent::__construct(
         sprintf(
-          'Can not convert %s to %s.', (string)$token, (string)$target
+          'Can not convert %s to %s.', $source, $target
         )
       );
     }

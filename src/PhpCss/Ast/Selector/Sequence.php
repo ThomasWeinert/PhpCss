@@ -7,10 +7,10 @@ namespace PhpCss\Ast\Selector {
   class Sequence extends Ast\Selector {
 
     /**
-     * @var array(Simple)
+     * @var Simple[]
      */
     public $simples = [];
-    public $combinator = NULL;
+    public $combinator;
 
     /**
      * @param Simple[] $simples
@@ -30,9 +30,6 @@ namespace PhpCss\Ast\Selector {
     public function accept(Ast\Visitor $visitor): void {
       if ($visitor->visitEnter($this)) {
         foreach ($this->simples as $simple) {
-          /**
-           * @var Simple $simple
-           */
           $simple->accept($visitor);
         }
         if (isset($this->combinator)) {

@@ -51,7 +51,7 @@ namespace PhpCss\Scanner\Status {
     * @param integer $offset
     * @return Scanner\Token
     */
-    public function getToken($buffer, $offset): ?Scanner\Token {
+    public function getToken(string $buffer, int $offset): ?Scanner\Token {
       if ($token = $this->matchCharacters($buffer, $offset, $this->_tokenChars)) {
         return $token;
       }

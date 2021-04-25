@@ -11,8 +11,6 @@ namespace PhpCss\Ast\Visitor {
 
   use DOMDocument;
   use DOMElement;
-  use DOMNode;
-  use LogicException;
   use PhpCss\Ast;
 
   /**
@@ -25,12 +23,12 @@ namespace PhpCss\Ast\Visitor {
     /**
      * @var DOMDocument
      */
-    private $_document = NULL;
+    private $_document;
 
     /**
-     * @var DOMElement
+     * @var DOMElement|DOMDocument
      */
-    private $_current = NULL;
+    private $_current;
 
     public function __construct() {
       $this->clear();
@@ -51,15 +49,16 @@ namespace PhpCss\Ast\Visitor {
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @param string $content
      * @param array $attributes
-     * @return DOMNode
+     * @param string $contentType
+     * @return DOMElement
      */
     private function appendElement(
-      $name, $content = '', array $attributes = [], $contentType = 'text'
-    ): DOMNode {
-      $result = $this->_document->createElementNs($this->_xmlns, $name);
+      string $name, string $content = '', array $attributes = [], string $contentType = 'text'
+    ): DOMElement {
+      $result = $this->_document->createElementNS($this->_xmlns, $name);
       if (!empty($content)) {
         $text = $result->appendChild(
           $this->_document->createElementNs($this->_xmlns, $contentType)
@@ -82,10 +81,9 @@ namespace PhpCss\Ast\Visitor {
     }
 
     /**
-     * @param $content
-     * @return DOMNode
+     * @param string $content
      */
-    private function appendText($content): DOMNode {
+    private function appendText(string $content): void {
       $text = $this->_current->appendChild(
         $this->_document->createElementNs($this->_xmlns, 'text')
       );
@@ -98,7 +96,6 @@ namespace PhpCss\Ast\Visitor {
           $this->_document->createTextNode($content)
         );
       }
-      return $text;
     }
 
     /**
@@ -128,7 +125,6 @@ namespace PhpCss\Ast\Visitor {
      * If the buffer already contains data, throw an exception.
      *
      * @return boolean
-     * @throws LogicException
      */
     public function visitEnterSelectorGroup(): bool {
       $this->start($this->appendElement('selector-group'));

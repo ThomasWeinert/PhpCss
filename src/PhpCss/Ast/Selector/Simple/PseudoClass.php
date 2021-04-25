@@ -7,7 +7,7 @@ namespace PhpCss\Ast\Selector\Simple {
   class PseudoClass extends Ast\Selector\Simple {
 
     public $name = '';
-    public $parameter = NULL;
+    public $parameter;
 
     public function __construct(string $name, Ast\Node $parameter = NULL) {
       $this->name = $name;

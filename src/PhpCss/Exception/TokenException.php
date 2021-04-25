@@ -28,7 +28,7 @@ namespace PhpCss\Exception {
     */
     protected  $_encounteredToken;
 
-    public function __construct(PhpCss\Scanner\Token $token, $message) {
+    public function __construct(PhpCss\Scanner\Token $token, string $message) {
       $this->_encounteredToken = $token;
       parent::__construct($message);
     }
@@ -38,7 +38,7 @@ namespace PhpCss\Exception {
      *
      * @return PhpCss\Scanner\Token
      */
-    public function getToken() {
+    public function getToken(): PhpCss\Scanner\Token {
       return $this->_encounteredToken;
     }
   }

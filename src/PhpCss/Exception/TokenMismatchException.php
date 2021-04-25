@@ -29,7 +29,7 @@ namespace PhpCss\Exception {
 
       parent::__construct(
         $encounteredToken,
-       'Parse error: Found '.(string)$encounteredToken .
+       'Parse error: Found '. $encounteredToken .
        ' while one of '.implode(", ", $expectedTokenStrings).' was expected.'
       );
     }

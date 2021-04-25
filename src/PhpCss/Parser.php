@@ -10,7 +10,6 @@
 namespace PhpCss {
 
   use PhpCss\Exception\ParserException;
-  use PhpCss\Exception\PhpCssException;
 
   /**
   * Abstract class implementing functionality to ease parsing in extending
@@ -195,7 +194,6 @@ namespace PhpCss {
         foreach ($expectedTokens as $token) {
           if ($found = $this->matchToken($position, $token)) {
             ++$position;
-            continue;
           }
         }
         if ($found) {
@@ -208,9 +206,8 @@ namespace PhpCss {
       if ($position > 0) {
         array_splice($this->_tokens, 0, $position);
         return TRUE;
-      } else {
-        return FALSE;
       }
+      return FALSE;
     }
 
     /**

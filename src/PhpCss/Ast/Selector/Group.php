@@ -8,7 +8,11 @@
 
 namespace PhpCss\Ast\Selector {
 
+  use ArrayAccess;
+  use ArrayIterator;
+  use Countable;
   use InvalidArgumentException;
+  use IteratorAggregate;
   use PhpCss\Ast;
 
   /**
@@ -25,7 +29,7 @@ namespace PhpCss\Ast\Selector {
    */
   class Group
     extends Ast\Selector
-    implements \ArrayAccess, \Countable, \IteratorAggregate {
+    implements ArrayAccess, Countable, IteratorAggregate {
 
     private $_sequences = [];
 
@@ -113,11 +117,11 @@ namespace PhpCss\Ast\Selector {
     /**
      * Return an iterator for the sequences
      *
-     * @return \Traversable
+     * @return ArrayIterator
      * @see IteratorAggregate::getIterator()
      */
-    public function getIterator() {
-      return new \ArrayIterator($this->_sequences);
+    public function getIterator(): ArrayIterator {
+      return new ArrayIterator($this->_sequences);
     }
 
     /**
